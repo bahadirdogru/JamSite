@@ -2,6 +2,8 @@
 
 A modern boilerplate that combines Jekyll (GitHub Pages) with Svelte 5 interactive components and Tailwind CSS 4 styling. Features blog with tags/categories, product catalog, site-wide search, dark/light mode, dynamic slider, and built-in multilanguage support.
 
+Created by [Bahadır Doğru](https://bahadirdogru.com)
+
 Jekyll handles content, SEO, and templating. Svelte components compile to Web Components (Custom Elements) and are embedded in Jekyll layouts as `<jam-*>` tags. Vite builds the JS/CSS bundles locally; the output is committed to the repo so GitHub Pages can serve it without any custom build pipeline.
 
 ## Features
