@@ -21,7 +21,7 @@ permalink: /
 {% for pe in site.data.products %}{% assign p = pe[1] %}{% if p.active %}{% for cat in p.categories %}{% unless all_cats contains cat %}{% if all_cats != "" %}{% assign all_cats = all_cats | append: "|" %}{% endif %}{% assign all_cats = all_cats | append: cat %}{% endunless %}{% endfor %}{% endif %}{% endfor %}
 {% assign cats_array = all_cats | split: "|" %}
 {% assign csep = "" %}
-{% capture category_stories %}[{% for cat in cats_array %}{% assign cat_count = 0 %}{% for pe in site.data.products %}{% assign p = pe[1] %}{% if p.active and p.categories contains cat %}{% assign cat_count = cat_count | plus: 1 %}{% endif %}{% endfor %}{% assign cgi = forloop.index0 | modulo: cat_gradients.size %}{{ csep }}{"title":"{{ cat }}","subtitle":"{{ cat_count }} ürün","gradient":"{{ cat_gradients[cgi] }}","icon":"{{ cat_icons[cgi] }}","link":"/categories/"}{% assign csep = "," %}{% endfor %}]{% endcapture %}
+{% capture category_stories %}[{% for cat in cats_array %}{% assign cat_count = 0 %}{% for pe in site.data.products %}{% assign p = pe[1] %}{% if p.active and p.categories contains cat %}{% assign cat_count = cat_count | plus: 1 %}{% endif %}{% endfor %}{% assign cgi = forloop.index0 | modulo: cat_gradients.size %}{{ csep }}{"title":"{{ cat }}","subtitle":"{{ cat_count }} ürün","gradient":"{{ cat_gradients[cgi] }}","icon":"{{ cat_icons[cgi] }}","link":"{{ site.baseurl }}/categories/"}{% assign csep = "," %}{% endfor %}]{% endcapture %}
 
 <section class="max-w-6xl mx-auto px-4 pt-6">
   <jam-stories data-items="{{ category_stories | strip_newlines | escape }}" duration="4000" label="{{ t.stories_categories | default: 'Kategoriler' }}"></jam-stories>
@@ -30,7 +30,7 @@ permalink: /
 {% assign prod_gradients = "from-blue-500 to-indigo-600,from-emerald-500 to-teal-600,from-rose-500 to-pink-600,from-amber-500 to-orange-600,from-violet-500 to-purple-600" | split: "," %}
 {% assign psep = "" %}
 {% assign pgi = 0 %}
-{% capture carousel_products %}[{% for pe in site.data.products %}{% assign p = pe[1] %}{% assign info = p[page.lang] %}{% if info and p.active %}{% assign pgmod = pgi | modulo: prod_gradients.size %}{{ psep }}{"title":{{ info.title | jsonify }},"image":{{ p.image | jsonify }},"description":{{ info.description | truncatewords: 12 | jsonify }},"price":"{{ p.price }} {{ p.currency }}","link":"/products/{{ info.slug | default: p.sku }}/","tags":{{ p.tags | jsonify }},"gradient":"{{ prod_gradients[pgmod] }}"}{% assign psep = "," %}{% assign pgi = pgi | plus: 1 %}{% endif %}{% endfor %}]{% endcapture %}
+{% capture carousel_products %}[{% for pe in site.data.products %}{% assign p = pe[1] %}{% assign info = p[page.lang] %}{% if info and p.active %}{% assign pgmod = pgi | modulo: prod_gradients.size %}{{ psep }}{"title":{{ info.title | jsonify }},"image":{{ p.image | jsonify }},"description":{{ info.description | truncatewords: 12 | jsonify }},"price":"{{ p.price }} {{ p.currency }}","link":"{{ site.baseurl }}/products/{{ info.slug | default: p.sku }}/","tags":{{ p.tags | jsonify }},"gradient":"{{ prod_gradients[pgmod] }}"}{% assign psep = "," %}{% assign pgi = pgi | plus: 1 %}{% endif %}{% endfor %}]{% endcapture %}
 
 <section class="max-w-6xl mx-auto px-4 py-10">
   <jam-product-carousel data-products="{{ carousel_products | strip_newlines | escape }}" autoplay="6000" label="{{ t.products_title | default: 'Ürünler' }}"></jam-product-carousel>

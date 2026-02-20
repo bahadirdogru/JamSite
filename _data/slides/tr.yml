@@ -2,7 +2,7 @@
   title: "JamSite'a Hoş Geldiniz"
   description: "Modern, hızlı ve dinamik statik site deneyimi. Jekyll + Svelte 5 + Tailwind CSS 4 ile oluşturuldu."
   cta_text: "Keşfet"
-  cta_link: /JamSite/about/
+  cta_link: /about/
 
 - type: content
   title: "Blog ve Ürünler"

@@ -9,7 +9,7 @@ layout: default
 <article class="max-w-5xl mx-auto px-4 py-12">
   <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
     <div>
-      {% if product.image %}
+      {% if product.image and product.image != "" %}
         <img src="{{ product.image }}" alt="{{ info.title }}"
           class="w-full rounded-xl shadow-sm border border-jam-border dark:border-jam-border-dark" />
       {% else %}

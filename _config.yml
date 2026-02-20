@@ -1,7 +1,7 @@
 title: JamSite
 description: "Modern Jekyll + Svelte 5 hybrid static site"
 url: ""
-baseurl: "/JamSite"
+baseurl: ""
 
 languages: ["tr", "en"]
 default_lang: "tr"

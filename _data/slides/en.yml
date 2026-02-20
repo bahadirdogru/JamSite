@@ -2,7 +2,7 @@
   title: "Welcome to JamSite"
   description: "A modern, fast and dynamic static site experience. Built with Jekyll + Svelte 5 + Tailwind CSS 4."
   cta_text: "Explore"
-  cta_link: /JamSite/en/about/
+  cta_link: /en/about/
 
 - type: content
   title: "Blog & Products"

@@ -44,6 +44,7 @@ for (const file of files) {
 
     const frontMatter = [
       "---",
+      `layout: product`,
       `title: "${langData.title}"`,
       `description: "${langData.description}"`,
       `ref: ${sku}`,

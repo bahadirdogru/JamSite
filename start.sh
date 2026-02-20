@@ -15,6 +15,6 @@ npm run build
 # Jekyll serve
 echo ""
 echo "[*] Jekyll baslatiliyor..."
-echo "    http://localhost:4000/JamSite/"
+echo "    http://localhost:4000/"
 echo ""
 bundle exec jekyll serve --livereload
