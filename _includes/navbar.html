@@ -1,0 +1,34 @@
+{% assign t = site.data.i18n[page.lang] %}
+{% assign lang_prefix = "" %}
+{% if page.lang != site.default_lang %}
+  {% assign lang_prefix = "/" | append: page.lang %}
+{% endif %}
+
+<header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-jam-border dark:border-jam-border-dark">
+  <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="{{ site.baseurl }}{{ lang_prefix }}/" class="text-xl font-bold font-heading text-jam-primary">
+      JamSite
+    </a>
+
+    <div class="hidden md:flex items-center gap-6">
+      <a href="{{ site.baseurl }}{{ lang_prefix }}/" class="text-sm font-medium hover:text-jam-primary transition-colors">
+        {{ t.nav_home | default: "Home" }}
+      </a>
+      <a href="{{ site.baseurl }}{{ lang_prefix }}/about/" class="text-sm font-medium hover:text-jam-primary transition-colors">
+        {{ t.nav_about | default: "About" }}
+      </a>
+      <a href="{{ site.baseurl }}{{ lang_prefix }}/blog/" class="text-sm font-medium hover:text-jam-primary transition-colors">
+        {{ t.nav_blog | default: "Blog" }}
+      </a>
+      <a href="{{ site.baseurl }}{{ lang_prefix }}/products/" class="text-sm font-medium hover:text-jam-primary transition-colors">
+        {{ t.nav_products | default: "Products" }}
+      </a>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <jam-search lang="{{ page.lang | default: site.default_lang }}" baseurl="{{ site.baseurl }}"></jam-search>
+      <jam-theme-toggle></jam-theme-toggle>
+      {% include lang-switcher.html %}
+    </div>
+  </nav>
+</header>

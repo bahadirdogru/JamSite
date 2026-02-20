@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.default_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function(){
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || (!t && matchMedia("(prefers-color-scheme:dark)").matches))
+        document.documentElement.classList.add("dark");
+    })();
+  </script>
+  {% seo %}
+  {% feed_meta %}
+  {% include hreflang.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/dist/bundle.css">
+</head>
+<body class="min-h-screen flex flex-col bg-jam-surface dark:bg-jam-surface-dark text-jam-text dark:text-jam-text-dark font-body">
+  {% include navbar.html %}
+  <main class="flex-1">
+    {{ content }}
+  </main>
+  {% include footer.html %}
+  <script src="{{ site.baseurl }}/assets/dist/bundle.js"></script>
+</body>
+</html>

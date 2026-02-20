@@ -1,0 +1,67 @@
+---
+title: "Categories"
+description: "All categories"
+ref: categories
+lang: en
+permalink: /en/categories/
+---
+{% assign t = site.data.i18n[page.lang] %}
+{% assign lang_posts = site.posts | where: "lang", page.lang %}
+{% assign all_cats = "" | split: "" %}
+
+{% for post in lang_posts %}
+  {% for cat in post.categories %}
+    {% unless all_cats contains cat %}
+      {% assign all_cats = all_cats | push: cat %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+
+{% for product_file in site.data.products %}
+  {% assign product = product_file[1] %}
+  {% if product[page.lang] %}
+    {% for cat in product.categories %}
+      {% unless all_cats contains cat %}
+        {% assign all_cats = all_cats | push: cat %}
+      {% endunless %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+<section class="max-w-4xl mx-auto px-4 py-12">
+  <h1 class="text-3xl font-bold font-heading mb-8">{{ t.categories_title | default: "Categories" }}</h1>
+
+  {% if all_cats.size > 0 %}
+  {% for cat in all_cats %}
+    <div class="mb-10">
+      <h2 class="text-xl font-semibold font-heading mb-4">
+        <span class="px-3 py-1 bg-jam-secondary/10 text-jam-secondary rounded-full">{{ cat }}</span>
+      </h2>
+      <div class="space-y-3">
+        {% for post in lang_posts %}
+          {% if post.categories contains cat %}
+          <a href="{{ post.url | prepend: site.baseurl }}" class="block p-4 bg-white dark:bg-slate-800 rounded-lg border border-jam-border dark:border-jam-border-dark hover:border-jam-primary transition-colors">
+            <span class="font-medium">{{ post.title }}</span>
+            <span class="text-sm text-slate-500 dark:text-slate-400 ml-2">{{ post.date | date: "%d.%m.%Y" }}</span>
+          </a>
+          {% endif %}
+        {% endfor %}
+
+        {% for product_file in site.data.products %}
+          {% assign product = product_file[1] %}
+          {% assign info = product[page.lang] %}
+          {% if info and product.categories contains cat %}
+          <a href="{{ site.baseurl }}/en/products/{{ info.slug | default: product.sku }}/" class="block p-4 bg-white dark:bg-slate-800 rounded-lg border border-jam-border dark:border-jam-border-dark hover:border-jam-accent transition-colors">
+            <span class="font-medium">{{ info.title }}</span>
+            <span class="px-2 py-0.5 text-xs bg-jam-accent/10 text-jam-accent rounded-full ml-2">product</span>
+            <span class="text-sm text-jam-primary font-semibold ml-2">{{ product.price }} {{ product.currency }}</span>
+          </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+  {% else %}
+  <p class="text-slate-500 dark:text-slate-400">No categories yet.</p>
+  {% endif %}
+</section>

@@ -1,0 +1,13 @@
+- type: hero
+  title: "JamSite'a Hoş Geldiniz"
+  description: "Modern, hızlı ve dinamik statik site deneyimi. Jekyll + Svelte 5 + Tailwind CSS 4 ile oluşturuldu."
+  cta_text: "Keşfet"
+  cta_link: /JamSite/about/
+
+- type: content
+  title: "Blog ve Ürünler"
+  description: "Çok dilli blog yazıları, ürün kataloğu ve site genelinde arama özelliği ile tam donanımlı bir web sitesi."
+
+- type: content
+  title: "Koyu Mod Desteği"
+  description: "Otomatik tema algılama ve anlık geçiş. Göz konforunuz için tasarlandı."

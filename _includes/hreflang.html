@@ -1,0 +1,6 @@
+{% for lang in site.languages %}
+  {% assign alt = site.pages | where: "ref", page.ref | where: "lang", lang | first %}
+  {% if alt %}
+    <link rel="alternate" hreflang="{{ lang }}" href="{{ alt.url | prepend: site.baseurl | prepend: site.url }}">
+  {% endif %}
+{% endfor %}

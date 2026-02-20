@@ -1,0 +1,18 @@
+sku: "sku003"
+price: 59.90
+currency: "TRY"
+image: ""
+images: []
+tags: [elektronik, tasinabilir]
+categories: [teknoloji]
+active: true
+
+tr:
+  title: "Taşınabilir Şarj Cihazı"
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 10000mAh kapasiteli hızlı şarj destekli powerbank."
+  slug: "tasinabilir-sarj-cihazi"
+
+en:
+  title: "Portable Charger"
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 10000mAh capacity power bank with fast charging support."
+  slug: "portable-charger"

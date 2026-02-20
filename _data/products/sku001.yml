@@ -1,0 +1,18 @@
+sku: "sku001"
+price: 299.99
+currency: "TRY"
+image: ""
+images: []
+tags: [elektronik, aksesuar]
+categories: [teknoloji]
+active: true
+
+tr:
+  title: "Kablosuz Kulaklık"
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Yüksek kaliteli ses deneyimi sunan kablosuz kulaklık, uzun pil ömrü ve konforlu tasarımı ile öne çıkar."
+  slug: "kablosuz-kulaklik"
+
+en:
+  title: "Wireless Headphones"
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Premium wireless headphones featuring high-quality sound, long battery life and comfortable design."
+  slug: "wireless-headphones"

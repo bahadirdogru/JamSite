@@ -1,0 +1,13 @@
+- type: hero
+  title: "Welcome to JamSite"
+  description: "A modern, fast and dynamic static site experience. Built with Jekyll + Svelte 5 + Tailwind CSS 4."
+  cta_text: "Explore"
+  cta_link: /JamSite/en/about/
+
+- type: content
+  title: "Blog & Products"
+  description: "Multilingual blog posts, product catalog and site-wide search. A fully-featured website."
+
+- type: content
+  title: "Dark Mode Support"
+  description: "Automatic theme detection and instant switching. Designed for your eye comfort."
