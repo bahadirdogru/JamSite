@@ -166,6 +166,33 @@ Slider styling is handled inside the `Slider.svelte` component. Background overl
 
 Post tags use `jam-primary`, product tags use `jam-accent`, categories use `jam-secondary`. This visual distinction helps users identify content types.
 
+### Icons (Phosphor Icons)
+
+Icons are sourced from [Phosphor Icons](https://phosphoricons.com/). Two usage methods:
+
+**Jekyll (Liquid templates)** — SVG sprite with helper:
+
+```liquid
+{% include icon.html name="heart" class="w-5 h-5" %}
+{% include icon.html name="magnifying-glass" class="w-4 h-4 text-slate-500" %}
+```
+
+**Svelte Components** — Direct import:
+
+```svelte
+<script>
+  import IconHeartRegular from "phosphor-icons-svelte/IconHeartRegular.svelte";
+  import IconHeartFill from "phosphor-icons-svelte/IconHeartFill.svelte";
+</script>
+
+<IconHeartRegular class="w-5 h-5" />
+<IconHeartFill class="w-5 h-5 text-red-500" />
+```
+
+Icon sizing follows Tailwind conventions: `w-4 h-4` (small), `w-5 h-5` (default), `w-6 h-6` (large). Icons inherit `currentColor` by default.
+
+Available icons in sprite: `heart`, `heart-fill`, `bookmark`, `bookmark-fill`, `sun`, `moon`, `magnifying-glass`, `x`, `arrow-up`, `arrow-left`, `arrow-right`, `caret-down`, `copy`, `trash`, `share`, `eye`, `check-circle`, `x-circle`, `info`, `warning`, `list`, `funnel`, `scales`, `keyboard`, `spinner`, `x-logo`, `linkedin`, `whatsapp`, `link`, `cube`, `newspaper`, `image`.
+
 ### Search Modal (Spotlight)
 
 The search modal is rendered by the `jam-search` Svelte component. Key styling decisions:

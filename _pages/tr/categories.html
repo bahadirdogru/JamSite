@@ -19,8 +19,9 @@ permalink: /categories/
 
 {% for product_file in site.data.products %}
   {% assign product = product_file[1] %}
-  {% if product[page.lang] %}
-    {% for cat in product.categories %}
+  {% assign pinfo = product[page.lang] %}
+  {% if pinfo %}
+    {% for cat in pinfo.categories %}
       {% unless all_cats contains cat %}
         {% assign all_cats = all_cats | push: cat %}
       {% endunless %}
@@ -50,7 +51,7 @@ permalink: /categories/
         {% for product_file in site.data.products %}
           {% assign product = product_file[1] %}
           {% assign info = product[page.lang] %}
-          {% if info and product.categories contains cat %}
+          {% if info and info.categories contains cat %}
           <a href="{{ site.baseurl }}/products/{{ info.slug | default: product.sku }}/" class="block p-4 bg-white dark:bg-slate-800 rounded-lg border border-jam-border dark:border-jam-border-dark hover:border-jam-accent transition-colors">
             <span class="font-medium">{{ info.title }}</span>
             <span class="px-2 py-0.5 text-xs bg-jam-accent/10 text-jam-accent rounded-full ml-2">ürün</span>

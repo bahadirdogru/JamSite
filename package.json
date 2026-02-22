@@ -10,16 +10,18 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@phosphor-icons/core": "^2.1.1",
     "@sveltejs/vite-plugin-svelte": "^5",
     "@tailwindcss/vite": "^4",
+    "js-yaml": "^4",
     "svelte": "^5",
     "tailwindcss": "^4",
-    "vite": "^6",
-    "js-yaml": "^4"
+    "vite": "^6"
   },
   "dependencies": {
-    "motion": "^11",
     "lunr": "^2",
-    "lunr-languages": "^1"
+    "lunr-languages": "^1",
+    "motion": "^11",
+    "phosphor-icons-svelte": "^2.1.0"
   }
 }

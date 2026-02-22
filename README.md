@@ -63,7 +63,7 @@ GitHub Pages automatically picks up the changes and runs Jekyll to build the sit
 
 ```
 _data/               Data files (i18n, slides, products)
-_includes/           Jekyll partials (navbar, footer, hreflang, lang-switcher)
+_includes/           Jekyll partials (navbar, footer, hreflang, lang-switcher, icon helper)
 _layouts/            Jekyll HTML templates (default, post, product)
 _pages/              All page content as Jekyll collection
   tr/                Turkish pages (index, about, blog, products, tags, categories)
@@ -71,9 +71,11 @@ _pages/              All page content as Jekyll collection
   products/          Auto-generated product wrapper pages
   search.json        Build-time search index
 _posts/              Blog posts organized by language (tr/, en/)
-scripts/             Build scripts (product page generator)
+scripts/             Build scripts (product page generator, icon sprite generator)
 src/                 Svelte 5 components, Tailwind entry, main.js
-assets/dist/         Pre-built JS/CSS bundles (committed)
+assets/
+  dist/              Pre-built JS/CSS bundles (committed)
+  icons/             Phosphor Icons SVG sprite
 ```
 
 ## Tech Stack
@@ -82,6 +84,7 @@ assets/dist/         Pre-built JS/CSS bundles (committed)
 - **Build**: Vite 6.x+ (library mode)
 - **Components**: Svelte 5 (Custom Elements, `shadow: "none"`)
 - **Styling**: Tailwind CSS 4 (CSS-first configuration, dark mode)
+- **Icons**: Phosphor Icons (SVG sprite + Svelte components)
 - **Animation**: Motion (motion.dev) + View Transitions API
 - **Search**: Lunr.js + lunr-languages (client-side, Turkish stemmer)
 - **SEO**: jekyll-seo-tag, jekyll-sitemap, jekyll-feed
@@ -106,6 +109,17 @@ hreflang tags, language switcher, and slider content automatically detect the ne
 ## Search
 
 Press `Cmd+K` (macOS) or `Ctrl+K` (Windows/Linux) to open the search modal. Search covers blog posts, pages, and products. Results are filtered by the current page language and show type badges for easy identification.
+
+## Icons
+
+This project uses [Phosphor Icons](https://phosphoricons.com/) for all icons.
+
+**Adding a new icon:**
+
+1. Add the icon to the `ICONS` array in `scripts/generate-sprite.js`
+2. Run `node scripts/generate-sprite.js` to regenerate the sprite
+3. Use in Jekyll: `{% include icon.html name="icon-name" class="w-5 h-5" %}`
+4. Use in Svelte: `import IconName from "phosphor-icons-svelte/IconName.svelte"`
 
 ## License
 

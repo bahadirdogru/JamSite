@@ -15,10 +15,9 @@
 │  ├── main.js                           ├── slides/{lang}.yml        │
 │  └── app.css                           └── products/{sku}.yml       │
 │                                                                     │
-│  scripts/generate-products.js                                        │
-│      │                                                               │
-│      └── Reads _data/products/*.yml + _config.yml                    │
-│          Generates _pages/products/{lang}/*.md                      │
+│  scripts/                                                            │
+│  ├── generate-products.js (reads _data/products + generates pages)   │
+│  └── generate-sprite.js (reads @phosphor-icons/core → sprite.svg)    │
 │         │                                               │
 │         ▼                                               │
 │  ┌─────────────────────────┐                              │
@@ -34,9 +33,12 @@
 │  └──────┬──────┘                                          │
 │         │                                               │
 │         ▼                                               │
-│  assets/dist/                                           │
-│  ├── bundle.js   ◄── Svelte custom elements (IIFE)     │
-│  └── bundle.css  ◄── Purged Tailwind CSS               │
+│  assets/                                                 │
+│  ├── dist/                                              │
+│  │   ├── bundle.js   ◄── Svelte custom elements (IIFE) │
+│  │   └── bundle.css  ◄── Purged Tailwind CSS           │
+│  └── icons/                                             │
+│      └── sprite.svg  ◄── Phosphor Icons SVG sprite     │
 └─────────────────────────────────────────────────────────┘
                           │
                      git push
@@ -484,6 +486,7 @@ Service Worker is a static file in the repo root. Jekyll copies it to `_site/` a
 | `_pages/{lang}/` (tags, categories, pages) | Content author | — | Jekyll (page generation) |
 | `src/components/Stories.svelte` | Developer | Vite | Via `assets/dist/bundle.js` |
 | `scripts/` | Developer | — | Not deployed (excluded) |
+| `assets/icons/sprite.svg` | — | `generate-sprite.js` | Jekyll (static copy) |
 | `search.json` | — | Jekyll (Liquid template) | Jekyll (static file) |
 | `_site/` | — | Jekyll | GitHub Pages (served) |
 | `sitemap.xml` | — | jekyll-sitemap | Jekyll (auto-generated) |

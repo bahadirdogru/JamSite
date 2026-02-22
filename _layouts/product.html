@@ -27,29 +27,67 @@ layout: default
       {% endif %}
     </div>
     <div>
-      <h1 class="text-3xl font-bold font-heading mb-3">{{ info.title }}</h1>
+      <div class="flex items-start justify-between gap-4 mb-3">
+        <h1 class="text-3xl font-bold font-heading">{{ info.title }}</h1>
+        <jam-favorite-btn
+          product_id="{{ page.ref }}"
+          product_title="{{ info.title }}"
+          product_url="{{ page.url | prepend: site.baseurl }}"
+          product_price="{{ product.price }} {{ product.currency }}"
+          product_image="{{ product.image }}"
+          added_text="{{ t.added_to_favorites }}"
+          removed_text="{{ t.removed_from_favorites }}"
+        ></jam-favorite-btn>
+      </div>
       <p class="text-2xl text-jam-primary font-bold mb-6">
         {{ product.price }} {{ product.currency }}
       </p>
       <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">{{ info.description }}</p>
 
-      {% if product.tags.size > 0 %}
+      {% if info.tags.size > 0 %}
         <div class="flex flex-wrap gap-2 mb-6">
-          {% for tag in product.tags %}
+          {% for tag in info.tags %}
             <span class="px-2.5 py-1 text-xs bg-jam-accent/10 text-jam-accent rounded-full">{{ tag }}</span>
           {% endfor %}
         </div>
       {% endif %}
 
-      {% if product.categories.size > 0 %}
+      {% if info.categories.size > 0 %}
         <div class="flex flex-wrap gap-2 mb-6">
-          {% for cat in product.categories %}
+          {% for cat in info.categories %}
             <span class="px-2.5 py-1 text-xs bg-jam-secondary/10 text-jam-secondary rounded-full">{{ cat }}</span>
           {% endfor %}
         </div>
       {% endif %}
 
       {{ content }}
+
+      <div class="flex flex-wrap items-center gap-3 mt-6">
+        <jam-compare-btn
+          product_id="{{ page.ref }}"
+          product_title="{{ info.title }}"
+          product_url="{{ page.url | prepend: site.baseurl }}"
+          product_price="{{ product.price }} {{ product.currency }}"
+          product_image="{{ product.image }}"
+          add_text="{{ t.compare | default: 'Compare' }}"
+          added_text="{{ t.added | default: 'Added' }}"
+        ></jam-compare-btn>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-jam-border dark:border-jam-border-dark">
+        {% include social-share.html %}
+      </div>
     </div>
   </div>
+
+  {% include related-products.html %}
+
+  <jam-recently-viewed
+    title="{{ t.recently_viewed }}"
+    product_id="{{ page.ref }}"
+    product_title="{{ info.title }}"
+    product_url="{{ page.url | prepend: site.baseurl }}"
+    product_price="{{ product.price }} {{ product.currency }}"
+    product_image="{{ product.image }}"
+  ></jam-recently-viewed>
 </article>

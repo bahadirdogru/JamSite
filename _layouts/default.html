@@ -13,17 +13,32 @@
   {% seo %}
   {% feed_meta %}
   {% include hreflang.html %}
+  <link rel="manifest" href="{{ site.baseurl }}/manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <link rel="apple-touch-icon" href="{{ site.baseurl }}/assets/img/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/dist/bundle.css">
 </head>
 <body class="min-h-screen flex flex-col bg-jam-surface dark:bg-jam-surface-dark text-jam-text dark:text-jam-text-dark font-body">
+  <jam-scroll-progress></jam-scroll-progress>
   {% include navbar.html %}
   <main class="flex-1">
     {{ content }}
   </main>
   {% include footer.html %}
+  <jam-back-to-top></jam-back-to-top>
+  <jam-toast></jam-toast>
+  <jam-lightbox></jam-lightbox>
+  <jam-quick-view view_details="{{ site.data.i18n[page.lang].view_details | default: 'View Details' }}" close_text="{{ site.data.i18n[page.lang].close | default: 'Close' }}"></jam-quick-view>
+  <jam-keyboard-shortcuts title="{{ site.data.i18n[page.lang].keyboard_shortcuts | default: 'Keyboard Shortcuts' }}"></jam-keyboard-shortcuts>
+  <jam-compare-bar compare_text="{{ site.data.i18n[page.lang].compare | default: 'Compare' }}" clear_text="{{ site.data.i18n[page.lang].clear | default: 'Clear' }}"></jam-compare-bar>
   <script src="{{ site.baseurl }}/assets/dist/bundle.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("{{ site.baseurl }}/sw.js").catch(function() {});
+    }
+  </script>
 </body>
 </html>

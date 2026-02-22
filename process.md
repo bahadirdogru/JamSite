@@ -100,6 +100,36 @@ Last updated: 2026-02-20
   - Used on index pages for product showcase
   - Registered as `<jam-product-carousel>` custom element
 - [x] Fix slider data-slides attribute escaping (`jsonify | escape` with double quotes)
+- [x] Implement modern features (Session 4):
+  - [x] Scroll Progress Indicator (`jam-scroll-progress`)
+  - [x] Back to Top Button (`jam-back-to-top`)
+  - [x] Toast/Notification System (`jam-toast`)
+  - [x] Copy Code Button (`jam-copy-code`)
+  - [x] Social Share Buttons (`_includes/social-share.html`)
+  - [x] Reading Time Estimation (Liquid in `_layouts/post.html`)
+  - [x] Image Lightbox/Gallery (`jam-lightbox`)
+  - [x] Table of Contents (`jam-toc`)
+  - [x] Favorites/Wishlist System (`jam-favorite-btn`, `jam-favorites-list`, `jam-favorites-badge`)
+  - [x] Product Quick View Modal (`jam-quick-view`)
+  - [x] Recently Viewed Products (`jam-recently-viewed`)
+  - [x] Keyboard Shortcuts Modal (`jam-keyboard-shortcuts`)
+  - [x] PWA Support (`manifest.json`, `sw.js`)
+  - [x] Related Posts (`_includes/related-posts.html`)
+  - [x] Related Products (`_includes/related-products.html`)
+  - [x] Product Comparison (`jam-compare-btn`, `jam-compare-bar`)
+  - [x] Product Filtering & Sorting (`jam-product-filter`)
+  - [x] Reading List / Bookmarks (`jam-reading-list-btn`, `jam-reading-list`)
+  - [x] Lazy Loading Images (`jam-lazy-image`)
+  - [x] Infinite Scroll / Load More (`jam-load-more`)
+  - [x] Favorites and Reading List pages for TR and EN
+- [x] Phosphor Icons entegrasyonu (Session 5):
+  - [x] `@phosphor-icons/core` ve `phosphor-icons-svelte` paketleri kurulumu
+  - [x] `scripts/generate-sprite.js` — otomatik SVG sprite üretimi
+  - [x] `assets/icons/sprite.svg` — 32 ikon içeren SVG sprite dosyası
+  - [x] `_includes/icon.html` — Jekyll için Liquid icon helper
+  - [x] Tüm Svelte bileşenlerinde (21 dosya) inline SVG → Phosphor Icons geçişi
+  - [x] Jekyll include dosyalarında (`social-share.html`, `related-posts.html`, `related-products.html`) sprite kullanımı
+  - [x] `claude.md` dokümantasyonu güncellendi
 
 ## In Progress
 
@@ -151,7 +181,14 @@ Last updated: 2026-02-20
 
 ## Backlog
 
-- [ ] PWA: create `manifest.json` and `sw.js`
+### Future Considerations (Platform-dependent)
+
+- [ ] Comment System (Giscus/Utterances): GitHub Discussions veya Issues tabanlı yorum sistemi. Şu an harici platform bağımlılığı istenmediği için ertelendi.
+- [ ] Newsletter Subscription Form: E-posta abonelik formu (Formspree, Buttondown, Mailchimp). Harici servis bağımlılığı nedeniyle ertelendi.
+
+### Technical Improvements
+
+- [x] PWA: created `manifest.json` and `sw.js`
 - [ ] Performance audit (bundle size, Lighthouse)
 - [ ] Add `<noscript>` fallbacks for all interactive components
 - [ ] Consider code splitting if bundle exceeds 50KB gzipped
@@ -167,10 +204,10 @@ Last updated: 2026-02-20
 - [ ] Slider: touch/swipe gesture support
 - [ ] Slider: `prefers-reduced-motion` — disable autoplay and transitions
 - [ ] Products: Snipcart or external payment integration (future)
-- [ ] Products: product image gallery/lightbox component
+- [x] Products: product image gallery/lightbox component (`jam-lightbox`)
 - [ ] Search: search analytics (popular queries, zero-result tracking)
 - [ ] Blog: pagination with `jekyll-paginate`
-- [ ] Blog: reading time estimate in post layout
+- [x] Blog: reading time estimate in post layout
 
 ---
 
@@ -211,3 +248,49 @@ Last updated: 2026-02-20
 - Updated `_config.yml` with `collections: pages: output: true` and new defaults
 - Updated `generate-products.js` to output to `_pages/products/{lang}/`
 - Updated all reference documentation with new directory structure
+
+### 2026-02-20 — Session 3 (Modern Özellikler Planlama)
+- Instagram Stories UI (`jam-stories`) bileşeni tamamlandı — kategoriler için story bubble'ları
+- Owl Carousel-style ürün slider'ı (`jam-product-carousel`) tamamlandı
+- About sayfaları güncellendi: creator bilgisi ve tasarım felsefesi eklendi
+- Search indexing sorunları çözüldü: Türkçe stemmer, product type, multilingual tags/categories
+- baseurl sorunu çözüldü: `/JamSite` yerine `""` (root deployment)
+- Yeni özellikler planlandı:
+  - Hızlı kazanımlar: Scroll Progress, Back to Top, Reading Time, Social Share, Copy Code
+  - Orta kapsamlı: Lightbox, TOC, Favorites, Quick View, Recently Viewed
+  - Büyük özellikler: PWA, Related Posts/Products, Product Comparison, Filtering
+- Ertelenen özellikler (platform bağımlı): Comment System, Newsletter — backlog'a eklendi
+- Reddedilen özellik: Content Reactions (statik site yapısına aykırı)
+
+### 2026-02-21 — Session 4 (Modern Özellikler Uygulama)
+- Tüm planlanan modern özellikler uygulandı:
+  - Hızlı kazanımlar: Scroll Progress, Back to Top, Toast, Copy Code, Social Share, Reading Time
+  - Orta kapsamlı: Lightbox, TOC, Favorites, Quick View, Recently Viewed, Keyboard Shortcuts
+  - Büyük özellikler: PWA, Related Posts/Products, Product Comparison, Filtering, Reading List
+  - Ekstra: Lazy Loading Images, Infinite Scroll / Load More
+- Toplam 21 yeni Svelte bileşeni oluşturuldu
+- Svelte 5 runes moduna uygun $props() sözdizimi kullanıldı
+- i18n dosyaları tüm yeni özellikler için güncellendi
+- Favorites ve Reading List sayfaları TR ve EN için oluşturuldu
+- Navbar'a favorites badge eklendi
+- Build başarılı: bundle.js 181KB, bundle.css 64KB
+
+### 2026-02-21 — Session 5 (Phosphor Icons Entegrasyonu)
+- Phosphor Icons kütüphanesi entegre edildi:
+  - Svelte bileşenleri için `phosphor-icons-svelte` paketi
+  - Jekyll için `@phosphor-icons/core` paketinden otomatik SVG sprite üretimi
+- `scripts/generate-sprite.js` scripti oluşturuldu:
+  - `@phosphor-icons/core` paketinden doğrudan SVG'leri okur
+  - 32 ikon içeren `assets/icons/sprite.svg` dosyası üretir
+  - Fill weight ikonlar için doğru naming convention (`*-fill.svg`)
+- `_includes/icon.html` Liquid helper oluşturuldu:
+  - Jekyll tarafında kolay ikon kullanımı: `{% include icon.html name="heart" %}`
+- Tüm Svelte bileşenleri güncellendi (21 dosya):
+  - Inline SVG → `phosphor-icons-svelte` component geçişi
+  - Import path düzeltmesi: `/icons/` subdirectory kaldırıldı
+- Jekyll include dosyaları güncellendi:
+  - `social-share.html`: X, LinkedIn, WhatsApp, link ikonları
+  - `related-products.html`: cube placeholder ikonu
+  - `related-posts.html`: newspaper placeholder ikonu
+- `claude.md` Phosphor Icons dokümantasyonu ile güncellendi
+- Build başarılı (a11y uyarıları ile)

@@ -1,0 +1,6 @@
+{%- comment -%}
+Phosphor Icon Helper
+Kullanım: {% include icon.html name="heart" class="w-4 h-4" %}
+Mevcut ikonlar: assets/icons/sprite.svg içindeki symbol id'leri (icon- prefix'i olmadan)
+{%- endcomment -%}
+<svg class="{{ include.class | default: 'w-4 h-4' }}" fill="currentColor" aria-hidden="true"><use href="{{ site.baseurl }}/assets/icons/sprite.svg#icon-{{ include.name }}"></use></svg>

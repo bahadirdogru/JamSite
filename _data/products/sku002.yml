@@ -3,16 +3,18 @@ price: 149.50
 currency: "TRY"
 image: ""
 images: []
-tags: [aksesuar, tasarim]
-categories: [yasam]
 active: true
 
 tr:
   title: "Akıllı Saat"
   description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Şık tasarımı ve gelişmiş sağlık takip özellikleri ile günlük hayatınızı kolaylaştırır."
   slug: "akilli-saat"
+  tags: [aksesuar, tasarim]
+  categories: [yasam]
 
 en:
   title: "Smart Watch"
   description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Sleek design with advanced health tracking features to simplify your daily life."
   slug: "smart-watch"
+  tags: [accessories, design]
+  categories: [lifestyle]

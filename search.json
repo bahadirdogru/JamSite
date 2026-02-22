@@ -21,16 +21,27 @@ permalink: /search.json
 
   {% for pg in site.pages %}
     {% if pg.title and pg.ref %}
-      {{ sep }}
-      {
-        "title": {{ pg.title | jsonify }},
-        "url": "{{ pg.url | prepend: site.baseurl }}",
-        "content": {{ pg.content | strip_html | truncatewords: 100 | jsonify }},
-        "lang": {{ pg.lang | jsonify }},
-        "type": "page",
-        "ref": {{ pg.ref | jsonify }}
-      }
-      {% assign sep = "," %}
+      {% assign is_product_wrapper = false %}
+      {% if pg.sku %}
+        {% assign is_product_wrapper = true %}
+      {% endif %}
+      {% for product_entry in site.data.products %}
+        {% if pg.ref == product_entry[0] %}
+          {% assign is_product_wrapper = true %}
+        {% endif %}
+      {% endfor %}
+      {% unless is_product_wrapper %}
+        {{ sep }}
+        {
+          "title": {{ pg.title | jsonify }},
+          "url": "{{ pg.url | prepend: site.baseurl }}",
+          "content": {{ pg.content | strip_html | truncatewords: 100 | jsonify }},
+          "lang": {{ pg.lang | jsonify }},
+          "type": "page",
+          "ref": {{ pg.ref | jsonify }}
+        }
+        {% assign sep = "," %}
+      {% endunless %}
     {% endif %}
   {% endfor %}
 
@@ -45,8 +56,8 @@ permalink: /search.json
           "title": {{ pinfo.title | jsonify }},
           "url": "{{ site.baseurl }}{% if lang_code != site.default_lang %}/{{ lang_code }}{% endif %}/products/{{ pinfo.slug | default: sku }}/",
           "content": {{ pinfo.description | jsonify }},
-          "tags": {{ product.tags | jsonify }},
-          "categories": {{ product.categories | jsonify }},
+          "tags": {{ pinfo.tags | jsonify }},
+          "categories": {{ pinfo.categories | jsonify }},
           "lang": {{ lang_code | jsonify }},
           "type": "product",
           "ref": {{ sku | jsonify }}

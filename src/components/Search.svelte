@@ -5,8 +5,12 @@
 
 <script>
   import lunr from "lunr";
-  import "lunr-languages/lunr.stemmer.support.js";
-  import "lunr-languages/lunr.tr.js";
+  import stemmerSupport from "lunr-languages/lunr.stemmer.support.js";
+  import tr from "lunr-languages/lunr.tr.js";
+  import IconMagnifyingGlassRegular from "phosphor-icons-svelte/IconMagnifyingGlassRegular.svelte";
+  
+  stemmerSupport(lunr);
+  tr(lunr);
 
   let { lang = "tr", baseurl = "" } = $props();
   let open = $state(false);
@@ -24,32 +28,46 @@
       const res = await fetch(`${baseurl}/search.json`);
       const data = await res.json();
       docs = data.filter(d => d.lang === lang);
+      console.log("Search docs loaded:", docs.length, "for lang:", lang);
       index = lunr(function () {
         if (lang === "tr") this.use(lunr.tr);
         this.ref("url");
         this.field("title", { boost: 10 });
         this.field("content");
         this.field("tags", { boost: 5 });
+        this.field("categories", { boost: 5 });
         docs.forEach(doc => {
           this.add({
             url: doc.url,
             title: doc.title || "",
             content: doc.content || "",
-            tags: (doc.tags || []).join(" ")
+            tags: (doc.tags || []).join(" "),
+            categories: (doc.categories || []).join(" ")
           });
         });
       });
+      console.log("Lunr index built successfully");
     } catch (e) {
-      console.warn("Search index could not be loaded:", e);
+      console.error("Search index error:", e);
     }
   }
 
   function search(q) {
     if (!index || !q.trim()) { results = []; return; }
     try {
-      const hits = index.search(q + "*");
+      const sanitized = q.trim().replace(/[+\-:^~*]/g, " ").trim();
+      if (!sanitized) { results = []; return; }
+      let hits = index.search(sanitized + "*");
+      if (hits.length === 0) {
+        hits = index.search(sanitized);
+      }
+      if (hits.length === 0) {
+        hits = index.search("*" + sanitized + "*");
+      }
+      console.log("Search query:", sanitized, "hits:", hits.length);
       results = hits.slice(0, 10).map(h => docs.find(d => d.url === h.ref)).filter(Boolean);
-    } catch {
+    } catch (e) {
+      console.error("Search error:", e);
       results = [];
     }
     selectedIdx = 0;
@@ -98,21 +116,21 @@
 
 <button onclick={openModal} aria-label="Search"
   class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer">
-  <svg class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-  </svg>
+  <IconMagnifyingGlassRegular class="w-5 h-5 text-slate-600 dark:text-slate-300" />
 </button>
 
 {#if open}
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] bg-black/50" onclick={close}>
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div bind:this={modalEl}
     class="w-full max-w-xl mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden"
     onclick={(e) => e.stopPropagation()}>
 
     <div class="flex items-center gap-3 px-4 border-b border-jam-border dark:border-jam-border-dark">
-      <svg class="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
+      <IconMagnifyingGlassRegular class="w-5 h-5 text-slate-400 shrink-0" />
       <input bind:this={inputEl} bind:value={query} type="text" placeholder="Ara..."
         class="w-full py-4 bg-transparent outline-none text-jam-text dark:text-jam-text-dark placeholder-slate-400" />
       <kbd class="px-2 py-1 text-xs bg-slate-100 dark:bg-slate-700 rounded text-slate-500 shrink-0">ESC</kbd>

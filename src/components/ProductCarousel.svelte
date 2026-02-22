@@ -5,6 +5,10 @@
 }} />
 
 <script>
+  import IconCaretLeftRegular from "phosphor-icons-svelte/IconCaretLeftRegular.svelte";
+  import IconCaretRightRegular from "phosphor-icons-svelte/IconCaretRightRegular.svelte";
+  import IconCubeRegular from "phosphor-icons-svelte/IconCubeRegular.svelte";
+
   let { dataProducts = "[]", autoplay = "0", label = "" } = $props();
   let products = $derived(JSON.parse(dataProducts));
 
@@ -137,10 +141,7 @@
           {:else}
             <div class="w-full h-full flex flex-col items-center justify-center
                         bg-gradient-to-br {product.gradient || 'from-jam-primary/80 to-jam-secondary/80'}">
-              <svg class="w-16 h-16 text-white/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-              </svg>
+              <IconCubeRegular class="w-16 h-16 text-white/60 mb-2" />
               <span class="text-white/80 text-sm font-medium">{product.title}</span>
             </div>
           {/if}
@@ -183,9 +184,7 @@
              flex items-center justify-center
              opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300
              hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer z-10">
-      <svg class="w-5 h-5 text-jam-text dark:text-jam-text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-      </svg>
+      <IconCaretLeftRegular class="w-5 h-5 text-jam-text dark:text-jam-text-dark" />
     </button>
     <button onclick={next} aria-label="Next"
       class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3
@@ -194,9 +193,7 @@
              flex items-center justify-center
              opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300
              hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer z-10">
-      <svg class="w-5 h-5 text-jam-text dark:text-jam-text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-      </svg>
+      <IconCaretRightRegular class="w-5 h-5 text-jam-text dark:text-jam-text-dark" />
     </button>
   {/if}
 </div>

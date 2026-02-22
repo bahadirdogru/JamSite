@@ -23,10 +23,17 @@
       <a href="{{ site.baseurl }}{{ lang_prefix }}/products/" class="text-sm font-medium hover:text-jam-primary transition-colors">
         {{ t.nav_products | default: "Products" }}
       </a>
+      <a href="{{ site.baseurl }}{{ lang_prefix }}/features/" class="text-sm font-medium hover:text-jam-primary transition-colors">
+        {{ t.nav_features | default: "Features" }}
+      </a>
+      <a href="{{ site.baseurl }}{{ lang_prefix }}/getting-started/" class="text-sm font-medium hover:text-jam-primary transition-colors">
+        {{ t.nav_getting_started | default: "Getting Started" }}
+      </a>
     </div>
 
     <div class="flex items-center gap-1">
       <jam-search lang="{{ page.lang | default: site.default_lang }}" baseurl="{{ site.baseurl }}"></jam-search>
+      <jam-favorites-badge href="{{ site.baseurl }}{{ lang_prefix }}/favorites/"></jam-favorites-badge>
       <jam-theme-toggle></jam-theme-toggle>
       {% include lang-switcher.html %}
     </div>

@@ -4,6 +4,9 @@
 }} />
 
 <script>
+  import IconCaretLeftRegular from "phosphor-icons-svelte/IconCaretLeftRegular.svelte";
+  import IconCaretRightRegular from "phosphor-icons-svelte/IconCaretRightRegular.svelte";
+
   let { dataSlides = "[]", autoplay = "0" } = $props();
   let slides = $derived(JSON.parse(dataSlides));
   let current = $state(0);
@@ -61,11 +64,11 @@
   {#if slides.length > 1}
     <button onclick={prev} aria-label="Previous"
       class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-slate-800/80 rounded-full p-2 shadow-md hover:bg-white dark:hover:bg-slate-700 transition-colors cursor-pointer">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      <IconCaretLeftRegular class="w-5 h-5" />
     </button>
     <button onclick={next} aria-label="Next"
       class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-slate-800/80 rounded-full p-2 shadow-md hover:bg-white dark:hover:bg-slate-700 transition-colors cursor-pointer">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      <IconCaretRightRegular class="w-5 h-5" />
     </button>
 
     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
