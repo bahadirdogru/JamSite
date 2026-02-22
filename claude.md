@@ -102,16 +102,24 @@ Lunr.js runs entirely client-side with no backend or API keys. Jekyll generates 
 │   ├── post.html
 │   └── product.html
 ├── _pages/              # All page content (Jekyll collection, output: true)
-│   ├── tr/              # Turkish pages
-│   │   ├── index.md
-│   │   ├── about.md
+│   ├── tr/              # Turkish pages (default lang → outputs to root /)
+│   │   ├── index.md          # permalink: /
+│   │   ├── about.md          # permalink: /about/
+│   │   ├── features.md       # permalink: /features/
+│   │   ├── getting-started.md # permalink: /getting-started/
+│   │   ├── favorites.md      # permalink: /favorites/
+│   │   ├── reading-list.md   # permalink: /reading-list/
 │   │   ├── blog.html
 │   │   ├── products.html
 │   │   ├── tags.html
 │   │   └── categories.html
-│   ├── en/              # English pages
-│   │   ├── index.md
-│   │   ├── about.md
+│   ├── en/              # English pages (outputs to /en/)
+│   │   ├── index.md          # permalink: /en/
+│   │   ├── about.md          # permalink: /en/about/
+│   │   ├── features.md       # permalink: /en/features/
+│   │   ├── getting-started.md # permalink: /en/getting-started/
+│   │   ├── favorites.md      # permalink: /en/favorites/
+│   │   ├── reading-list.md   # permalink: /en/reading-list/
 │   │   ├── blog.html
 │   │   ├── products.html
 │   │   ├── tags.html
@@ -1212,7 +1220,7 @@ Motion is imported in individual Svelte components where animation is needed —
 - **Motion for animations only**: Do not use CSS `@keyframes` or Svelte `transition:` directives. Use Motion's `animate`, `scroll`, `inView` functions for all animations. Exception: simple Tailwind `transition-*` utilities for hover/focus states.
 - **View Transitions API is progressive**: The `document.startViewTransition` check ensures browsers without support get normal navigation. Never depend on the transition completing for functionality.
 - **Every page/post must have `lang` and `ref`**: `lang` is auto-assigned via `defaults` in `_config.yml`. `ref` must be manually set in front matter to link translations across languages.
-- **Default language at root, others prefixed**: Default language pages (in `_pages/tr/`) use root permalinks (`/`), additional languages at `/{lang}/`. Do not create a prefix directory for the default language.
+- **Default language at root, others prefixed**: Default language pages (in `_pages/tr/`) use root permalinks (`/`), additional languages use `/{lang}/` prefix. NEVER use `/tr/` in permalinks — Turkish content outputs directly to root.
 - **Dark mode FOUC prevention**: The inline `<script>` in `<head>` must run before any CSS loads. Never move it after the stylesheet `<link>` tag.
 - **Language switcher is pure Liquid**: Do not use JavaScript for the language switcher. It must be crawlable by search engines.
 - **Slider data is per-language**: Always create a `_data/slides/{lang}.yml` file for each supported language.

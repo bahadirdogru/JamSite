@@ -1,6 +1,7 @@
 ---
 title: "Getting Started"
 description: "Set up JamSite and get it running in minutes - step by step installation guide"
+image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80"
 ref: getting-started
 lang: en
 permalink: /en/getting-started/

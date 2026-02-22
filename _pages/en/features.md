@@ -1,6 +1,7 @@
 ---
 title: "Features"
 description: "All features of JamSite - blog, product catalog, search, multilanguage support and more"
+image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
 ref: features
 lang: en
 permalink: /en/features/

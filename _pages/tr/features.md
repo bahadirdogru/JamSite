@@ -1,6 +1,7 @@
 ---
 title: "Özellikler"
 description: "JamSite'ın sunduğu tüm özellikler - blog, ürün kataloğu, arama, çok dil desteği ve daha fazlası"
+image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
 ref: features
 lang: tr
 permalink: /features/

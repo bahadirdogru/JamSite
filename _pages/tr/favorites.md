@@ -3,7 +3,7 @@ layout: default
 title: Favoriler
 lang: tr
 ref: favorites
-permalink: /tr/favorites/
+permalink: /favorites/
 ---
 
 <div class="max-w-5xl mx-auto px-4 py-12">

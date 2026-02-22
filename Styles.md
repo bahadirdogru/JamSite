@@ -332,3 +332,48 @@ Every element with mode-dependent colors must include both light and dark classe
 6. **Motion for animations** — Use `animate`, `inView`, `scroll` from `motion`. No CSS `@keyframes` or Svelte transitions.
 7. **Respect reduced motion** — Always check `prefers-reduced-motion` before running Motion animations.
 8. **Tailwind transitions for simple states** — `transition-colors`, `transition-transform`, `duration-150` for hover/focus. Motion for everything else.
+
+## Images
+
+### Unsplash Integration
+
+Project uses [Unsplash](https://unsplash.com/) images via direct URL links. Format:
+
+```
+https://images.unsplash.com/photo-{ID}?w={width}&q={quality}
+```
+
+**Common sizes:**
+- Hero/Slider: `w=1920&q=80`
+- Product main: `w=800&q=80`
+- Product gallery: `w=800&q=80`
+- Blog OG image: `w=1200&q=80`
+- Thumbnails: `w=400&q=80`
+
+**Usage in YAML:**
+
+```yaml
+image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+images:
+  - "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+  - "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80"
+```
+
+**Usage in Front Matter:**
+
+```yaml
+---
+title: "Post Title"
+image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80"
+---
+```
+
+### Image Aspect Ratios
+
+| Context | Aspect | Tailwind Class |
+|---------|--------|----------------|
+| Hero slider | 16:9 | `aspect-video` |
+| Product card | 1:1 | `aspect-square` |
+| Blog card | 16:9 | `aspect-video` |
+| Product gallery | 1:1 | `aspect-square` |
+| OG image | 1.91:1 | 1200x630px |

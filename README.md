@@ -8,14 +8,16 @@ Jekyll handles content, SEO, and templating. Svelte components compile to Web Co
 
 ## Features
 
-- **Blog** — Posts with tags and categories, language-specific listings, post layout with metadata
-- **Product Catalog** — SKU-based product data with multilanguage support, auto-generated product pages, e-commerce ready layout
-- **Site Search** — Spotlight-style search modal (Cmd+K / Ctrl+K), client-side full-text search with Lunr.js, language-filtered results
+- **Blog** — Posts with tags and categories, language-specific listings, reading time, social share
+- **Product Catalog** — SKU-based product data with multilanguage support, auto-generated product pages, favorites, comparison
+- **Site Search** — Spotlight-style search modal (Cmd+K / Ctrl+K), client-side full-text search with Lunr.js
 - **Dark / Light Mode** — FOUC-free theme toggle with OS preference detection and `localStorage` persistence
 - **Dynamic Slider** — Data-driven slider with hero and image slide types, autoplay, and keyboard/touch navigation
-- **Multilanguage (i18n)** — Configurable language support with SEO-friendly hreflang tags and pure Liquid language switcher. Add a new language with zero code changes.
-- **SEO Optimized** — Auto-generated meta tags, Open Graph, Twitter Cards, JSON-LD, sitemap, and RSS feed via Jekyll plugins
-- **Smooth Animations** — Motion library for scroll/entrance animations + View Transitions API for page navigation
+- **Multilanguage (i18n)** — Configurable language support with SEO-friendly hreflang tags. Default language at root, others prefixed.
+- **SEO Optimized** — Auto-generated meta tags, Open Graph, Twitter Cards, JSON-LD, sitemap, and RSS feed
+- **Interactive Components** — Favorites, reading list, quick view, product comparison, keyboard shortcuts
+- **Smooth Animations** — Motion library for scroll/entrance animations + View Transitions API
+- **PWA Support** — Offline-capable with service worker and web app manifest
 - **Progressive Enhancement** — Content readable without JavaScript. Interactive features enhance, not replace.
 
 ## Prerequisites
@@ -66,8 +68,8 @@ _data/               Data files (i18n, slides, products)
 _includes/           Jekyll partials (navbar, footer, hreflang, lang-switcher, icon helper)
 _layouts/            Jekyll HTML templates (default, post, product)
 _pages/              All page content as Jekyll collection
-  tr/                Turkish pages (index, about, blog, products, tags, categories)
-  en/                English pages
+  tr/                Turkish pages (default lang, outputs to root /)
+  en/                English pages (outputs to /en/)
   products/          Auto-generated product wrapper pages
   search.json        Build-time search index
 _posts/              Blog posts organized by language (tr/, en/)

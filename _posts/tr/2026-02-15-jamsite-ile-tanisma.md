@@ -2,27 +2,34 @@
 title: "JamSite ile Tanışma"
 description: "Modern statik site geliştirme yolculuğumuzun başlangıcı. Jekyll, Svelte 5 ve Tailwind CSS 4 ile neler yapabilirsiniz?"
 date: 2026-02-15
+image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80"
 tags: [jekyll, svelte, tailwind]
 categories: [geliştirme]
 ref: intro-jamsite
 lang: tr
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Modern web geliştirme dünyasında statik siteler yeniden popülerleşiyor. Peki neden? Hız, güvenlik ve maliyet avantajları en önemli nedenler arasında. JamSite, bu avantajları modern frontend teknolojileriyle birleştiren hibrit bir yaklaşım sunuyor.
 
 ## Neden Hibrit Yaklaşım?
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Geleneksel statik site üreteçleri (SSG) genellikle sınırlı interaktivite sunar. Ancak modern kullanıcı deneyimi beklentileri, dinamik ve reaktif arayüzler gerektiriyor. JamSite bu iki dünyayı bir araya getiriyor:
 
-Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
+- **Jekyll**: İçerik yönetimi, SEO ve statik HTML üretimi
+- **Svelte 5**: Reaktif ve performanslı UI bileşenleri
+- **Tailwind CSS 4**: Modern ve tutarlı tasarım sistemi
 
 ## Jekyll ve Svelte Birlikte
 
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+Bu hibrit mimaride her teknoloji kendi güçlü yanlarında kullanılıyor:
 
-- Statik içerik Jekyll ile oluşturulur
-- İnteraktif bileşenler Svelte 5 ile yazılır
-- Stiller Tailwind CSS 4 ile yönetilir
-- Tüm bundle Vite ile derlenir
+- Statik içerik Jekyll ile Markdown'dan HTML'e dönüştürülür
+- İnteraktif bileşenler Svelte 5 ile Web Components olarak yazılır
+- Stiller Tailwind CSS 4 ile utility-first yaklaşımıyla yönetilir
+- Tüm bundle Vite ile optimize edilip tek dosyaya derlenir
 
-Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.
+Bu yaklaşım, SEO dostu statik sayfalar ile zengin kullanıcı deneyimini aynı anda sunmanızı sağlar. Arama motorları tam içeriği görürken, kullanıcılar modern ve akıcı bir arayüzle etkileşime geçer.
+
+## Başlamak İçin
+
+JamSite'ı kullanmaya başlamak için sadece Node.js ve Git yeterli. Ruby veya Jekyll kurulumu gerekmez - GitHub Pages bunları otomatik olarak çalıştırır. Detaylı kurulum rehberi için [Başlangıç Rehberi](/getting-started/) sayfasını ziyaret edin.

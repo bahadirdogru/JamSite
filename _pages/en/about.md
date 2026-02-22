@@ -1,6 +1,7 @@
 ---
 title: "About"
 description: "Learn about JamSite - a modern, fast, and multilingual static site generation platform"
+image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80"
 ref: about
 lang: en
 permalink: /en/about/

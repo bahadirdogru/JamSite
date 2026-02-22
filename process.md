@@ -294,3 +294,21 @@ Last updated: 2026-02-20
   - `related-posts.html`: newspaper placeholder ikonu
 - `claude.md` Phosphor Icons dokümantasyonu ile güncellendi
 - Build başarılı (a11y uyarıları ile)
+
+### 2026-02-22 — Session 6 (Dokümantasyon ve İçerik)
+- Yeni sayfalar oluşturuldu (multilingual):
+  - `_pages/tr/features.md` ve `_pages/en/features.md` — Özellikler sayfası
+  - `_pages/tr/getting-started.md` ve `_pages/en/getting-started.md` — Başlangıç rehberi
+- Navbar güncellendi: Features ve Getting Started linkleri eklendi
+- i18n dosyaları güncellendi: `nav_features`, `nav_getting_started`
+- Unsplash görselleri ile içerik zenginleştirildi:
+  - Slider: 4 görsel (hero + image slides)
+  - Ürünler: 6 ürün (3 yeni: Bluetooth Hoparlör, Telefon Standı, Fitness Bilekliği)
+  - Her ürün için 2-3 galeri görseli
+  - Blog yazıları: Tüm yazılara OG image eklendi
+  - Sayfalar: About, Features, Getting Started için OG image
+- Blog içerikleri anlamlı hale getirildi (lorem ipsum kaldırıldı)
+- Yeni blog yazısı: SEO Optimizasyonu (TR/EN)
+- Permalink düzeltmesi: `/tr/favorites/` → `/favorites/`, `/tr/reading-list/` → `/reading-list/`
+  - Varsayılan dil (TR) root'ta, diğer diller prefix ile (`/en/`)
+- Tüm referans dokümantasyonu güncellendi

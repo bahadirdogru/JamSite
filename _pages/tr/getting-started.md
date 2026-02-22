@@ -1,6 +1,7 @@
 ---
 title: "Başlangıç Rehberi"
 description: "JamSite'ı kurun ve dakikalar içinde çalışır hale getirin - adım adım kurulum rehberi"
+image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80"
 ref: getting-started
 lang: tr
 permalink: /getting-started/

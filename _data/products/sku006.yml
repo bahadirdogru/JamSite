@@ -1,0 +1,20 @@
+sku: "sku006"
+price: 449.00
+currency: "TRY"
+image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&q=80"
+images:
+  - "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&q=80"
+  - "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=800&q=80"
+tags: [elektronik, fitness]
+categories: [yasam]
+active: true
+
+tr:
+  title: "Fitness Bilekliği"
+  description: "Gelişmiş fitness takibi ve sağlık monitörü. GPS, nabız, SpO2, stres seviyesi ve uyku analizi. 100+ spor modu ve 14 güne kadar pil ömrü ile antrenmanlarınızı optimize edin."
+  slug: "fitness-bilekligi"
+
+en:
+  title: "Fitness Band"
+  description: "Advanced fitness tracking and health monitoring. GPS, heart rate, SpO2, stress level and sleep analysis. Optimize your workouts with 100+ sport modes and up to 14 days battery life."
+  slug: "fitness-band"

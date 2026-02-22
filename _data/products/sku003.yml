@@ -1,20 +1,20 @@
 sku: "sku003"
 price: 59.90
 currency: "TRY"
-image: ""
-images: []
+image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800&q=80"
+images:
+  - "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800&q=80"
+  - "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=800&q=80"
+tags: [elektronik, tasinabilir]
+categories: [teknoloji]
 active: true
 
 tr:
   title: "Taşınabilir Şarj Cihazı"
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 10000mAh kapasiteli hızlı şarj destekli powerbank."
+  description: "10000mAh kapasiteli hızlı şarj destekli powerbank. USB-C ve USB-A çıkışları ile tüm cihazlarınızı şarj edin. İnce ve hafif tasarımı sayesinde cebinize sığar. LED göstergeli pil seviyesi takibi."
   slug: "tasinabilir-sarj-cihazi"
-  tags: [elektronik, tasinabilir]
-  categories: [teknoloji]
 
 en:
   title: "Portable Charger"
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 10000mAh capacity power bank with fast charging support."
+  description: "10000mAh capacity power bank with fast charging support. Charge all your devices with USB-C and USB-A outputs. Slim and lightweight design fits in your pocket. LED indicator for battery level tracking."
   slug: "portable-charger"
-  tags: [electronics, portable]
-  categories: [technology]

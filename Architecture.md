@@ -148,12 +148,17 @@ _config.yml
         └── path: "_posts/en" → lang: "en", permalink: /en/:title/
 
 Content Structure:
-    _pages/tr/index.md  (lang: tr, ref: home, permalink: /)     → /
+    _pages/tr/index.md  (lang: tr, ref: home, permalink: /)        → /
     _pages/tr/about.md  (lang: tr, ref: about, permalink: /about/) → /about/
-    _pages/en/index.md  (lang: en, ref: home, permalink: /en/)  → /en/
+    _pages/tr/features.md (lang: tr, ref: features, permalink: /features/) → /features/
+    _pages/en/index.md  (lang: en, ref: home, permalink: /en/)     → /en/
     _pages/en/about.md  (lang: en, ref: about, permalink: /en/about/) → /en/about/
-    _posts/tr/2026-*.md (lang: tr)                → /blog-title/
-    _posts/en/2026-*.md (lang: en)                → /en/blog-title/
+    _pages/en/features.md (lang: en, ref: features, permalink: /en/features/) → /en/features/
+    _posts/tr/2026-*.md (lang: tr)                → /{category}/{year}/{month}/{day}/{slug}/
+    _posts/en/2026-*.md (lang: en)                → /en/{slug}/
+
+IMPORTANT: Default language (TR) pages use root permalinks (/).
+           Other languages use prefix (/en/). Never use /tr/ prefix.
 
 Translation Linking (ref system):
     page.ref = "about"

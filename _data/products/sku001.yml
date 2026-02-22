@@ -1,20 +1,21 @@
 sku: "sku001"
 price: 299.99
 currency: "TRY"
-image: ""
-images: []
+image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+images:
+  - "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+  - "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80"
+  - "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80"
+tags: [elektronik, aksesuar]
+categories: [teknoloji]
 active: true
 
 tr:
   title: "Kablosuz Kulaklık"
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Yüksek kaliteli ses deneyimi sunan kablosuz kulaklık, uzun pil ömrü ve konforlu tasarımı ile öne çıkar."
+  description: "Yüksek kaliteli ses deneyimi sunan premium kablosuz kulaklık. 40mm sürücüler, aktif gürültü engelleme ve 30 saate kadar pil ömrü ile müziğinizi her yerde özgürce dinleyin. Ergonomik tasarımı sayesinde uzun süreli kullanımda bile konfor sağlar."
   slug: "kablosuz-kulaklik"
-  tags: [elektronik, aksesuar]
-  categories: [teknoloji]
 
 en:
   title: "Wireless Headphones"
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Premium wireless headphones featuring high-quality sound, long battery life and comfortable design."
+  description: "Premium wireless headphones delivering high-quality audio experience. With 40mm drivers, active noise cancellation and up to 30 hours battery life, enjoy your music freely anywhere. Ergonomic design ensures comfort even during extended use."
   slug: "wireless-headphones"
-  tags: [electronics, accessories]
-  categories: [technology]

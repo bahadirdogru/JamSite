@@ -3,7 +3,7 @@ layout: default
 title: Okuma Listem
 lang: tr
 ref: reading-list
-permalink: /tr/reading-list/
+permalink: /reading-list/
 ---
 
 <div class="max-w-4xl mx-auto px-4 py-12">

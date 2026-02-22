@@ -1,20 +1,21 @@
 sku: "sku002"
 price: 149.50
 currency: "TRY"
-image: ""
-images: []
+image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
+images:
+  - "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
+  - "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&q=80"
+  - "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800&q=80"
+tags: [aksesuar, tasarim]
+categories: [yasam]
 active: true
 
 tr:
   title: "Akıllı Saat"
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Şık tasarımı ve gelişmiş sağlık takip özellikleri ile günlük hayatınızı kolaylaştırır."
+  description: "Şık tasarımı ve gelişmiş sağlık takip özellikleri ile günlük hayatınızı kolaylaştırın. Nabız ölçer, uyku takibi, adım sayar ve 50+ egzersiz modu. Su geçirmez tasarım ve 7 güne kadar pil ömrü ile her an yanınızda."
   slug: "akilli-saat"
-  tags: [aksesuar, tasarim]
-  categories: [yasam]
 
 en:
   title: "Smart Watch"
-  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Sleek design with advanced health tracking features to simplify your daily life."
+  description: "Simplify your daily life with sleek design and advanced health tracking features. Heart rate monitor, sleep tracking, step counter and 50+ exercise modes. Water-resistant design and up to 7 days battery life keeps it with you always."
   slug: "smart-watch"
-  tags: [accessories, design]
-  categories: [lifestyle]
