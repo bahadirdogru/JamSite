@@ -1,314 +1,46 @@
 # Process Log
 
-## Status: Project Setup Phase
+## Status: Astro geçişi tamamlandı
 
-Last updated: 2026-02-20
-
----
-
-## Completed
-
-- [x] Define project vision and hybrid architecture (Jekyll + Svelte 5 + Tailwind 4)
-- [x] Create `claude.md` — full AI context document
-- [x] Create `Architecture.md` — system architecture and data flow
-- [x] Create `Styles.md` — design system and style guide
-- [x] Create `README.md` — GitHub repo landing page
-- [x] Create `process.md` — this file
-- [x] Decide on key architecture trade-offs:
-  - `shadow: "none"` for global Tailwind compatibility
-  - IIFE bundle format for `<script>` tag loading
-  - Pre-built assets committed to Git (no GitHub Actions)
-  - Single bundle strategy (split only if >50KB gzipped)
-  - `jam-` prefix for all custom element tags
-- [x] Select and document Jekyll plugins (GitHub Pages whitelist):
-  - jekyll-seo-tag (meta tags, Open Graph, Twitter Cards, JSON-LD)
-  - jekyll-sitemap (auto sitemap.xml)
-  - jekyll-feed (auto RSS/Atom feed)
-  - jekyll-paginate (blog pagination — activate later)
-  - jekyll-redirect-from (URL redirects for SEO)
-  - jekyll-relative-links (Markdown link conversion)
-  - jekyll-optional-front-matter (less boilerplate)
-  - jekyll-default-layout (auto layout assignment)
-- [x] Select client-side animation library: Motion (motion.dev, ~2.5KB)
-- [x] Decide on View Transitions API for page-to-page transitions (progressive enhancement)
-- [x] Plan PWA support (manifest.json + sw.js — deferred to later phase)
-- [x] Update all reference docs with new decisions
-- [x] Design dark mode architecture:
-  - Tailwind CSS 4 `@custom-variant dark` with class strategy
-  - Inline `<script>` in `<head>` for FOUC prevention
-  - 3-step preference chain: localStorage > OS > light
-  - `jam-theme-toggle` Svelte component
-  - Light/dark theme tokens in `@theme` block
-- [x] Design dynamic slider architecture:
-  - `_data/slides/{lang}.yml` per-language data
-  - Liquid `jsonify` → `data-slides` attribute on `<jam-slider>`
-  - Slide types: `hero` (title + desc + image + CTA), `image` (image + alt)
-  - Autoplay, arrows, dots, keyboard, touch support
-- [x] Design multilanguage (i18n) boilerplate architecture:
-  - `_config.yml`: `languages` array + `default_lang` (configurable)
-  - Default language at root (`/`), others prefixed (`/en/`, `/de/`)
-  - `_data/i18n/{lang}.yml` for UI translations
-  - `ref` field in front matter links translations across languages
-  - `_includes/hreflang.html` for SEO alternate links
-  - `_includes/lang-switcher.html` (pure Liquid, no JS dependency)
-  - `defaults` in `_config.yml` auto-assigns `lang` from file path
-  - Adding a new language: config + data files + content directory only
-- [x] Update all reference docs with dark mode, slider, and i18n decisions
-- [x] Design blog structure:
-  - Posts in `_posts/{lang}/` with `tags`, `categories`, `ref` in front matter
-  - `_layouts/post.html` with tag badges and date
-  - Tag/category index pages with language filtering
-- [x] Design products data architecture:
-  - Single-source `_data/products/{sku}.yml` with all languages embedded
-  - `scripts/generate-products.js` pre-build script to generate wrapper pages
-  - `_layouts/product.html` reads data from `site.data.products[page.ref]`
-  - Product defaults in `_config.yml` for layout and lang auto-assignment
-- [x] Design unified tag/category system:
-  - Tag/category index pages aggregate from `site.posts` and `site.data.products`
-  - Liquid loop collects unique tags/categories across both content types
-  - Color-coded badges: posts (primary), products (accent), categories (secondary)
-- [x] Design search architecture:
-  - `search.json` Liquid template generates build-time search index
-  - Includes posts, pages, and products (all languages, with `lang` and `type` fields)
-  - `jam-search` Svelte component: Lunr.js + lunr-languages (Turkish stemmer)
-  - Spotlight-style modal (Cmd+K), keyboard navigation, type badges, Motion animation
-  - Search filtered by active page language
-- [x] Update all reference docs with blog, products, search, and tag/category specifications
-- [x] Refactor directory structure:
-  - Moved all page content to `_pages/` Jekyll collection (output: true)
-  - `_pages/tr/` for Turkish pages, `_pages/en/` for English pages
-  - Tags and categories are now files inside `_pages/{lang}/` instead of standalone directories
-  - Product wrapper pages generated to `_pages/products/{lang}/`
-  - `search.json` moved to `_pages/search.json`
-  - Root directory cleaned: no more `en/`, `tags/`, `categories/` directories
-- [x] Add Instagram Stories UI component (`jam-stories`) for **category titles**
-  - `src/components/Stories.svelte` — circular bubble row + fullscreen viewer overlay
-  - Progress bars, auto-advance (configurable duration), left/right tap navigation
-  - Long-press to pause, keyboard navigation (ArrowLeft/Right, Escape)
-  - Gradient rings on bubbles with category icons and item counts
-  - Used on index pages and products pages for category navigation
-  - Data passed via `data-items` JSON attribute (generated with Liquid capture/jsonify/escape)
-  - Registered as `<jam-stories>` custom element, imported in `main.js`
-- [x] Add Owl Carousel-style product card slider (`jam-product-carousel`)
-  - `src/components/ProductCarousel.svelte` — horizontal card carousel
-  - Product cards with image/gradient, title, price, description, tags
-  - Responsive: 1 card mobile / 2 tablet / 3 desktop
-  - Navigation arrows (hover-visible), dot indicators with active animation
-  - Drag/swipe via pointer events, CSS scroll-snap for native feel
-  - Auto-play with configurable interval
-  - Cards link directly to product detail pages
-  - Used on index pages for product showcase
-  - Registered as `<jam-product-carousel>` custom element
-- [x] Fix slider data-slides attribute escaping (`jsonify | escape` with double quotes)
-- [x] Implement modern features (Session 4):
-  - [x] Scroll Progress Indicator (`jam-scroll-progress`)
-  - [x] Back to Top Button (`jam-back-to-top`)
-  - [x] Toast/Notification System (`jam-toast`)
-  - [x] Copy Code Button (`jam-copy-code`)
-  - [x] Social Share Buttons (`_includes/social-share.html`)
-  - [x] Reading Time Estimation (Liquid in `_layouts/post.html`)
-  - [x] Image Lightbox/Gallery (`jam-lightbox`)
-  - [x] Table of Contents (`jam-toc`)
-  - [x] Favorites/Wishlist System (`jam-favorite-btn`, `jam-favorites-list`, `jam-favorites-badge`)
-  - [x] Product Quick View Modal (`jam-quick-view`)
-  - [x] Recently Viewed Products (`jam-recently-viewed`)
-  - [x] Keyboard Shortcuts Modal (`jam-keyboard-shortcuts`)
-  - [x] PWA Support (`manifest.json`, `sw.js`)
-  - [x] Related Posts (`_includes/related-posts.html`)
-  - [x] Related Products (`_includes/related-products.html`)
-  - [x] Product Comparison (`jam-compare-btn`, `jam-compare-bar`)
-  - [x] Product Filtering & Sorting (`jam-product-filter`)
-  - [x] Reading List / Bookmarks (`jam-reading-list-btn`, `jam-reading-list`)
-  - [x] Lazy Loading Images (`jam-lazy-image`)
-  - [x] Infinite Scroll / Load More (`jam-load-more`)
-  - [x] Favorites and Reading List pages for TR and EN
-- [x] Phosphor Icons entegrasyonu (Session 5):
-  - [x] `@phosphor-icons/core` ve `phosphor-icons-svelte` paketleri kurulumu
-  - [x] `scripts/generate-sprite.js` — otomatik SVG sprite üretimi
-  - [x] `assets/icons/sprite.svg` — 32 ikon içeren SVG sprite dosyası
-  - [x] `_includes/icon.html` — Jekyll için Liquid icon helper
-  - [x] Tüm Svelte bileşenlerinde (21 dosya) inline SVG → Phosphor Icons geçişi
-  - [x] Jekyll include dosyalarında (`social-share.html`, `related-posts.html`, `related-products.html`) sprite kullanımı
-  - [x] `claude.md` dokümantasyonu güncellendi
-
-## In Progress
-
-- [ ] Initialize project files:
-  - [ ] `package.json` with dependencies (svelte, vite, tailwindcss, @sveltejs/vite-plugin-svelte, motion)
-  - [ ] `vite.config.js`
-  - [ ] `src/main.js`
-  - [ ] `src/app.css` (with `@custom-variant dark`, `@theme`, `@source`)
-  - [ ] `src/components/ThemeToggle.svelte`
-  - [ ] `src/components/Slider.svelte`
-  - [ ] `src/components/Counter.svelte`
-  - [ ] `_config.yml` (with plugins, languages, defaults)
-  - [ ] `_layouts/default.html` (dark mode script, seo, hreflang, bundles)
-  - [ ] `_includes/navbar.html` (lang-switcher, theme toggle)
-  - [ ] `_includes/footer.html`
-  - [ ] `_includes/hreflang.html`
-  - [ ] `_includes/lang-switcher.html`
-  - [ ] `_data/i18n/tr.yml` and `_data/i18n/en.yml`
-  - [ ] `_data/slides/tr.yml` and `_data/slides/en.yml`
-  - [ ] `_data/products/sku001.yml` (example product)
-  - [ ] `scripts/generate-products.js` (product wrapper page generator)
-  - [ ] `_layouts/post.html` (blog post layout)
-  - [ ] `_layouts/product.html` (product page layout)
-  - [ ] `src/components/Search.svelte` (jam-search)
-  - [ ] `_pages/search.json` (Liquid template for search index)
-  - [ ] `_pages/tr/tags.html` and `_pages/en/tags.html` (tag index)
-  - [ ] `_pages/tr/categories.html` and `_pages/en/categories.html` (category index)
-  - [ ] `_pages/tr/index.md` (lang: tr, ref: home)
-  - [ ] `_pages/en/index.md` (lang: en, ref: home)
-
-## Planned
-
-- [ ] Run `npm run build` and verify `assets/dist/` output
-- [ ] Test dark mode toggle (FOUC-free, localStorage persistence)
-- [ ] Test slider with sample data (hero + image slides)
-- [ ] Test language switching and hreflang tags
-- [ ] Test locally with Jekyll or static file server
-- [ ] Push to GitHub and verify GitHub Pages deployment
-- [ ] Build site navigation (`jam-navbar`)
-- [ ] Design and implement homepage layout
-- [ ] Add blog post listing with Jekyll Liquid (per language)
-- [ ] Add product listing page with grid layout
-- [ ] Add sample blog posts in TR and EN
-- [ ] Add sample products (2-3 SKUs)
-- [ ] Test search functionality with sample content
-- [ ] Test tag/category aggregation across posts and products
-- [ ] Add Motion entrance animations to homepage sections
-- [ ] Add View Transition CSS (`view-transition-name`) to key elements
-
-## Backlog
-
-### Future Considerations (Platform-dependent)
-
-- [ ] Comment System (Giscus/Utterances): GitHub Discussions veya Issues tabanlı yorum sistemi. Şu an harici platform bağımlılığı istenmediği için ertelendi.
-- [ ] Newsletter Subscription Form: E-posta abonelik formu (Formspree, Buttondown, Mailchimp). Harici servis bağımlılığı nedeniyle ertelendi.
-
-### Technical Improvements
-
-- [x] PWA: created `manifest.json` and `sw.js`
-- [ ] Performance audit (bundle size, Lighthouse)
-- [ ] Add `<noscript>` fallbacks for all interactive components
-- [ ] Consider code splitting if bundle exceeds 50KB gzipped
-- [ ] `prefers-reduced-motion` audit across all animations
-- [ ] Open Graph default image (`assets/img/og-default.png`)
-- [ ] Favicon set (favicon.ico, apple-touch-icon, etc.)
-- [ ] 404 page (`404.html` — Jekyll built-in support)
-- [ ] Google Search Console setup + sitemap submission
-- [ ] robots.txt
-- [ ] Dark mode: test all component patterns in both modes
-- [ ] i18n: add example blog posts in both languages
-- [ ] i18n: per-language RSS feeds (if needed)
-- [ ] Slider: touch/swipe gesture support
-- [ ] Slider: `prefers-reduced-motion` — disable autoplay and transitions
-- [ ] Products: Snipcart or external payment integration (future)
-- [x] Products: product image gallery/lightbox component (`jam-lightbox`)
-- [ ] Search: search analytics (popular queries, zero-result tracking)
-- [ ] Blog: pagination with `jekyll-paginate`
-- [x] Blog: reading time estimate in post layout
+Son güncelleme: 2026-02-28
 
 ---
 
-## Session Notes
+## Tamamlanan
 
-### 2026-02-20 — Session 1
-- Drafted initial `claude.md` with project vision
-- Refined to use Svelte 5 (latest) and Tailwind CSS 4 (CSS-first config)
-- Decided against GitHub Actions — standard Jekyll workflow only
-- Created full reference documentation set (5 MD files)
+- [x] Jekyll + Svelte hibrit mimarisi tasarımı ve dokümantasyonu (başlangıç)
+- [x] Astro 5’e geçiş planı (astroplan.md, 8 faz)
+- [x] **Faz 1**: Astro 5, Tailwind 4, Svelte 5, BaseLayout, dark mode (inline script + DarkModeToggle), font (@fontsource/inter), i18n (tr root, en /en/)
+- [x] **Faz 2**: Content Collections (posts), Shiki, blog listesi ve [slug] sayfaları (/blog/, /en/blog/)
+- [x] **Faz 3**: Statik sayfalar (about, features, getting-started, tags, categories — tr ve en)
+- [x] **Faz 4**: Ürün verisi (_data/products + src/data/products.js), /products/[slug], /en/products/[slug], getStaticPaths
+- [x] **Faz 5**: Fuse.js arama (search-index.js → public/search-index.json, SearchFuse.svelte, Cmd+K), sitemap, RSS (feed.xml.js), robots.txt, SEO meta (BaseLayout)
+- [x] **Faz 6**: OG image (BaseLayout ogImage prop, blog/ürün sayfalarında kullanım, varsayılan görsel)
+- [x] **Faz 7**: Slider ve ProductCarousel (slides/products prop), src/data/slides.js, ana sayfa tr/en güncellendi
+- [x] **Faz 8**: View Transitions (ClientRouter), 404.astro, vite-plugin-pwa (sw, Workbox), build script (search-index + astro build + postbuild-404)
+- [x] TypeScript kaldırıldı — proje tamamen JavaScript (config, data, i18n, lib, content config)
+- [x] Jekyll kaldırıldı — Gemfile, _config.yml, _layouts, _includes, _pages, _posts, search.json, generate-products.js, eski vite.config.js, src/main.js, src/app.css, sw.js silindi; _data/i18n, manifest (kök), generate-sprite.js, assets/icons/sprite.svg, start.sh, install.sh kaldırıldı
+- [x] Dokümantasyon yeni yapıya göre güncellendi: Architecture.md, claude.md, process.md, README.md, Styles.md
 
-### 2026-02-20 — Session 1 (continued)
-- Researched GitHub Pages whitelisted Jekyll plugins
-- Selected 8 plugins: seo-tag, sitemap, feed, paginate, redirect-from, relative-links, optional-front-matter, default-layout
-- Selected Motion (motion.dev) as animation library (~2.5KB mini)
-- Adopted View Transitions API for page navigation (progressive enhancement, zero cost)
-- Planned PWA support (deferred — manifest.json + sw.js)
-- Updated all 4 reference docs (claude.md, Architecture.md, Styles.md, process.md) with new decisions
+## Şu an
 
-### 2026-02-20 — Session 1 (continued)
-- Designed dark mode: Tailwind `@custom-variant dark`, FOUC-free inline script, `jam-theme-toggle` component, light/dark theme tokens
-- Designed dynamic slider: `_data/slides/{lang}.yml`, Liquid jsonify → Svelte, hero/image types, autoplay
-- Designed multilanguage boilerplate: configurable `languages`/`default_lang`, `ref`-based translation linking, `_data/i18n/` translations, pure Liquid lang-switcher, hreflang SEO tags
-- Architecture: no code changes needed to add a new language — just config + data + content
-- Updated all 4 reference docs with dark mode, slider, and i18n specifications
+- Proje Astro 5 tabanlı çalışıyor; ek özellik veya iyileştirme yapılabilir.
 
-### 2026-02-20 — Session 2
-- Designed blog structure: posts with tags/categories, `_layouts/post.html`, tag/category index pages
-- Designed products data architecture: single-source `_data/products/{sku}.yml` with all translations, `scripts/generate-products.js` pre-build step, `_layouts/product.html`
-- Designed unified tag/category system: Liquid aggregation across posts and products, color-coded badges
-- Designed search: Lunr.js + lunr-languages, `search.json` build-time index, `jam-search` Spotlight-style component (Cmd+K)
-- All tag/category and product data structures designed for extensibility (Snipcart, additional languages, etc.)
-- Updated all 5 reference docs (claude.md, Architecture.md, Styles.md, process.md, README.md) with complete specifications
+## Planlanan / Backlog
 
-### 2026-02-20 — Session 2 (continued)
-- Refactored directory structure: all page content moved to `_pages/` Jekyll collection
-- Root directory cleaned: removed `en/`, `tags/`, `categories/` standalone directories
-- Updated `_config.yml` with `collections: pages: output: true` and new defaults
-- Updated `generate-products.js` to output to `_pages/products/{lang}/`
-- Updated all reference documentation with new directory structure
+- [ ] Yorum sistemi (Giscus/Utterances) — harici bağımlılık, isteğe bağlı
+- [ ] Newsletter formu — harici servis, isteğe bağlı
+- [ ] Performans denetimi (bundle boyutu, Lighthouse)
+- [ ] prefers-reduced-motion kontrolü animasyonlarda
+- [ ] Favicon seti (favicon.ico, apple-touch-icon)
+- [ ] Google Search Console + sitemap gönderimi
+- [ ] Blog sayfalarında pagination (gerekirse)
+- [ ] Yeni dil ekleme: config + src/pages/{lang}/ + src/i18n/{lang}.js + _data/slides/{lang}.yml
 
-### 2026-02-20 — Session 3 (Modern Özellikler Planlama)
-- Instagram Stories UI (`jam-stories`) bileşeni tamamlandı — kategoriler için story bubble'ları
-- Owl Carousel-style ürün slider'ı (`jam-product-carousel`) tamamlandı
-- About sayfaları güncellendi: creator bilgisi ve tasarım felsefesi eklendi
-- Search indexing sorunları çözüldü: Türkçe stemmer, product type, multilingual tags/categories
-- baseurl sorunu çözüldü: `/JamSite` yerine `""` (root deployment)
-- Yeni özellikler planlandı:
-  - Hızlı kazanımlar: Scroll Progress, Back to Top, Reading Time, Social Share, Copy Code
-  - Orta kapsamlı: Lightbox, TOC, Favorites, Quick View, Recently Viewed
-  - Büyük özellikler: PWA, Related Posts/Products, Product Comparison, Filtering
-- Ertelenen özellikler (platform bağımlı): Comment System, Newsletter — backlog'a eklendi
-- Reddedilen özellik: Content Reactions (statik site yapısına aykırı)
+## Session notları
 
-### 2026-02-21 — Session 4 (Modern Özellikler Uygulama)
-- Tüm planlanan modern özellikler uygulandı:
-  - Hızlı kazanımlar: Scroll Progress, Back to Top, Toast, Copy Code, Social Share, Reading Time
-  - Orta kapsamlı: Lightbox, TOC, Favorites, Quick View, Recently Viewed, Keyboard Shortcuts
-  - Büyük özellikler: PWA, Related Posts/Products, Product Comparison, Filtering, Reading List
-  - Ekstra: Lazy Loading Images, Infinite Scroll / Load More
-- Toplam 21 yeni Svelte bileşeni oluşturuldu
-- Svelte 5 runes moduna uygun $props() sözdizimi kullanıldı
-- i18n dosyaları tüm yeni özellikler için güncellendi
-- Favorites ve Reading List sayfaları TR ve EN için oluşturuldu
-- Navbar'a favorites badge eklendi
-- Build başarılı: bundle.js 181KB, bundle.css 64KB
+### 2026-02-28 — Dokümantasyon güncellemesi
 
-### 2026-02-21 — Session 5 (Phosphor Icons Entegrasyonu)
-- Phosphor Icons kütüphanesi entegre edildi:
-  - Svelte bileşenleri için `phosphor-icons-svelte` paketi
-  - Jekyll için `@phosphor-icons/core` paketinden otomatik SVG sprite üretimi
-- `scripts/generate-sprite.js` scripti oluşturuldu:
-  - `@phosphor-icons/core` paketinden doğrudan SVG'leri okur
-  - 32 ikon içeren `assets/icons/sprite.svg` dosyası üretir
-  - Fill weight ikonlar için doğru naming convention (`*-fill.svg`)
-- `_includes/icon.html` Liquid helper oluşturuldu:
-  - Jekyll tarafında kolay ikon kullanımı: `{% include icon.html name="heart" %}`
-- Tüm Svelte bileşenleri güncellendi (21 dosya):
-  - Inline SVG → `phosphor-icons-svelte` component geçişi
-  - Import path düzeltmesi: `/icons/` subdirectory kaldırıldı
-- Jekyll include dosyaları güncellendi:
-  - `social-share.html`: X, LinkedIn, WhatsApp, link ikonları
-  - `related-products.html`: cube placeholder ikonu
-  - `related-posts.html`: newspaper placeholder ikonu
-- `claude.md` Phosphor Icons dokümantasyonu ile güncellendi
-- Build başarılı (a11y uyarıları ile)
-
-### 2026-02-22 — Session 6 (Dokümantasyon ve İçerik)
-- Yeni sayfalar oluşturuldu (multilingual):
-  - `_pages/tr/features.md` ve `_pages/en/features.md` — Özellikler sayfası
-  - `_pages/tr/getting-started.md` ve `_pages/en/getting-started.md` — Başlangıç rehberi
-- Navbar güncellendi: Features ve Getting Started linkleri eklendi
-- i18n dosyaları güncellendi: `nav_features`, `nav_getting_started`
-- Unsplash görselleri ile içerik zenginleştirildi:
-  - Slider: 4 görsel (hero + image slides)
-  - Ürünler: 6 ürün (3 yeni: Bluetooth Hoparlör, Telefon Standı, Fitness Bilekliği)
-  - Her ürün için 2-3 galeri görseli
-  - Blog yazıları: Tüm yazılara OG image eklendi
-  - Sayfalar: About, Features, Getting Started için OG image
-- Blog içerikleri anlamlı hale getirildi (lorem ipsum kaldırıldı)
-- Yeni blog yazısı: SEO Optimizasyonu (TR/EN)
-- Permalink düzeltmesi: `/tr/favorites/` → `/favorites/`, `/tr/reading-list/` → `/reading-list/`
-  - Varsayılan dil (TR) root'ta, diğer diller prefix ile (`/en/`)
-- Tüm referans dokümantasyonu güncellendi
+- Architecture.md, claude.md, process.md, README.md, Styles.md Astro 5 + Svelte 5 + Tailwind 4 yapısına göre yeniden yazıldı.
+- Jekyll, Vite library mode, custom elements, Lunr, _config.yml, _layouts, _includes, _pages, _posts referansları kaldırıldı.
+- Yeni referanslar: Astro i18n, Content Collections, src/data/*.js, src/i18n/*.js, BaseLayout.astro, SearchFuse, Fuse.js, getProductPaths, getSlides, postbuild-404, vite-plugin-pwa.

@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "node scripts/generate-products.js && vite build",
-    "generate": "node scripts/generate-products.js",
-    "preview": "vite preview"
+    "dev": "astro dev",
+    "build": "node src/lib/search-index.js && astro build && node scripts/postbuild-404.mjs",
+    "build:search": "node src/lib/search-index.js",
+    "preview": "astro preview",
+    "generate": "node scripts/generate-products.js"
   },
   "devDependencies": {
     "@phosphor-icons/core": "^2.1.1",
@@ -16,9 +17,17 @@
     "js-yaml": "^4",
     "svelte": "^5",
     "tailwindcss": "^4",
-    "vite": "^6"
+    "tsx": "^4.21.0",
+    "vite": "^6",
+    "vite-plugin-pwa": "^1.2.0"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/svelte": "^7.2.5",
+    "@fontsource/inter": "^5.2.8",
+    "astro": "^5.18.0",
+    "fuse.js": "^7.1.0",
     "lunr": "^2",
     "lunr-languages": "^1",
     "motion": "^11",

@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { t } from "../../i18n";
+import { site, getLangPrefix } from "../../config/site";
+
+const lang = "tr";
+const posts = (await getCollection("posts"))
+  .filter((p) => p.data.lang === lang)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const i18n = t(lang);
+const base = site.baseUrl || "";
+const langPrefix = getLangPrefix(lang);
+---
+
+<BaseLayout title={`${i18n.blog_title} | ${site.title}`} description={site.description} lang={lang}>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold font-heading text-jam-primary mb-8">{i18n.blog_title}</h1>
+    <ul class="space-y-6">
+      {posts.map((post) => (
+        <li class="border-b border-jam-border dark:border-jam-border-dark pb-6">
+          <a href={`${base}${langPrefix}/blog/${post.id.replace(/\.md$/, "")}/`} class="group">
+            <h2 class="text-xl font-semibold text-jam-text dark:text-jam-text-dark group-hover:text-jam-primary transition-colors">
+              {post.data.title}
+            </h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{post.data.description}</p>
+            <time class="text-xs text-slate-400 dark:text-slate-500" datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString("tr-TR")}
+            </time>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

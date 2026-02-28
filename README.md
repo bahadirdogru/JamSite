@@ -1,47 +1,45 @@
 # JamSite
 
-A modern boilerplate that combines Jekyll (GitHub Pages) with Svelte 5 interactive components and Tailwind CSS 4 styling. Features blog with tags/categories, product catalog, site-wide search, dark/light mode, dynamic slider, and built-in multilanguage support.
+Astro 5, Svelte 5 ve Tailwind CSS 4 ile kurulmuş çok dilli statik site şablonu. Blog (etiket/kategori), ürün kataloğu, site içi arama (Cmd+K), karanlık/aydınlık tema, dinamik slider ve PWA desteği içerir.
 
-Created by [Bahadır Doğru](https://bahadirdogru.com)
+Oluşturan: [Bahadır Doğru](https://bahadirdogru.com)
 
-Jekyll handles content, SEO, and templating. Svelte components compile to Web Components (Custom Elements) and are embedded in Jekyll layouts as `<jam-*>` tags. Vite builds the JS/CSS bundles locally; the output is committed to the repo so GitHub Pages can serve it without any custom build pipeline.
+İçerik ve SEO Astro ile üretilir; etkileşimli bileşenler Svelte ile yazılır ve gerekli sayfalarda hydrate edilir. Build çıktısı (`dist/`) herhangi bir statik hostinge (GitHub Pages dahil) deploy edilebilir.
 
-## Features
+## Özellikler
 
-- **Blog** — Posts with tags and categories, language-specific listings, reading time, social share
-- **Product Catalog** — SKU-based product data with multilanguage support, auto-generated product pages, favorites, comparison
-- **Site Search** — Spotlight-style search modal (Cmd+K / Ctrl+K), client-side full-text search with Lunr.js
-- **Dark / Light Mode** — FOUC-free theme toggle with OS preference detection and `localStorage` persistence
-- **Dynamic Slider** — Data-driven slider with hero and image slide types, autoplay, and keyboard/touch navigation
-- **Multilanguage (i18n)** — Configurable language support with SEO-friendly hreflang tags. Default language at root, others prefixed.
-- **SEO Optimized** — Auto-generated meta tags, Open Graph, Twitter Cards, JSON-LD, sitemap, and RSS feed
-- **Interactive Components** — Favorites, reading list, quick view, product comparison, keyboard shortcuts
-- **Smooth Animations** — Motion library for scroll/entrance animations + View Transitions API
-- **PWA Support** — Offline-capable with service worker and web app manifest
-- **Progressive Enhancement** — Content readable without JavaScript. Interactive features enhance, not replace.
+- **Blog** — Content Collections ile yazılar, etiket/kategori, dil bazlı listeler, okuma süresi, sosyal paylaşım
+- **Ürün kataloğu** — SKU bazlı YAML veri, çok dilli destek, favoriler, karşılaştırma
+- **Site araması** — Cmd+K / Ctrl+K ile Fuse.js tabanlı, build-time index
+- **Karanlık / aydınlık mod** — FOUC önlemli tema, OS tercihi ve localStorage
+- **Dinamik slider** — Dil bazlı veri, hero/image slide tipleri, autoplay
+- **Çok dilli (i18n)** — TR root, EN /en/ prefix; hreflang ve dil değiştirici
+- **SEO** — Meta, Open Graph, Twitter Card, sitemap, RSS
+- **Etkileşimli bileşenler** — Favoriler, okuma listesi, hızlı önizleme, karşılaştırma, klavye kısayolları
+- **Animasyon** — Motion + Astro View Transitions
+- **PWA** — Service Worker (vite-plugin-pwa), manifest
+- **Progressive enhancement** — İçerik JS olmadan okunabilir
 
-## Prerequisites
+## Gereksinimler
 
 - [Node.js](https://nodejs.org/) (v18+)
 - Git
 
-No Ruby/Jekyll installation needed for local development of Svelte components. Jekyll runs only on GitHub Pages.
-
-## Setup
+## Kurulum
 
 ```bash
-git clone https://github.com/<username>/JamSite.git
+git clone https://github.com/<kullanici>/JamSite.git
 cd JamSite
 npm install
 ```
 
-## Development
+## Geliştirme
 
 ```bash
 npm run dev
 ```
 
-Opens Vite dev server for working on Svelte components with hot reload.
+Astro dev server başlar (varsayılan http://localhost:4321). Hot reload açıktır.
 
 ## Build
 
@@ -49,80 +47,78 @@ Opens Vite dev server for working on Svelte components with hot reload.
 npm run build
 ```
 
-Compiles Svelte components and Tailwind CSS into `assets/dist/bundle.js` and `assets/dist/bundle.css`.
+Sırasıyla:
+
+1. `src/lib/search-index.js` — arama indeksini `public/search-index.json` olarak üretir  
+2. `astro build` — siteyi `dist/` altına derler  
+3. `scripts/postbuild-404.mjs` — 404 sayfasını uygun yere kopyalar  
+
+## Önizleme
+
+```bash
+npm run preview
+```
+
+`dist/` çıktısını yerel sunucuda dener.
 
 ## Deploy
 
 ```bash
-git add -A
-git commit -m "build: update bundle"
-git push
+npm run build
 ```
 
-GitHub Pages automatically picks up the changes and runs Jekyll to build the site.
+Ardından `dist/` klasörünü hostinge yükleyin (GitHub Pages için `dist` içeriğini repo’ya veya gh-pages branch’ine push edebilirsiniz; Actions ile otomatik build de kullanılabilir).
 
-## Project Structure
+## Proje yapısı
 
 ```
-_data/               Data files (i18n, slides, products)
-_includes/           Jekyll partials (navbar, footer, hreflang, lang-switcher, icon helper)
-_layouts/            Jekyll HTML templates (default, post, product)
-_pages/              All page content as Jekyll collection
-  tr/                Turkish pages (default lang, outputs to root /)
-  en/                English pages (outputs to /en/)
-  products/          Auto-generated product wrapper pages
-  search.json        Build-time search index
-_posts/              Blog posts organized by language (tr/, en/)
-scripts/             Build scripts (product page generator, icon sprite generator)
-src/                 Svelte 5 components, Tailwind entry, main.js
-assets/
-  dist/              Pre-built JS/CSS bundles (committed)
-  icons/             Phosphor Icons SVG sprite
+_data/               Ürün ve slider verisi (YAML)
+  products/          sku001.yml, sku002.yml ...
+  slides/            tr.yml, en.yml
+public/              Statik dosyalar (manifest, robots, build’te search-index.json)
+src/
+  components/        Svelte bileşenleri
+  content/posts/     Blog yazıları (.md)
+  data/              products.js, slides.js (_data’yı okur)
+  i18n/              tr.js, en.js, index.js (UI çevirileri)
+  layouts/           BaseLayout.astro
+  lib/               search-index.js (build-time arama indeksi)
+  pages/             Astro sayfaları (tr root, en/ prefix)
+  config/            site.js
+  styles/            global.css (Tailwind, @theme)
+scripts/             postbuild-404.mjs
 ```
 
-## Tech Stack
+## Teknoloji
 
-- **SSG**: Jekyll 3.9 (GitHub Pages standard)
-- **Build**: Vite 6.x+ (library mode)
-- **Components**: Svelte 5 (Custom Elements, `shadow: "none"`)
-- **Styling**: Tailwind CSS 4 (CSS-first configuration, dark mode)
-- **Icons**: Phosphor Icons (SVG sprite + Svelte components)
-- **Animation**: Motion (motion.dev) + View Transitions API
-- **Search**: Lunr.js + lunr-languages (client-side, Turkish stemmer)
-- **SEO**: jekyll-seo-tag, jekyll-sitemap, jekyll-feed
+- **SSG**: Astro 5  
+- **UI**: Svelte 5 (client:visible / client:load)  
+- **Stil**: Tailwind CSS 4 (CSS-first)  
+- **İkonlar**: Phosphor Icons (Svelte)  
+- **Animasyon**: Motion + Astro View Transitions  
+- **Arama**: Fuse.js + build-time JSON index  
+- **SEO**: Astro meta + @astrojs/sitemap  
+- **RSS**: @astrojs/rss (feed.xml.js)  
+- **PWA**: vite-plugin-pwa  
 
-## Adding a New Language
+## Yeni dil ekleme
 
-1. Add the language code to `languages` in `_config.yml`
-2. Add a `defaults` scope for the new language path
-3. Create `_data/i18n/{lang}.yml` (UI translations)
-4. Create `_data/slides/{lang}.yml` (slider content)
-5. Create a `{lang}/` directory with pages (set matching `ref` values)
-6. Create `_posts/{lang}/` for blog posts
+1. `astro.config.mjs` içinde `i18n.locales` dizisine yeni dili ekleyin.  
+2. `src/pages/{dil}/` altında gerekli sayfaları oluşturun.  
+3. `src/i18n/{dil}.js` ekleyip `src/i18n/index.js` içinde kullanın.  
+4. `_data/slides/{dil}.yml` ekleyin.  
+5. Ürün YAML’larında ilgili dil bloğunu (örn. `de: title, description, slug`) ekleyin.  
 
-hreflang tags, language switcher, and slider content automatically detect the new language.
+## Yeni ürün ekleme
 
-## Adding a Product
+1. `_data/products/{sku}.yml` oluşturun (ortak alanlar + tr/en blokları).  
+2. `npm run build` — ürün sayfaları getStaticPaths ile otomatik üretilir.  
+3. Arama indeksi ve etiket/kategori listeleri build sırasında güncellenir.  
 
-1. Create `_data/products/{sku}.yml` with shared fields (price, image, tags) and per-language translations (title, description, slug)
-2. Run `npm run build` — the build script generates wrapper pages for each language automatically
-3. Product pages, search index, and tag/category listings update automatically
+## Arama
 
-## Search
+Sayfadayken **Cmd+K** (macOS) veya **Ctrl+K** (Windows/Linux) ile arama modalı açılır. Sonuçlar mevcut sayfa diline göre filtrelenir; tip etiketleri (post, product, page) gösterilir.
 
-Press `Cmd+K` (macOS) or `Ctrl+K` (Windows/Linux) to open the search modal. Search covers blog posts, pages, and products. Results are filtered by the current page language and show type badges for easy identification.
-
-## Icons
-
-This project uses [Phosphor Icons](https://phosphoricons.com/) for all icons.
-
-**Adding a new icon:**
-
-1. Add the icon to the `ICONS` array in `scripts/generate-sprite.js`
-2. Run `node scripts/generate-sprite.js` to regenerate the sprite
-3. Use in Jekyll: `{% include icon.html name="icon-name" class="w-5 h-5" %}`
-4. Use in Svelte: `import IconName from "phosphor-icons-svelte/IconName.svelte"`
-
-## License
+## Lisans
 
 MIT

@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t } from "../../i18n";
+import { site } from "../../config/site";
+
+const lang = "en";
+const i18n = t(lang);
+const base = site.baseUrl || "";
+---
+
+<BaseLayout
+  title="Features | JamSite"
+  description="All features JamSite offers - blog, product catalog, search, multilingual support"
+  lang={lang}
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <header class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold font-heading mb-4">Features</h1>
+      <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+        JamSite provides everything you need for a modern website in one package.
+      </p>
+    </header>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-16">
+      <div class="group p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-jam-primary/50 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-4 text-2xl">📰</div>
+        <h3 class="font-bold text-lg mb-2">Blog System</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Organized blog with tags and categories. Markdown + Content Collections.</p>
+      </div>
+      <div class="group p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-jam-primary/50 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mb-4 text-2xl">📦</div>
+        <h3 class="font-bold text-lg mb-2">Product Catalog</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">SKU-based product management. All languages in one source.</p>
+      </div>
+      <div class="group p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-jam-primary/50 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-4 text-2xl">🔍</div>
+        <h3 class="font-bold text-lg mb-2">Site Search</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Fuse.js powered Cmd+K search modal.</p>
+      </div>
+      <div class="group p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-jam-primary/50 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-4 text-2xl">🌓</div>
+        <h3 class="font-bold text-lg mb-2">Dark/Light Mode</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">FOUC-free theme toggle. Respects OS preference.</p>
+      </div>
+      <div class="group p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-jam-primary/50 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center mb-4 text-2xl">🖼️</div>
+        <h3 class="font-bold text-lg mb-2">Slider & Carousel</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Data-driven slider and product carousel.</p>
+      </div>
+      <div class="group p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:border-jam-primary/50 transition-all">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-4 text-2xl">🌍</div>
+        <h3 class="font-bold text-lg mb-2">Multilingual</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">tr/en. SEO-friendly hreflang.</p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a href={`${base}/en/getting-started/`} class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-jam-primary text-white font-medium hover:bg-jam-primary/90 transition-colors">
+        Getting Started
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+    </div>
+  </div>
+</BaseLayout>

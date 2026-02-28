@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getProducts } from "../../../data/products";
+import { t } from "../../../i18n";
+import { site } from "../../../config/site";
+
+const lang = "en";
+const products = getProducts().filter((p) => p.en).map((p) => ({ product: p, info: p.en! }));
+const i18n = t(lang);
+const base = site.baseUrl || "";
+---
+
+<BaseLayout title={`${i18n.products_title} | ${site.title}`} description={site.description} lang={lang}>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold font-heading text-jam-primary mb-8">{i18n.products_title}</h1>
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map(({ product, info }) => (
+        <li>
+          <a
+            href={`${base}/en/products/${info.slug}/`}
+            class="block p-4 rounded-xl border border-jam-border dark:border-jam-border-dark hover:border-jam-primary transition-colors"
+          >
+            {product.image && (
+              <img
+                src={product.image}
+                alt={info.title}
+                class="w-full aspect-square object-cover rounded-lg mb-3"
+              />
+            )}
+            <h2 class="font-semibold text-lg text-jam-text dark:text-jam-text-dark">{info.title}</h2>
+            <p class="text-jam-primary font-bold mt-1">{product.price} {product.currency}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, getLangPrefix } from "../config/site.js";
+
+const base = site.baseUrl || "";
+---
+
+<BaseLayout title="Sayfa bulunamadı | JamSite" description="Aradığınız sayfa bulunamadı." lang="tr" noindex>
+  <div class="max-w-2xl mx-auto px-4 py-24 text-center">
+    <h1 class="text-4xl font-bold font-heading text-jam-primary mb-4">404</h1>
+    <p class="text-xl text-slate-600 dark:text-slate-400 mb-8">Sayfa bulunamadı. Aradığınız içerik taşınmış veya kaldırılmış olabilir.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href={`${base}/`} class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-jam-primary text-white font-medium hover:bg-jam-primary/90 transition-colors">
+        Ana Sayfa
+      </a>
+      <a href={`${base}/blog/`} class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-jam-border dark:border-jam-border-dark font-medium hover:border-jam-primary transition-colors">
+        Blog
+      </a>
+      <a href={`${base}/en/`} class="px-2 py-1 text-sm text-slate-500 hover:text-jam-primary">EN</a>
+    </div>
+  </div>
+</BaseLayout>

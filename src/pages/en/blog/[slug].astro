@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { t } from "../../../i18n";
+import { site } from "../../../config/site";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => data.lang === "en");
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.md$/, "") },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const lang = "en";
+const i18n = t(lang);
+const base = site.baseUrl || "";
+---
+
+<BaseLayout
+  title={`${post.data.title} | ${site.title}`}
+  description={post.data.description}
+  lang={lang}
+  ogImage={post.data.image}
+>
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold font-heading text-jam-text dark:text-jam-text-dark">
+        {post.data.title}
+      </h1>
+      <time class="text-sm text-slate-500 dark:text-slate-400" datetime={post.data.date.toISOString()}>
+        {post.data.date.toLocaleDateString("en-US")}
+      </time>
+      {post.data.image && (
+        <img
+          src={post.data.image}
+          alt={post.data.title}
+          class="mt-4 rounded-lg w-full object-cover max-h-64"
+        />
+      )}
+    </header>
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

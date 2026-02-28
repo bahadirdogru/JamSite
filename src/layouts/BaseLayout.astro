@@ -1,0 +1,82 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import DarkModeToggle from "../components/DarkModeToggle.svelte";
+import SearchFuse from "../components/SearchFuse.svelte";
+import { t } from "../i18n";
+import { defaultLang, getLangPrefix, site } from "../config/site";
+
+const { title = site.title, description = site.description, lang = defaultLang, canonicalURL, noindex = false, ogImage } = Astro.props;
+const i18n = t(lang);
+const langPrefix = getLangPrefix(lang);
+const base = site.baseUrl || "";
+const canonicalBase = site.url || "https://jamsite.example.com";
+const imageUrl = ogImage ? (ogImage.startsWith("http") ? ogImage : `${canonicalBase}${base}${ogImage}`) : "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80";
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function(){
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || (!t && matchMedia("(prefers-color-scheme:dark)").matches))
+          document.documentElement.classList.add("dark");
+      })();
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "tr" ? "tr_TR" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:image" content={imageUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {canonicalURL && <link rel="canonical" href={canonicalURL.toString()} />}
+    <link rel="manifest" href={`${base}/manifest.json`} />
+    <meta name="theme-color" content="#3b82f6" />
+    <link rel="apple-touch-icon" href={`${base}/assets/img/icon-192.png`} />
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen flex flex-col bg-jam-surface dark:bg-jam-surface-dark text-jam-text dark:text-jam-text-dark font-body">
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-jam-border dark:border-jam-border-dark">
+      <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a href={`${base}${langPrefix}/`} class="text-xl font-bold font-heading text-jam-primary">
+          JamSite
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href={`${base}${langPrefix}/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_home}</a>
+          <a href={`${base}${langPrefix}/about/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_about}</a>
+          <a href={`${base}${langPrefix}/blog/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_blog}</a>
+          <a href={`${base}${langPrefix}/products/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_products}</a>
+          <a href={`${base}${langPrefix}/features/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_features}</a>
+          <a href={`${base}${langPrefix}/getting-started/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_getting_started}</a>
+        </div>
+        <div class="flex items-center gap-1">
+          <SearchFuse lang={lang} baseurl={base} placeholder={i18n.search_placeholder} noResultsText={i18n.search_no_results} client:visible />
+          <a href={lang === "tr" ? `${base}/en/` : `${base}/`} class="px-2 py-1 text-xs font-medium rounded transition-colors text-slate-500 hover:text-jam-primary dark:text-slate-400 dark:hover:text-jam-primary" aria-label={i18n.lang_label}>
+            {lang === "tr" ? "EN" : "TR"}
+          </a>
+          <DarkModeToggle client:visible />
+        </div>
+      </nav>
+    </header>
+    <main class="flex-1">
+      <slot />
+    </main>
+    <footer class="border-t border-jam-border dark:border-jam-border-dark mt-16">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
+          <p>&copy; {new Date().getFullYear()} {site.title}. {i18n.footer_copyright}</p>
+          <p class="flex items-center gap-1">Astro + Svelte 5 + Tailwind CSS 4</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

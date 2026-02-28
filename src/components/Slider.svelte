@@ -1,14 +1,8 @@
-<svelte:options customElement={{ tag: "jam-slider", shadow: "none",
-  props: { dataSlides: { reflect: true, attribute: "data-slides" },
-           autoplay: { reflect: true, attribute: "autoplay" } }
-}} />
-
 <script>
   import IconCaretLeftRegular from "phosphor-icons-svelte/IconCaretLeftRegular.svelte";
   import IconCaretRightRegular from "phosphor-icons-svelte/IconCaretRightRegular.svelte";
 
-  let { dataSlides = "[]", autoplay = "0" } = $props();
-  let slides = $derived(JSON.parse(dataSlides));
+  let { slides = [], autoplay = 0 } = $props();
   let current = $state(0);
   let interval;
 
@@ -17,7 +11,7 @@
   function goTo(i) { current = i; }
 
   $effect(() => {
-    const ms = parseInt(autoplay);
+    const ms = typeof autoplay === "number" ? autoplay : parseInt(autoplay);
     if (ms > 0 && slides.length > 1) {
       interval = setInterval(next, ms);
       return () => clearInterval(interval);

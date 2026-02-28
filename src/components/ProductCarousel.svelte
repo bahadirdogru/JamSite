@@ -1,16 +1,9 @@
-<svelte:options customElement={{ tag: "jam-product-carousel", shadow: "none",
-  props: { dataProducts: { reflect: true, attribute: "data-products" },
-           autoplay: { reflect: true, attribute: "autoplay" },
-           label: { reflect: true, attribute: "label" } }
-}} />
-
 <script>
   import IconCaretLeftRegular from "phosphor-icons-svelte/IconCaretLeftRegular.svelte";
   import IconCaretRightRegular from "phosphor-icons-svelte/IconCaretRightRegular.svelte";
   import IconCubeRegular from "phosphor-icons-svelte/IconCubeRegular.svelte";
 
-  let { dataProducts = "[]", autoplay = "0", label = "" } = $props();
-  let products = $derived(JSON.parse(dataProducts));
+  let { products = [], autoplay = 0, label = "" } = $props();
 
   let trackEl;
   let currentPage = $state(0);
@@ -87,7 +80,7 @@
   });
 
   $effect(() => {
-    const ms = parseInt(autoplay);
+    const ms = typeof autoplay === "number" ? autoplay : parseInt(autoplay);
     if (ms > 0 && products.length > perView) {
       interval = setInterval(next, ms);
       return () => clearInterval(interval);

@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { t } from "../i18n";
+import { site, getLangPrefix } from "../config/site";
+
+const lang = "tr";
+const i18n = t(lang);
+const base = site.baseUrl || "";
+const langPrefix = getLangPrefix(lang);
+---
+
+<BaseLayout
+  title="Hakkında | JamSite"
+  description="JamSite hakkında bilgi edinin - modern, hızlı ve çok dilli statik site üretim platformu"
+  lang={lang}
+>
+  <div class="max-w-3xl mx-auto px-4 py-12 prose prose-slate dark:prose-invert prose-headings:font-heading">
+    <h1 class="text-4xl font-bold mb-6">JamSite Nedir?</h1>
+    <p class="lead text-lg text-slate-600 dark:text-slate-400 mb-8">
+      JamSite, statik site üretimi ile modern frontend teknolojilerini birleştiren hibrit bir boilerplate projesidir. Astro'nun içerik yönetimi gücünü, Svelte 5'in reaktif bileşen mimarisini ve Tailwind CSS 4'ün tasarım sistemini tek bir çatı altında toplar.
+    </p>
+
+    <div class="grid gap-6 md:grid-cols-2 my-10 not-prose">
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-jam-primary to-jam-secondary flex items-center justify-center text-white text-2xl mb-4">⚡</div>
+        <h3 class="font-bold text-lg mb-2">Hızlı</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Statik HTML + islands. Lighthouse 95+ puan.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-2xl mb-4">🌍</div>
+        <h3 class="font-bold text-lg mb-2">Çok Dilli</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">i18n mimariyle doğar. Yeni dil eklemek için sadece dosya eklenir.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-white text-2xl mb-4">🔧</div>
+        <h3 class="font-bold text-lg mb-2">Sıfır Yapılandırma</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Build al, git push. CI/CD isteğe bağlı.</p>
+      </div>
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white text-2xl mb-4">🎨</div>
+        <h3 class="font-bold text-lg mb-2">Modern UI</h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Svelte 5 + Tailwind 4 ile reaktif bileşenler.</p>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold mt-12 mb-6">Teknoloji Yığını</h2>
+    <div class="flex flex-wrap gap-3 mb-8 not-prose">
+      <span class="px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 font-medium text-sm">Astro 5</span>
+      <span class="px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 font-medium text-sm">Svelte 5</span>
+      <span class="px-4 py-2 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300 font-medium text-sm">Tailwind CSS 4</span>
+      <span class="px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 font-medium text-sm">Fuse.js</span>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700 text-center not-prose">
+      <p class="text-slate-500 dark:text-slate-400 text-sm">Sorularınız mı var?</p>
+      <a href="https://github.com/bahadirdogru/JamSite" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-3 px-6 py-3 rounded-full bg-jam-primary text-white font-medium hover:bg-jam-primary/90 transition-colors">
+        GitHub
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
