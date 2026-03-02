@@ -1,8 +1,27 @@
 # Project Context: Astro 5 + Svelte 5 + Tailwind CSS 4 Static Site
 
+**AI summary and entry point.** Read this first for context; then use ARCHITECTURE.md, DESIGN.md, PROCESS.md as needed.
+
+---
+
+## Documentation system (Markdown file roles)
+
+| File | Audience | Purpose |
+|------|----------|---------|
+| **ARCHITECTURE.md** | AI | System architecture only: build pipeline, data flow, runtime, components, ownership. |
+| **CLAUDE.md** | AI | This file. Project summary, tech stack, directory layout, config, rules. Documents this .md file system. |
+| **DESIGN.md** | AI | Styles and design reference: Tailwind theme, colors, typography, component patterns, animation, dark mode. |
+| **PROCESS.md** | AI | Feature tracking, todo list, completed work, backlog, and process notes. |
+| **README.md** | Human | Main project doc for people: what it is, how to run, deploy, add content. Human-readable only. |
+
+- **AI-optimized, AI-readable:** ARCHITECTURE.md, CLAUDE.md, DESIGN.md, PROCESS.md — structured for agents.
+- **Human-optimized, Human-readable:** README.md — most understandable doc for developers and users.
+
+---
+
 ## Vision
 
-Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri ile sağlanır. Tailwind CSS 4 ile stillenir. Çok dilli (TR root, EN /en/ prefix), blog (Content Collections), ürün kataloğu (_data/products), site içi arama (Fuse.js + build-time index), dark mode ve PWA desteklenir. Jekyll kullanılmaz; deploy tamamen statik çıktı (dist/) ile yapılır.
+Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri ile sağlanır. Tailwind CSS 4 ile stillenir. Çok dilli (TR root, EN /en/ prefix), blog (Content Collections), ürün kataloğu (src/content/products), sayfa içerikleri (src/content/pages), slider (src/content/slides), site içi arama (Fuse.js + build-time index), dark mode ve PWA desteklenir. Deploy tamamen statik çıktı (dist/) ile yapılır.
 
 ## Tech Stack
 
@@ -17,8 +36,8 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 | SEO | Astro layout | Meta, OG, Twitter, canonical; @astrojs/sitemap |
 | RSS | @astrojs/rss | src/pages/feed.xml.js |
 | Arama | Fuse.js | public/search-index.json (build’te üretilir), SearchFuse.svelte |
-| Ürünler | _data/products/*.yml + src/data/products.js | getProductPaths, getProductBySlug |
-| Slider | _data/slides/*.yml + src/data/slides.js | getSlides(lang) |
+| Ürünler | src/content/products/*.md + src/data/products.js | getProductPaths, getProductBySlug |
+| Slider | src/content/slides/*.md + src/data/slides.js | getSlides(lang) |
 | i18n | src/i18n/*.js | t(lang), Astro i18n routing |
 | PWA | vite-plugin-pwa | Workbox, public/manifest.json |
 | Deploy | Statik host / GitHub Pages | dist/ içeriği |
@@ -50,11 +69,14 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 │   ├── config/
 │   │   └── site.js       # site, languages, defaultLang, getLangPrefix, getCanonicalUrl
 │   ├── content/
-│   │   ├── config.js     # posts collection schema
-│   │   └── posts/        # .md blog yazıları (lang, title, description, date, tags, categories)
+│   │   ├── config.js     # posts + pages collection schema
+│   │   ├── posts/        # .md blog yazıları
+│   │   ├── pages/        # .md about, getting-started (tr/en)
+│   │   ├── products/     # .md ürün frontmatter
+│   │   └── slides/       # .md slider slide’lar (lang, order)
 │   ├── data/
-│   │   ├── products.js   # getProducts, getProductBySku, getProductBySlug, getProductPaths
-│   │   └── slides.js     # getSlides(lang)
+│   │   ├── products.js   # content/products okur
+│   │   └── slides.js     # content/slides okur, getSlides(lang)
 │   ├── i18n/
 │   │   ├── index.js      # t(lang)
 │   │   ├── tr.js
@@ -103,22 +125,22 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 
 - **Dil**: TR root (`/`), EN `/en/`. Yeni sayfa için TR için `src/pages/...`, EN için `src/pages/en/...`.
 - **Çeviriler**: Sadece `src/i18n/*.js`. Yeni anahtar eklenince tr.js ve en.js güncellenir.
-- **Ürün verisi**: Sadece `_data/products/{sku}.yml`. Ortak alanlar + `tr`/`en` blokları (title, description, slug). Sayfa üretimi `getProductPaths()` + [slug].astro ile.
+- **Ürün verisi**: Sadece `src/content/products/{sku}.md`. Frontmatter’da ortak alanlar + `tr`/`en` blokları (title, description, slug). Sayfa üretimi `getProductPaths()` + [slug].astro ile.
 - **Blog**: Sadece `src/content/posts/*.md`. Schema: title, description, date, image, tags, categories, ref, lang.
 - **SEO**: BaseLayout’ta title, description, ogImage, canonical; blog/ürün sayfalarında ogImage prop kullan.
-- **Tailwind**: Sadece utility sınıfları; yapılamayanlar için global.css’te kural ve Styles.md’de dokümante et.
+- **Tailwind**: Sadece utility sınıfları; yapılamayanlar için global.css’te kural ve DESIGN.md’de dokümante et.
 - **Svelte 5**: $state, $derived, $effect kullan; custom element zorunlu değil, normal Svelte bileşenleri Astro’da client:visible/client:load.
 - **Dark mode**: .dark sınıfı + dark: utility’leri; FOUC için <head> inline script değiştirilmesin.
 - **Arama**: search-index.js build’te çalışır; SearchFuse dil filtreli Fuse.js kullanır.
 
-## Referans Dokümanlar
+## Referans dokümanlar (bu .md sistemi)
 
 | Dosya | Amaç |
 |-------|------|
-| claude.md | Proje bağlamı, tech stack, dizin, kurallar (bu dosya) |
-| Architecture.md | Sistem mimarisi, veri akışı, build pipeline |
-| Styles.md | Renk, tipografi, bileşen stilleri, animasyon |
-| process.md | Tamamlanan işler, sprint, backlog |
-| README.md | Repo tanımı, kurulum, kullanım |
+| **ARCHITECTURE.md** | Sistem mimarisi, veri akışı, build pipeline. |
+| **CLAUDE.md** | Proje özeti, tech stack, dizin, kurallar, bu dokümantasyon sistemi (bu dosya). |
+| **DESIGN.md** | Renk, tipografi, bileşen stilleri, animasyon, dark mode. |
+| **PROCESS.md** | Tamamlanan işler, backlog, süreç notları. |
+| **README.md** | İnsan odaklı: proje tanımı, kurulum, kullanım. |
 
-AI ajanları önce claude.md ile bağlamı alsın, gerektikçe diğer dosyalara baksın.
+AI ajanları önce CLAUDE.md ile bağlamı alsın; mimari için ARCHITECTURE.md, stil için DESIGN.md, ilerleme için PROCESS.md kullanılsın. README.md yalnızca insan okunabilirliği içindir.

@@ -1,5 +1,7 @@
 # JamSite
 
+**Human-readable project doc.** For a quick start: install, run `npm run dev`, then read “Özellikler” and “Kurulum” below.
+
 Astro 5, Svelte 5 ve Tailwind CSS 4 ile kurulmuş çok dilli statik site şablonu. Blog (etiket/kategori), ürün kataloğu, site içi arama (Cmd+K), karanlık/aydınlık tema, dinamik slider ve PWA desteği içerir.
 
 Oluşturan: [Bahadır Doğru](https://bahadirdogru.com)
@@ -72,14 +74,14 @@ Ardından `dist/` klasörünü hostinge yükleyin (GitHub Pages için `dist` iç
 ## Proje yapısı
 
 ```
-_data/               Ürün ve slider verisi (YAML)
-  products/          sku001.yml, sku002.yml ...
-  slides/            tr.yml, en.yml
-public/              Statik dosyalar (manifest, robots, build’te search-index.json)
 src/
   components/        Svelte bileşenleri
-  content/posts/     Blog yazıları (.md)
-  data/              products.js, slides.js (_data’yı okur)
+  content/
+    posts/           Blog yazıları (.md)
+    pages/           Hakkında, Başlangıç rehberi (.md, tr/en)
+    products/        Ürünler (.md frontmatter)
+    slides/          Slider slide’ları (.md, lang + order)
+  data/              products.js, slides.js (content’ten okur)
   i18n/              tr.js, en.js, index.js (UI çevirileri)
   layouts/           BaseLayout.astro
   lib/               search-index.js (build-time arama indeksi)
@@ -106,12 +108,12 @@ scripts/             postbuild-404.mjs
 1. `astro.config.mjs` içinde `i18n.locales` dizisine yeni dili ekleyin.  
 2. `src/pages/{dil}/` altında gerekli sayfaları oluşturun.  
 3. `src/i18n/{dil}.js` ekleyip `src/i18n/index.js` içinde kullanın.  
-4. `_data/slides/{dil}.yml` ekleyin.  
-5. Ürün YAML’larında ilgili dil bloğunu (örn. `de: title, description, slug`) ekleyin.  
+4. `src/content/slides/` altında yeni dil için slide .md dosyaları ekleyin (örn. de-01.md, lang: de).
+5. Ürün .md dosyalarının frontmatter’ında ilgili dil bloğunu (örn. de: title, description, slug) ekleyin.
 
 ## Yeni ürün ekleme
 
-1. `_data/products/{sku}.yml` oluşturun (ortak alanlar + tr/en blokları).  
+1. `src/content/products/{sku}.md` oluşturun (frontmatter’da ortak alanlar + tr/en blokları).  
 2. `npm run build` — ürün sayfaları getStaticPaths ile otomatik üretilir.  
 3. Arama indeksi ve etiket/kategori listeleri build sırasında güncellenir.  
 

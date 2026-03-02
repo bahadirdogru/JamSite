@@ -53,7 +53,10 @@ export const tr = {
   export: "Dışa Aktar",
   categories_filter: "Kategoriler",
   tags_filter: "Etiketler",
+  sort_label: "Sırala",
   price_range: "Fiyat Aralığı",
   sort_by: "Sırala",
   clear_filters: "Filtreleri Temizle",
+  pwa_update_message: "Yeni sürüm var. Sayfayı yenile.",
+  pwa_update_button: "Yenile",
 };

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ShareButton from "../../components/ShareButton.svelte";
 import { getCollection } from "astro:content";
 import { t } from "../../i18n";
 import { site, getLangPrefix } from "../../config/site";
@@ -18,6 +19,37 @@ const lang = "tr";
 const i18n = t(lang);
 const base = site.baseUrl || "";
 const langPrefix = getLangPrefix(lang);
+const slug = post.id.replace(/\.md$/, "");
+const canonicalUrl = `${site.url || ""}${base}${langPrefix}/blog/${slug}/`;
+const breadcrumbs = [
+  { name: lang === "tr" ? "Ana Sayfa" : "Home", url: `${site.url || ""}${base}${langPrefix}/` },
+  { name: lang === "tr" ? "Blog" : "Blog", url: `${site.url || ""}${base}${langPrefix}/blog/` },
+  { name: post.data.title, url: canonicalUrl },
+];
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      headline: post.data.title,
+      description: post.data.description,
+      image: post.data.image ? (post.data.image.startsWith("http") ? post.data.image : `${site.url || ""}${base}${post.data.image}`) : undefined,
+      datePublished: post.data.date.toISOString(),
+      dateModified: post.data.date.toISOString(),
+      author: { "@type": "Organization", name: site.title },
+      url: canonicalUrl,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: b.url,
+      })),
+    },
+  ],
+};
 ---
 
 <BaseLayout
@@ -25,19 +57,44 @@ const langPrefix = getLangPrefix(lang);
   description={post.data.description}
   lang={lang}
   ogImage={post.data.image}
+  jsonLd={jsonLd}
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
+    <nav class="mb-4 text-sm text-slate-500 dark:text-slate-400" aria-label="Breadcrumb">
+      <ol class="flex flex-wrap gap-2 [&>li]:flex [&>li]:items-center [&>li]:gap-2">
+        <li><a href={`${base}${langPrefix}/`} class="hover:text-jam-primary">{lang === "tr" ? "Ana Sayfa" : "Home"}</a></li>
+        <li><span aria-hidden="true">/</span></li>
+        <li><a href={`${base}${langPrefix}/blog/`} class="hover:text-jam-primary">Blog</a></li>
+        <li><span aria-hidden="true">/</span></li>
+        <li class="text-jam-text dark:text-jam-text-dark">{post.data.title}</li>
+      </ol>
+    </nav>
     <header class="mb-8">
       <h1 class="text-3xl font-bold font-heading text-jam-text dark:text-jam-text-dark">
         {post.data.title}
       </h1>
-      <time class="text-sm text-slate-500 dark:text-slate-400" datetime={post.data.date.toISOString()}>
-        {post.data.date.toLocaleDateString("tr-TR")}
-      </time>
+      <div class="flex flex-wrap items-center gap-3 mt-2">
+        <time class="text-sm text-slate-500 dark:text-slate-400" datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString("tr-TR")}
+        </time>
+        <ShareButton
+          client:visible
+          title={post.data.title}
+          text={post.data.description}
+          url={canonicalUrl}
+          labelShare={i18n.share_label?.replace(":", "") ?? "Paylaş"}
+          labelCopy={i18n.copy_link}
+          labelCopied={i18n.link_copied}
+        />
+      </div>
       {post.data.image && (
         <img
           src={post.data.image}
           alt={post.data.title}
+          width={1200}
+          height={400}
+          loading="lazy"
+          decoding="async"
           class="mt-4 rounded-lg w-full object-cover max-h-64"
         />
       )}

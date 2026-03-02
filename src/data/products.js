@@ -2,16 +2,24 @@ import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
 
-const productsDir = path.join(process.cwd(), "_data", "products");
+const productsDir = path.join(process.cwd(), "src", "content", "products");
+
+function parseFrontmatter(raw) {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!match) return null;
+  return yaml.load(match[1]);
+}
 
 function loadProducts() {
   if (!fs.existsSync(productsDir)) return [];
-  const files = fs.readdirSync(productsDir).filter((f) => f.endsWith(".yml"));
+  const files = fs.readdirSync(productsDir).filter((f) => f.endsWith(".md"));
   return files.map((file) => {
     const content = fs.readFileSync(path.join(productsDir, file), "utf8");
-    const data = yaml.load(content);
-    return { ...data, sku: data.sku ?? path.basename(file, ".yml") };
-  });
+    const data = parseFrontmatter(content);
+    if (!data) return null;
+    const sku = data.sku ?? path.basename(file, ".md");
+    return { ...data, sku };
+  }).filter(Boolean);
 }
 
 let cached = null;

@@ -56,4 +56,6 @@ export const en = {
   price_range: "Price Range",
   sort_by: "Sort by",
   clear_filters: "Clear Filters",
+  pwa_update_message: "New version available. Refresh the page.",
+  pwa_update_button: "Refresh",
 };

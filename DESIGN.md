@@ -1,4 +1,6 @@
-# Style Guide
+# Design & style reference
+
+**AI-optimized.** Styles and design reference for AI: Tailwind theme, colors, typography, component patterns, animation, dark mode. For architecture see ARCHITECTURE.md; for project summary see CLAUDE.md; for features/todo see PROCESS.md.
 
 ## Tasarım sistemi
 

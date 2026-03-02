@@ -6,6 +6,11 @@ import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   site: "https://jamsite.example.com",
+  image: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
+    ],
+  },
   i18n: {
     defaultLocale: "tr",
     locales: ["tr", "en"],
@@ -24,10 +29,12 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       VitePWA({
-        registerType: "autoUpdate",
+        registerType: "prompt",
         manifest: false,
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+          navigateFallback: "/offline/",
+          navigateFallbackDenylist: [/^\/api\//, /\.(json|xml|txt)$/],
           runtimeCaching: [
             { urlPattern: /^https:\/\/images\.unsplash\.com\/.*/i, handler: "CacheFirst", options: { cacheName: "images", expiration: { maxEntries: 50 } } },
           ],

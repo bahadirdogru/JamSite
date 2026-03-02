@@ -8,13 +8,32 @@
       : false
   );
 
-  function toggle() {
-    dark = !dark;
+  function applyTheme(isDark) {
+    dark = isDark;
     if (typeof document !== "undefined") {
-      document.documentElement.classList.toggle("dark", dark);
-      localStorage.setItem("theme", dark ? "dark" : "light");
+      document.documentElement.classList.toggle("dark", isDark);
     }
   }
+
+  function toggle() {
+    const next = !dark;
+    applyTheme(next);
+    if (typeof document !== "undefined") {
+      localStorage.setItem("theme", next ? "dark" : "light");
+    }
+  }
+
+  $effect(() => {
+    if (typeof window === "undefined") return;
+    const onStorage = (e) => {
+      if (e.key === "theme") {
+        const v = e.newValue ?? localStorage.getItem("theme");
+        applyTheme(v === "dark");
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  });
 </script>
 
 <button

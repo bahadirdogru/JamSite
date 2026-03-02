@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ShareButton from "../../components/ShareButton.svelte";
 import { getProductPaths, getProductBySlug } from "../../data/products";
 import { t } from "../../i18n";
 import { site, getLangPrefix } from "../../config/site";
@@ -20,6 +21,39 @@ const lang = "tr";
 const i18n = t(lang);
 const base = site.baseUrl || "";
 const langPrefix = getLangPrefix(lang);
+const canonicalUrl = `${site.url || ""}${base}${langPrefix}/products/${slug}/`;
+const breadcrumbs = [
+  { name: "Ana Sayfa", url: `${site.url || ""}${base}${langPrefix}/` },
+  { name: "Ürünler", url: `${site.url || ""}${base}${langPrefix}/products/` },
+  { name: info.title, url: canonicalUrl },
+];
+const priceNum = parseFloat(String(product.price).replace(/[^\d.-]/g, "")) || 0;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      name: info.title,
+      description: info.description,
+      image: product.image || undefined,
+      url: canonicalUrl,
+      offers: {
+        "@type": "Offer",
+        price: priceNum,
+        priceCurrency: product.currency || "TRY",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: b.url,
+      })),
+    },
+  ],
+};
 ---
 
 <BaseLayout
@@ -27,15 +61,29 @@ const langPrefix = getLangPrefix(lang);
   description={info.description}
   lang={lang}
   ogImage={product.image}
+  jsonLd={jsonLd}
 >
   <article class="max-w-5xl mx-auto px-4 py-12">
+    <nav class="mb-4 text-sm text-slate-500 dark:text-slate-400" aria-label="Breadcrumb">
+      <ol class="flex flex-wrap gap-2 [&>li]:flex [&>li]:items-center [&>li]:gap-2">
+        <li><a href={`${base}${langPrefix}/`} class="hover:text-jam-primary">Ana Sayfa</a></li>
+        <li><span aria-hidden="true">/</span></li>
+        <li><a href={`${base}${langPrefix}/products/`} class="hover:text-jam-primary">Ürünler</a></li>
+        <li><span aria-hidden="true">/</span></li>
+        <li class="text-jam-text dark:text-jam-text-dark">{info.title}</li>
+      </ol>
+    </nav>
     <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
       <div>
         {product.image && product.image !== "" ? (
           <img
             src={product.image}
             alt={info.title}
-            class="w-full rounded-xl shadow-sm border border-jam-border dark:border-jam-border-dark"
+            width={800}
+            height={800}
+            loading="lazy"
+            decoding="async"
+            class="w-full aspect-square object-cover rounded-xl shadow-sm border border-jam-border dark:border-jam-border-dark"
           />
         ) : (
           <div class="w-full aspect-square rounded-xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
@@ -48,6 +96,10 @@ const langPrefix = getLangPrefix(lang);
               <img
                 src={img}
                 alt={info.title}
+                width={200}
+                height={200}
+                loading="lazy"
+                decoding="async"
                 class="w-full aspect-square object-cover rounded-lg border border-jam-border dark:border-jam-border-dark"
               />
             ))}
@@ -56,6 +108,17 @@ const langPrefix = getLangPrefix(lang);
       </div>
       <div>
         <h1 class="text-3xl font-bold font-heading text-jam-text dark:text-jam-text-dark mb-3">{info.title}</h1>
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <ShareButton
+            client:visible
+            title={info.title}
+            text={info.description}
+            url={canonicalUrl}
+            labelShare={i18n.share_label?.replace(":", "") ?? "Paylaş"}
+            labelCopy={i18n.copy_link}
+            labelCopied={i18n.link_copied}
+          />
+        </div>
         <p class="text-2xl text-jam-primary font-bold mb-6">
           {product.price} {product.currency}
         </p>

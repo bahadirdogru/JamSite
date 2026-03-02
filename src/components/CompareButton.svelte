@@ -39,21 +39,17 @@
   });
 
   function toggle() {
-    let items = getItems();
+    const items = getItems();
     const idx = items.findIndex((i) => i.id === product_id);
+    const isRemoving = idx > -1;
+    const isAdding = !isRemoving && items.length < MAX_COMPARE;
 
-    if (idx > -1) {
-      items.splice(idx, 1);
+    if (isRemoving) {
       isAdded = false;
-    } else {
-      if (items.length >= MAX_COMPARE) {
-        window.dispatchEvent(
-          new CustomEvent("jam:toast", {
-            detail: { message: `Max ${MAX_COMPARE} items`, type: "warning" },
-          })
-        );
-        return;
-      }
+      items.splice(idx, 1);
+      saveItems(items);
+    } else if (isAdding) {
+      isAdded = true;
       items.push({
         id: product_id,
         title: product_title,
@@ -61,10 +57,14 @@
         price: product_price,
         image: product_image,
       });
-      isAdded = true;
+      saveItems(items);
+    } else {
+      window.dispatchEvent(
+        new CustomEvent("jam:toast", {
+          detail: { message: `Max ${MAX_COMPARE} items`, type: "warning" },
+        })
+      );
     }
-
-    saveItems(items);
   }
 </script>
 

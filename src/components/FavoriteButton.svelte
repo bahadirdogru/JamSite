@@ -39,12 +39,13 @@
   });
 
   function toggle() {
-    let favs = getFavorites();
+    const nextFavorite = !isFavorite;
+    isFavorite = nextFavorite;
+    const favs = getFavorites();
     const idx = favs.findIndex((f) => f.id === product_id);
 
     if (idx > -1) {
       favs.splice(idx, 1);
-      isFavorite = false;
       window.dispatchEvent(
         new CustomEvent("jam:toast", {
           detail: { message: removed_text, type: "info" },
@@ -59,7 +60,6 @@
         image: product_image,
         addedAt: Date.now(),
       });
-      isFavorite = true;
       window.dispatchEvent(
         new CustomEvent("jam:toast", {
           detail: { message: added_text, type: "success" },

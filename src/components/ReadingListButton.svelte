@@ -40,12 +40,13 @@
   });
 
   function toggle() {
-    let items = getItems();
+    const nextSaved = !isSaved;
+    isSaved = nextSaved;
+    const items = getItems();
     const idx = items.findIndex((i) => i.id === post_id);
 
     if (idx > -1) {
       items.splice(idx, 1);
-      isSaved = false;
       window.dispatchEvent(
         new CustomEvent("jam:toast", {
           detail: { message: remove_text, type: "info" },
@@ -61,7 +62,6 @@
         savedAt: Date.now(),
         isRead: false,
       });
-      isSaved = true;
       window.dispatchEvent(
         new CustomEvent("jam:toast", {
           detail: { message: added_text, type: "success" },
