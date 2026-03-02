@@ -65,4 +65,4 @@ let { dataSlides = "[]", autoplay = "0" } = $props();
 
 Kebab-case attributes map to camelCase props.
 
-This approach makes it extremely easy to pass data from Jekyll's Liquid templates to Svelte components.
+This approach makes it extremely easy to pass data from Astro pages to Svelte components.

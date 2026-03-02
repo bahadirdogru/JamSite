@@ -1,9 +1,9 @@
 ---
 title: "SEO Optimization for Static Sites"
-description: "Tips for creating SEO-friendly websites with Jekyll and JamSite."
+description: "Tips for creating SEO-friendly websites with Astro and JamSite."
 date: 2026-02-19
 image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=1200&q=80"
-tags: [seo, jekyll, web]
+tags: [seo, astro, web]
 categories: [development]
 ref: seo-optimization
 lang: en
@@ -13,24 +13,23 @@ Static sites, when properly configured, offer great advantages for SEO. Fast loa
 
 ## JamSite's SEO Tools
 
-JamSite provides comprehensive SEO support using Jekyll plugins supported by GitHub Pages:
+JamSite provides comprehensive SEO support with Astro:
 
-### jekyll-seo-tag
+### BaseLayout and meta tags
 
-This plugin automatically generates:
+BaseLayout.astro automatically generates:
 - `<title>` and `<meta description>` tags
 - Open Graph meta tags (Facebook, LinkedIn)
 - Twitter Card tags
-- JSON-LD structured data
-- Canonical URL
+- Canonical URL and hreflang (multilingual)
 
-### jekyll-sitemap
+### @astrojs/sitemap
 
-Automatically generates `sitemap.xml` for all your pages. Just add it to Google Search Console.
+Automatically generates sitemap for all your pages. Just add it to Google Search Console.
 
-### jekyll-feed
+### RSS (feed.xml.js)
 
-Creates Atom/RSS feed for your blog posts. This way readers can follow your site.
+Creates RSS feed for your blog posts. This way readers can follow your site.
 
 ## Multilingual SEO
 

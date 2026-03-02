@@ -1,6 +1,6 @@
 - type: hero
   title: "Welcome to JamSite"
-  description: "A modern, fast and dynamic static site experience. Built with Jekyll + Svelte 5 + Tailwind CSS 4."
+  description: "A modern, fast and dynamic static site experience. Built with Astro 5 + Svelte 5 + Tailwind CSS 4."
   image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80"
   cta_text: "Explore"
   cta_link: /en/about/

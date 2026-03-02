@@ -1,9 +1,9 @@
 ---
 title: "Statik Sitelerde SEO Optimizasyonu"
-description: "Jekyll ve JamSite ile SEO dostu web siteleri oluşturmanın püf noktaları."
+description: "Astro ve JamSite ile SEO dostu web siteleri oluşturmanın püf noktaları."
 date: 2026-02-19
 image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=1200&q=80"
-tags: [seo, jekyll, web]
+tags: [seo, astro, web]
 categories: [geliştirme]
 ref: seo-optimization
 lang: tr
@@ -13,24 +13,23 @@ Statik siteler, doğru yapılandırıldığında SEO açısından büyük avanta
 
 ## JamSite'ın SEO Araçları
 
-JamSite, GitHub Pages'in desteklediği Jekyll eklentilerini kullanarak kapsamlı SEO desteği sağlar:
+JamSite, Astro ile kapsamlı SEO desteği sağlar:
 
-### jekyll-seo-tag
+### BaseLayout ve meta etiketleri
 
-Bu eklenti otomatik olarak şunları üretir:
+BaseLayout.astro otomatik olarak şunları üretir:
 - `<title>` ve `<meta description>` etiketleri
 - Open Graph meta etiketleri (Facebook, LinkedIn)
 - Twitter Card etiketleri
-- JSON-LD yapılandırılmış veri
-- Canonical URL
+- Canonical URL ve hreflang (çok dilli)
 
-### jekyll-sitemap
+### @astrojs/sitemap
 
-Tüm sayfalarınız için otomatik `sitemap.xml` üretir. Google Search Console'a eklemeniz yeterli.
+Tüm sayfalarınız için otomatik sitemap üretir. Google Search Console'a eklemeniz yeterli.
 
-### jekyll-feed
+### RSS (feed.xml.js)
 
-Blog yazılarınız için Atom/RSS feed oluşturur. Bu sayede okuyucular sitenizi takip edebilir.
+Blog yazılarınız için RSS feed oluşturur. Bu sayede okuyucular sitenizi takip edebilir.
 
 ## Çok Dilli SEO
 

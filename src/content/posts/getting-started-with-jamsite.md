@@ -1,9 +1,9 @@
 ---
 title: "Getting Started with JamSite"
-description: "The beginning of our modern static site development journey. What can you do with Jekyll, Svelte 5 and Tailwind CSS 4?"
+description: "The beginning of our modern static site development journey. What can you do with Astro 5, Svelte 5 and Tailwind CSS 4?"
 date: 2026-02-15
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&q=80"
-tags: [jekyll, svelte, tailwind]
+tags: [astro, svelte, tailwind]
 categories: [development]
 ref: intro-jamsite
 lang: en
@@ -15,21 +15,21 @@ Static sites are becoming popular again in the modern web development world. Why
 
 Traditional static site generators (SSG) usually offer limited interactivity. However, modern user experience expectations require dynamic and reactive interfaces. JamSite brings these two worlds together:
 
-- **Jekyll**: Content management, SEO and static HTML generation
-- **Svelte 5**: Reactive and performant UI components
+- **Astro 5**: Content management, SEO and static HTML generation
+- **Svelte 5**: Reactive and performant UI components (islands)
 - **Tailwind CSS 4**: Modern and consistent design system
 
-## Jekyll and Svelte Together
+## Astro and Svelte Together
 
-In this hybrid architecture, each technology is used in its strengths:
+In this architecture, each technology is used in its strengths:
 
-- Static content is converted from Markdown to HTML with Jekyll
-- Interactive components are written as Web Components with Svelte 5
+- Static content is converted from Markdown to HTML with Astro (Content Collections)
+- Interactive components are written in Svelte 5 and hydrated as islands where needed
 - Styles are managed with utility-first approach using Tailwind CSS 4
-- All bundle is optimized and compiled into a single file with Vite
+- Build is optimized with Astro (Vite)
 
 This approach allows you to serve SEO-friendly static pages and rich user experience at the same time. Search engines see the full content while users interact with a modern and smooth interface.
 
 ## Getting Started
 
-To start using JamSite, you only need Node.js and Git. No Ruby or Jekyll installation required - GitHub Pages runs them automatically. For detailed setup guide, visit the [Getting Started](/en/getting-started/) page.
+To start using JamSite, you only need Node.js and Git. For detailed setup guide, visit the [Getting Started](/en/getting-started/) page.

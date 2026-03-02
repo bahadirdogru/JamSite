@@ -65,4 +65,4 @@ let { dataSlides = "[]", autoplay = "0" } = $props();
 
 Kebab-case attribute'lar camelCase props'lara map'lenir.
 
-Bu yaklaşım, Jekyll'in Liquid template'lerinden Svelte bileşenlerine veri geçişini son derece kolaylaştırır.
+Bu yaklaşım, Astro sayfalarından Svelte bileşenlerine veri geçişini son derece kolaylaştırır.
