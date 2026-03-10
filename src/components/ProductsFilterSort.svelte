@@ -99,11 +99,11 @@
 <ErrorBoundary message={errorMessage} retryLabel={retryLabel}>
 <div class="space-y-6">
   <div class="flex flex-wrap items-center gap-4">
-    <label class="flex items-center gap-2 text-sm font-medium text-jam-text dark:text-jam-text-dark">
+    <label class="flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-slate-100">
       {sortLabel}
       <select
         bind:value={sortBy}
-        class="ml-2 px-3 py-2 bg-white dark:bg-slate-800 border border-jam-border dark:border-jam-border-dark rounded-lg text-sm"
+        class="ml-2 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm"
       >
         <option value="name_asc">{sortNameAsc}</option>
         <option value="name_desc">{sortNameDesc}</option>
@@ -120,8 +120,8 @@
             onclick={() => toggleCategory(cat)}
             class="px-2.5 py-1 text-xs rounded-full transition-colors
               {selectedCategories.includes(cat)
-                ? 'bg-jam-primary text-white'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-jam-primary/10'}"
+                ? 'bg-primary text-white'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10'}"
           >
             {cat}
           </button>
@@ -137,8 +137,8 @@
             onclick={() => toggleTag(tag)}
             class="px-2.5 py-1 text-xs rounded-full transition-colors
               {selectedTags.includes(tag)
-                ? 'bg-jam-accent text-white'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-jam-accent/10'}"
+                ? 'bg-accent text-white'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-accent/10'}"
           >
             {tag}
           </button>
@@ -161,7 +161,7 @@
       <li>
         <a
           href="{base}{langPrefix}/products/{info.slug}/"
-          class="block p-4 rounded-xl border border-jam-border dark:border-jam-border-dark hover:border-jam-primary transition-colors"
+          class="block p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary transition-colors"
         >
           {#if product.image}
             <img
@@ -176,8 +176,8 @@
           {:else}
             <div class="w-full aspect-square rounded-lg bg-slate-200 dark:bg-slate-700 mb-3"></div>
           {/if}
-          <h2 class="font-semibold text-lg text-jam-text dark:text-jam-text-dark">{info.title}</h2>
-          <p class="text-jam-primary font-bold mt-1">{product.price} {product.currency}</p>
+          <h2 class="font-semibold text-lg text-slate-900 dark:text-slate-100">{info.title}</h2>
+          <p class="text-primary font-bold mt-1">{product.price} {product.currency}</p>
         </a>
       </li>
     {/each}
@@ -187,7 +187,7 @@
       <button
         type="button"
         onclick={() => (visibleCount = visibleCount + 9)}
-        class="px-6 py-3 rounded-lg font-medium bg-jam-primary text-white hover:bg-blue-600 transition-colors"
+        class="px-6 py-3 rounded-lg font-medium bg-primary text-white hover:bg-blue-600 transition-colors"
       >
         {loadMoreLabel}
       </button>
@@ -195,3 +195,5 @@
   {/if}
 </div>
 </ErrorBoundary>
+
+

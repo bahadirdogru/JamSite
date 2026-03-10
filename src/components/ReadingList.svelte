@@ -99,7 +99,7 @@
     <!-- Header stats -->
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-4 text-sm">
-        <span class="px-3 py-1 bg-jam-primary/10 text-jam-primary rounded-full">
+        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full">
           {unreadCount} unread
         </span>
         <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full">
@@ -109,7 +109,7 @@
       <div class="flex items-center gap-2">
         <button
           onclick={exportList}
-          class="px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-jam-primary border border-slate-200 dark:border-slate-700 rounded-lg transition-colors"
+          class="px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-primary border border-slate-200 dark:border-slate-700 rounded-lg transition-colors"
         >
           {export_text}
         </button>
@@ -125,11 +125,11 @@
     <!-- Items list -->
     <div class="space-y-4">
       {#each items as item (item.id)}
-        <article class="flex gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl border border-jam-border dark:border-jam-border-dark {item.isRead ? 'opacity-60' : ''}">
+        <article class="flex gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 {item.isRead ? 'opacity-60' : ''}">
           <div class="flex-1 min-w-0">
             <a
               href={item.url}
-              class="font-semibold text-jam-text dark:text-jam-text-dark hover:text-jam-primary transition-colors line-clamp-1 {item.isRead ? 'line-through' : ''}"
+              class="font-semibold text-slate-900 dark:text-slate-100 hover:text-primary transition-colors line-clamp-1 {item.isRead ? 'line-through' : ''}"
             >
               {item.title}
             </a>
@@ -168,3 +168,5 @@
     </div>
   {/if}
 </div>
+
+

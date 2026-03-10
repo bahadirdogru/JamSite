@@ -44,9 +44,11 @@
 
 <button
   onclick={share}
-  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-jam-primary/10 hover:text-jam-primary transition-colors"
+  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary transition-colors"
   aria-label={labelShare}
 >
   <IconShareRegular class="w-4 h-4" />
   {copied ? labelCopied : labelShare}
 </button>
+
+

@@ -2,11 +2,17 @@
  * Build-time search index for Fuse.js.
  * Output: public/search-index.json
  * Run before or during Astro build.
+ * features.search false ise boş index yazar.
  */
 
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { getProducts, getProductPaths } from "../data/products.js";
+import { site, features, getLangPrefix, languages } from "../config/site.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, "../..");
 
 const STOPWORDS_TR = new Set([
   "ve", "veya", "için", "bir", "bu", "şu", "olarak", "ile", "gibi", "kadar", "da", "de", "ta", "te", "mi", "mı", "mu", "mü", "olan", "var", "yok", "ama", "fakat", "ancak", "ne", "na", "den", "dan", "nin", "nın", "nin", "nun", "nün",
@@ -26,10 +32,14 @@ function stripStopwords(text, lang) {
 
 async function buildIndex() {
   const entries = [];
-  const siteBase = "";
+  const siteBase = site.baseUrl || "";
 
-  const postsDir = path.join(process.cwd(), "src", "content", "posts");
-  if (fs.existsSync(postsDir)) {
+  if (!features.search) {
+    return entries;
+  }
+
+  const postsDir = path.join(rootDir, "src", "content", "posts");
+  if (features.blog && fs.existsSync(postsDir)) {
     const files = fs.readdirSync(postsDir).filter((f) => f.endsWith(".md"));
     for (const file of files) {
       const raw = fs.readFileSync(path.join(postsDir, file), "utf8");
@@ -38,9 +48,9 @@ async function buildIndex() {
       const front = match[1];
       const title = front.match(/title:\s*["']?([^"'\n]+)["']?/)?.[1]?.trim() ?? "";
       const description = front.match(/description:\s*["']?([^"'\n]+)["']?/)?.[1]?.trim() ?? "";
-      const lang = front.match(/lang:\s*(tr|en)/)?.[1] ?? "tr";
+      const lang = front.match(/lang:\s*(tr|en|de)/)?.[1] ?? "tr";
       const slug = file.replace(/\.md$/, "");
-      const prefix = lang === "tr" ? "" : "/en";
+      const prefix = getLangPrefix(lang);
       const url = `${siteBase}${prefix}/blog/${slug}/`;
       const content = stripStopwords((description + " " + title).toLowerCase(), lang);
       entries.push({
@@ -58,44 +68,38 @@ async function buildIndex() {
   const pages = [
     { path: "/", titleTr: "Ana Sayfa", titleEn: "Home" },
     { path: "/about/", titleTr: "Hakkında", titleEn: "About" },
-    { path: "/features/", titleTr: "Özellikler", titleEn: "Features" },
-    { path: "/getting-started/", titleTr: "Başlangıç Rehberi", titleEn: "Getting Started" },
-    { path: "/blog/", titleTr: "Blog", titleEn: "Blog" },
-    { path: "/products/", titleTr: "Ürünler", titleEn: "Products" },
-    { path: "/tags/", titleTr: "Etiketler", titleEn: "Tags" },
-    { path: "/categories/", titleTr: "Kategoriler", titleEn: "Categories" },
+    ...(features.features ? [{ path: "/features/", titleTr: "Özellikler", titleEn: "Features" }] : []),
+    ...(features.gettingStarted ? [{ path: "/getting-started/", titleTr: "Başlangıç Rehberi", titleEn: "Getting Started" }] : []),
+    ...(features.blog ? [{ path: "/blog/", titleTr: "Blog", titleEn: "Blog" }] : []),
+    ...(features.products ? [{ path: "/products/", titleTr: "Ürünler", titleEn: "Products" }] : []),
+    ...(features.tags ? [{ path: "/tags/", titleTr: "Etiketler", titleEn: "Tags" }] : []),
+    ...(features.categories ? [{ path: "/categories/", titleTr: "Kategoriler", titleEn: "Categories" }] : []),
   ];
   for (const p of pages) {
-    entries.push({
-      title: p.titleTr,
-      url: siteBase + p.path,
-      slug: p.path.replace(/\/$/, "") || "index",
-      lang: "tr",
-      type: "page",
-      description: "",
-      content: stripStopwords(p.titleTr.toLowerCase(), "tr"),
-    });
-    if (p.path !== "/") {
+    for (const lang of languages) {
+      const title = lang === "tr" ? p.titleTr : p.titleEn;
+      const prefix = getLangPrefix(lang);
       entries.push({
-        title: p.titleEn,
-        url: siteBase + "/en" + p.path,
-        slug: "en-" + p.path.replace(/\/$/, ""),
-        lang: "en",
+        title,
+        url: siteBase + prefix + p.path,
+        slug: (lang === "tr" ? "" : lang + "-") + (p.path.replace(/\/$/, "") || "index"),
+        lang,
         type: "page",
         description: "",
-        content: stripStopwords(p.titleEn.toLowerCase(), "en"),
+        content: stripStopwords(title.toLowerCase(), lang),
       });
     }
   }
 
   const products = getProducts();
   const paths = getProductPaths();
+  if (features.products) {
   for (const { lang, slug, sku } of paths) {
     const product = products.find((p) => p.sku === sku);
     if (!product) continue;
     const info = lang === "tr" ? product.tr : product.en;
     if (!info) continue;
-    const prefix = lang === "tr" ? "" : "/en";
+    const prefix = getLangPrefix(lang);
     const url = `${siteBase}${prefix}/products/${slug}/`;
     const content = stripStopwords((info.title + " " + info.description).toLowerCase(), lang);
     entries.push({
@@ -108,13 +112,14 @@ async function buildIndex() {
       content,
     });
   }
+  }
 
   return entries;
 }
 
 async function main() {
   const entries = await buildIndex();
-  const outPath = path.join(process.cwd(), "public", "search-index.json");
+  const outPath = path.join(rootDir, "public", "search-index.json");
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(entries), "utf8");
   console.log(`Search index: ${entries.length} entries -> ${outPath}`);

@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogListLoadMore from "../../../components/BlogListLoadMore.svelte";
+import BlogSidebar from "../../../components/BlogSidebar.astro";
+import { getCollection } from "astro:content";
+import { t } from "../../../i18n";
+import { site, getLangPrefix, features, getStaticPathsForLang } from "../../../config/site.js";
+
+export function getStaticPaths() {
+  if (!features.blog) return [];
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const posts = (await getCollection("posts"))
+  .filter((p) => p.data.lang === lang)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const locale = lang === "tr" ? "tr-TR" : "en-US";
+const postsForJson = posts.map((p) => ({
+  id: p.id.replace(/\.md$/, ""),
+  title: p.data.title,
+  description: p.data.description,
+  date: p.data.date.toISOString(),
+  dateFormatted: p.data.date.toLocaleDateString(locale),
+  image: p.data.image,
+}));
+const i18n = t(lang);
+const base = site.baseUrl || "";
+const langPrefix = getLangPrefix(lang);
+const loadMoreLabel = lang === "tr" ? "Daha fazla" : "Load more";
+---
+
+import BlogSidebar from "../../../components/BlogSidebar.astro";
+...
+<BaseLayout title={`${i18n.blog_title} | ${site.title}`} description={site.description} lang={lang}>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="flex flex-col lg:flex-row gap-12">
+      <!-- Sidebar -->
+      <div class="lg:w-1/4">
+        <BlogSidebar lang={lang} />
+      </div>
+
+      <!-- Main Content -->
+      <div class="lg:w-3/4">
+        <h1 class="text-4xl font-extrabold font-heading text-slate-900 dark:text-white mb-2 leading-tight">
+          {i18n.blog_title}
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 mb-10 text-lg">
+          {lang === 'tr' ? 'En yeni içeriklerimizi keşfedin.' : 'Discover our latest content.'}
+        </p>
+        
+        <BlogListLoadMore
+          client:visible
+          postsJson={JSON.stringify(postsForJson)}
+          base={base}
+          langPrefix={langPrefix}
+          loadMoreLabel={loadMoreLabel}
+        />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

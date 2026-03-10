@@ -26,6 +26,7 @@
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/svelte": "^7.2.5",
     "@fontsource/inter": "^5.2.8",
+    "@fontsource/lexend": "^5.2.11",
     "astro": "^5.18.0",
     "fuse.js": "^7.1.0",
     "lunr": "^2",

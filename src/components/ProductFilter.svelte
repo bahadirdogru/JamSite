@@ -176,11 +176,11 @@
     onclick={() => isOpen = !isOpen}
     class="md:hidden w-full flex items-center justify-between px-4 py-3 bg-slate-100 dark:bg-slate-800 rounded-xl mb-4"
   >
-    <span class="flex items-center gap-2 text-sm font-medium text-jam-text dark:text-jam-text-dark">
+    <span class="flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-slate-100">
       <IconFunnelRegular class="w-5 h-5" />
       Filters
       {#if activeFiltersCount > 0}
-        <span class="w-5 h-5 flex items-center justify-center bg-jam-primary text-white text-xs rounded-full">{activeFiltersCount}</span>
+        <span class="w-5 h-5 flex items-center justify-center bg-primary text-white text-xs rounded-full">{activeFiltersCount}</span>
       {/if}
     </span>
     <IconCaretDownRegular class="w-5 h-5 text-slate-500 transition-transform {isOpen ? 'rotate-180' : ''}" />
@@ -190,11 +190,11 @@
   <div class="space-y-6 {isOpen ? 'block' : 'hidden md:block'}">
     <!-- Sort -->
     <div>
-      <label class="block text-sm font-medium text-jam-text dark:text-jam-text-dark mb-2">{sort_label}</label>
+      <label class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">{sort_label}</label>
       <select
         bind:value={sortBy}
         onchange={applyFilters}
-        class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-jam-border dark:border-jam-border-dark rounded-lg text-sm"
+        class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm"
       >
         {#each sortOptionsList as opt}
           <option value={opt.value}>{opt.label}</option>
@@ -205,7 +205,7 @@
     <!-- Categories -->
     {#if allCategories.length > 0}
       <div>
-        <h4 class="text-sm font-medium text-jam-text dark:text-jam-text-dark mb-3">{categories_label}</h4>
+        <h4 class="text-sm font-medium text-slate-900 dark:text-slate-100 mb-3">{categories_label}</h4>
         <div class="space-y-2">
           {#each allCategories as cat}
             <label class="flex items-center gap-2 cursor-pointer">
@@ -213,7 +213,7 @@
                 type="checkbox"
                 checked={selectedCategories.includes(cat)}
                 onchange={() => toggleCategory(cat)}
-                class="w-4 h-4 rounded border-slate-300 text-jam-primary focus:ring-jam-primary"
+                class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
               />
               <span class="text-sm text-slate-600 dark:text-slate-400">{cat}</span>
             </label>
@@ -225,15 +225,15 @@
     <!-- Tags -->
     {#if allTags.length > 0}
       <div>
-        <h4 class="text-sm font-medium text-jam-text dark:text-jam-text-dark mb-3">{tags_label}</h4>
+        <h4 class="text-sm font-medium text-slate-900 dark:text-slate-100 mb-3">{tags_label}</h4>
         <div class="flex flex-wrap gap-2">
           {#each allTags as tag}
             <button
               onclick={() => toggleTag(tag)}
               class="px-3 py-1 text-xs rounded-full transition-colors
                      {selectedTags.includes(tag)
-                       ? 'bg-jam-accent text-white'
-                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-jam-accent/10'}"
+                       ? 'bg-accent text-white'
+                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-accent/10'}"
             >
               {tag}
             </button>
@@ -253,3 +253,5 @@
     {/if}
   </div>
 </div>
+
+

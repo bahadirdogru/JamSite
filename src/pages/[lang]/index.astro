@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Slider from "../../components/Slider.svelte";
+import ProductCarousel from "../../components/ProductCarousel.svelte";
+import { getSlides } from "../../data/slides.js";
+import { getProducts } from "../../data/products.js";
+import { t } from "../../i18n";
+import { site, getLangPrefix, features, getStaticPathsForLang } from "../../config/site.js";
+
+export function getStaticPaths() {
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const slides = getSlides(lang);
+const productsRaw = features.products
+  ? getProducts()
+      .filter((p) => (lang === "tr" ? p.tr : p.en))
+      .map((p, i) => {
+        const info = lang === "tr" ? p.tr : p.en;
+        const is_new = !!p.is_new || (i === 0);
+        const is_discounted = !!p.is_discounted;
+        const price_sale = p.price;
+        const price_old = p.price_old || (is_discounted ? Math.round(p.price * 1.35) : null);
+        return {
+          url: `${site.baseUrl || ""}${getLangPrefix(lang)}/products/${info.slug}/`,
+          name: info.title,
+          img: p.image,
+          price_sale: price_sale,
+          price_old: price_old,
+          is_new: is_new,
+          is_discounted: is_discounted,
+        };
+      })
+  : [];
+const i18n = t(lang);
+const intro = lang === "tr"
+  ? "Ana sayfaya hoş geldiniz. Blog, ürünler ve özellikler menüden erişilebilir."
+  : "Welcome to the homepage. Blog, products and features are available from the menu.";
+---
+
+<BaseLayout title="JamSite" description="Modern Astro + Svelte 5 hybrid static site" lang={lang}>
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    {slides.length > 0 && (
+      <section class="mb-12">
+        <Slider slides={slides} autoplay={5000} client:visible />
+      </section>
+    )}
+    <h1 class="text-3xl font-bold font-heading text-jam-primary mb-4">JamSite</h1>
+    <p class="text-lg text-slate-600 dark:text-slate-400 mb-10">{intro}</p>
+    {productsRaw.length > 0 && (
+      <section>
+        <ProductCarousel products={productsRaw} label={i18n.products_title} autoplay={0} client:visible />
+      </section>
+    )}
+  </div>
+</BaseLayout>

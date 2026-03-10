@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntry } from "astro:content";
+import { getStaticPathsForLang, getLangPrefix } from "../../config/site.js";
+import HeroSection from "../../components/blocks/HeroSection.svelte";
+import BlockRenderer from "../../components/blocks/BlockRenderer.svelte";
+
+export function getStaticPaths() {
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const entryId = `about-${lang}`;
+const entry = await getEntry("pages", entryId);
+if (!entry) {
+  return new Response(null, { status: 404 });
+}
+const { Content } = await entry.render();
+const langPrefix = getLangPrefix(lang);
+const blocks = entry.data.blocks ?? [];
+---
+
+<BaseLayout
+  title={`${entry.data.title} | JamSite`}
+  description={entry.data.description}
+  lang={lang}
+>
+  <HeroSection
+    title={entry.data.title}
+    subtitle={entry.data.description}
+    primaryCtaText={lang === "tr" ? "Başlayın" : "Get Started"}
+    primaryCtaHref={`${langPrefix}/getting-started/`}
+  />
+  <div class="max-w-3xl mx-auto px-4 py-12 prose prose-slate dark:prose-invert prose-headings:font-heading">
+    <Content />
+  </div>
+  {blocks.length > 0 && (
+    <BlockRenderer blocks={blocks} langPrefix={langPrefix} client:visible />
+  )}
+</BaseLayout>

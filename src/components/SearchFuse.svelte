@@ -10,7 +10,7 @@
   let index = $state([]);
   let fuse = $state(null);
   let selectedIdx = $state(0);
-  let inputEl;
+  let inputEl = $state();
 
   async function loadIndex() {
     if (index.length > 0) return;
@@ -109,14 +109,14 @@
       class="w-full max-w-xl mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden"
       onclick={(e) => e.stopPropagation()}
     >
-      <div class="flex items-center gap-3 px-4 border-b border-jam-border dark:border-jam-border-dark">
+      <div class="flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-700">
         <IconMagnifyingGlassRegular class="w-5 h-5 text-slate-400 shrink-0" />
         <input
           bind:this={inputEl}
           bind:value={query}
           type="text"
           placeholder={placeholder}
-          class="w-full py-4 bg-transparent outline-none text-jam-text dark:text-jam-text-dark placeholder-slate-400"
+          class="w-full py-4 bg-transparent outline-none text-slate-900 dark:text-slate-100 placeholder-slate-400"
         />
         <kbd class="px-2 py-1 text-xs bg-slate-100 dark:bg-slate-700 rounded text-slate-500 shrink-0">ESC</kbd>
       </div>
@@ -133,21 +133,21 @@
             <li>
               <a
                 href={result.url}
-                class="flex items-center gap-3 px-4 py-3 transition-colors {i === selectedIdx ? 'bg-jam-primary/10' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'}"
+                class="flex items-center gap-3 px-4 py-3 transition-colors {i === selectedIdx ? 'bg-primary/10' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'}"
               >
                 <span
                   class="px-2 py-0.5 text-xs rounded-full shrink-0 {typeColors[result.type] ?? typeColors.page}"
                 >
                   {result.type}
                 </span>
-                <span class="text-jam-text dark:text-jam-text-dark truncate">{result.title}</span>
+                <span class="text-slate-900 dark:text-slate-100 truncate">{result.title}</span>
               </a>
             </li>
           {/each}
         </ul>
       {/if}
 
-      <div class="flex items-center gap-4 px-4 py-2 border-t border-jam-border dark:border-jam-border-dark text-xs text-slate-400">
+      <div class="flex items-center gap-4 px-4 py-2 border-t border-slate-200 dark:border-slate-700 text-xs text-slate-400">
         <span><kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded">↑↓</kbd> gezin</span>
         <span><kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded">↵</kbd> aç</span>
         <span><kbd class="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 rounded">esc</kbd> kapat</span>
@@ -155,3 +155,5 @@
     </div>
   </div>
 {/if}
+
+

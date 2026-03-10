@@ -1,38 +1,10 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Slider from "../components/Slider.svelte";
-import ProductCarousel from "../components/ProductCarousel.svelte";
-import { getSlides } from "../data/slides.js";
-import { getProducts } from "../data/products.js";
-import { t } from "../i18n";
-import { site, getLangPrefix } from "../config/site.js";
-
-const lang = "tr";
-const slides = getSlides(lang);
-const productsRaw = getProducts().filter((p) => p.tr).map((p) => ({
-  link: `${site.baseUrl || ""}${getLangPrefix(lang)}/products/${p.tr.slug}/`,
-  title: p.tr.title,
-  description: p.tr.description,
-  image: p.image,
-  price: `${p.price} ${p.currency}`,
-  tags: p.tr.tags || [],
-}));
-const i18n = t(lang);
+/**
+ * Astro 5 i18n (prefixDefaultLocale: true) kök dizinde bir index.astro bekler.
+ * Bu dosya sadece varsayılan dile yönlendirme yapmak içindir.
+ */
+import { defaultLang } from "../config/site.js";
+return Astro.redirect(`/${defaultLang}/`);
 ---
 
-<BaseLayout title="JamSite" description="Modern Astro + Svelte 5 hybrid static site" lang={lang}>
-  <div class="max-w-6xl mx-auto px-4 py-16">
-    {slides.length > 0 && (
-      <section class="mb-12">
-        <Slider slides={slides} autoplay={5000} client:visible />
-      </section>
-    )}
-    <h1 class="text-3xl font-bold font-heading text-jam-primary mb-4">JamSite</h1>
-    <p class="text-lg text-slate-600 dark:text-slate-400 mb-10">Ana sayfaya hoş geldiniz. Blog, ürünler ve özellikler menüden erişilebilir.</p>
-    {productsRaw.length > 0 && (
-      <section>
-        <ProductCarousel products={productsRaw} label={i18n.products_title} autoplay={0} client:visible />
-      </section>
-    )}
-  </div>
-</BaseLayout>
+

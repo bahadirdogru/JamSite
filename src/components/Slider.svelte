@@ -25,7 +25,7 @@
     {#if i === current}
       <div class="w-full">
         {#if slide.type === "hero"}
-          <div class="relative h-80 md:h-96 flex items-center justify-center bg-gradient-to-br from-jam-primary to-jam-secondary">
+          <div class="relative h-80 md:h-96 flex items-center justify-center bg-gradient-to-br from-primary to-secondary">
             {#if slide.image}
               <img src={slide.image} alt="" class="absolute inset-0 w-full h-full object-cover" />
             {/if}
@@ -35,7 +35,7 @@
               <p class="text-base md:text-lg mb-6 max-w-xl mx-auto">{slide.description}</p>
               {#if slide.cta_text}
                 <a href={slide.cta_link}
-                   class="inline-block px-6 py-3 bg-jam-primary text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
+                   class="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
                   {slide.cta_text}
                 </a>
               {/if}
@@ -44,7 +44,7 @@
         {:else if slide.type === "image"}
           <img src={slide.image} alt={slide.alt || ""} class="w-full h-80 md:h-96 object-cover" />
         {:else if slide.type === "content"}
-          <div class="h-80 md:h-96 flex items-center justify-center bg-gradient-to-br from-jam-secondary to-jam-accent px-8">
+          <div class="h-80 md:h-96 flex items-center justify-center bg-gradient-to-br from-secondary to-accent px-8">
             <div class="text-center text-white max-w-2xl">
               <h2 class="text-3xl md:text-4xl font-bold mb-4">{slide.title}</h2>
               <p class="text-base md:text-lg">{slide.description}</p>
@@ -74,3 +74,5 @@
   {/if}
 </div>
 {/if}
+
+

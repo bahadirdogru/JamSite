@@ -4,6 +4,7 @@ export const en = {
   nav_blog: "Blog",
   nav_products: "Products",
   nav_features: "Features",
+  nav_ui_blocks: "UI Blocks",
   nav_getting_started: "Getting Started",
   nav_contact: "Contact",
   footer_copyright: "All rights reserved.",

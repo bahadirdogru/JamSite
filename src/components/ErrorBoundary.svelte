@@ -17,10 +17,12 @@
       <button
         type="button"
         onclick={reset}
-        class="px-4 py-2 rounded-lg bg-jam-primary text-white hover:bg-blue-600 transition-colors"
+        class="px-4 py-2 rounded-lg bg-primary text-white hover:bg-blue-600 transition-colors"
       >
         {retryLabel}
       </button>
     </div>
   {/snippet}
 </svelte:boundary>
+
+

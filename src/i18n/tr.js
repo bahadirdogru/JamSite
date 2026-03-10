@@ -4,6 +4,7 @@ export const tr = {
   nav_blog: "Blog",
   nav_products: "Ürünler",
   nav_features: "Özellikler",
+  nav_ui_blocks: "UI Blokları",
   nav_getting_started: "Başlangıç",
   nav_contact: "İletişim",
   footer_copyright: "Tüm hakları saklıdır.",

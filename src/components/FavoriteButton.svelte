@@ -87,3 +87,5 @@
     <IconHeartRegular class="w-5 h-5 transition-transform group-hover:scale-110" />
   {/if}
 </button>
+
+

@@ -18,7 +18,7 @@
       btn.className = `copy-btn absolute top-2 right-2 px-2 py-1 text-xs
                        bg-slate-700 hover:bg-slate-600 text-slate-300
                        rounded opacity-0 group-hover:opacity-100 transition-opacity
-                       focus:outline-none focus:ring-2 focus:ring-jam-primary`;
+                       focus:outline-none focus:ring-2 focus:ring-primary`;
       btn.textContent = copy_text;
       btn.setAttribute("aria-label", copy_text);
 
@@ -49,3 +49,5 @@
     });
   });
 </script>
+
+

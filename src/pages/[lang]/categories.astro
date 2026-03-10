@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { t } from "../../i18n";
+import { site, getLangPrefix, features, getStaticPathsForLang } from "../../config/site.js";
+
+export function getStaticPaths() {
+  if (!features.categories) return [];
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const posts = (await getCollection("posts")).filter((p) => p.data.lang === lang);
+const categoryCounts = new Map();
+for (const post of posts) {
+  for (const cat of post.data.categories) {
+    categoryCounts.set(cat, (categoryCounts.get(cat) ?? 0) + 1);
+  }
+}
+const categories = Array.from(categoryCounts.entries()).sort((a, b) => b[1] - a[1]);
+const i18n = t(lang);
+const base = site.baseUrl || "";
+const langPrefix = getLangPrefix(lang);
+const noCatText = lang === "tr" ? "Henüz kategori yok." : "No categories yet.";
+---
+
+<BaseLayout title={`${i18n.categories_title} | ${site.title}`} description={site.description} lang={lang}>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold font-heading text-jam-primary mb-8">{i18n.categories_title}</h1>
+    <ul class="flex flex-wrap gap-3">
+      {categories.map(([cat, count]) => (
+        <li>
+          <a
+            href={`${base}${langPrefix}/blog/?category=${encodeURIComponent(cat)}`}
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-jam-primary hover:text-white transition-colors"
+          >
+            {cat}
+            <span class="text-xs opacity-75">({count})</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {categories.length === 0 && <p class="text-slate-500 dark:text-slate-400">{noCatText}</p>}
+  </div>
+</BaseLayout>

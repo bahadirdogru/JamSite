@@ -25,13 +25,15 @@
 <button
   onclick={scrollToTop}
   class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full
-         bg-jam-primary text-white shadow-lg
+         bg-primary text-white shadow-lg
          flex items-center justify-center
          transition-all duration-300
-         hover:bg-jam-primary/90 hover:scale-110
-         focus:outline-none focus:ring-2 focus:ring-jam-primary focus:ring-offset-2
+         hover:bg-primary/90 hover:scale-110
+         focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
          {visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}"
   aria-label="Scroll to top"
 >
   <IconArrowUpRegular class="w-5 h-5" />
 </button>
+
+

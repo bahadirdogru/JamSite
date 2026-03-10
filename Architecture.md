@@ -9,7 +9,10 @@
 │                         DEVELOPMENT (Local)                              │
 │                                                                          │
 │  src/                                                                     │
+│  ├── assets/
+│  │   └── img/                  (README ve showcase görselleri)
 │  ├── components/                                                          │
+│  │   ├── blocks/               (Modular UI Blocks: Hero, Feature, FAQ vb.) │
 │  │   ├── DarkModeToggle.svelte                                            │
 │  │   ├── Slider.svelte                                                    │
 │  │   ├── SearchFuse.svelte                                                │
@@ -26,8 +29,8 @@
 │  ├── i18n/                     (tr.js, en.js, index.js)                  │
 │  ├── layouts/                  BaseLayout.astro                          │
 │  ├── lib/                      search-index.js → public/search-index.json │
-│  ├── pages/                    (tr root, en/ prefix)                      │
-│  ├── config/site.js                                                       │
+│  ├── pages/                    ([lang] prefix for all, incl. TR)          │
+│  ├── config/site.js     (tekil config: site, features, i18n — Jekyll _config benzeri)                                                       │
 │  └── styles/global.css         (Tailwind 4, @theme, dark variant)         │
 │                                                                          │
 │  scripts/                                                                 │
@@ -40,9 +43,9 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         BUILD PIPELINE                                   │
 │                                                                          │
-│  1. node src/lib/search-index.js  → public/search-index.json (Fuse.js)    │
-│  2. astro build                   → dist/ (HTML, CSS, JS, fonts)         │
-│  3. node scripts/postbuild-404.mjs → dist/404.html kopyala                 │
+│  1. node src/lib/search-index.js  → public/search-index.json (features.search + blog/products/pages) │
+│  2. astro build                   → dist/ (sitemap/PWA features'a göre; site URL site.js'den)         │
+│  2. astro build                   → dist/ (sitemap/PWA features'a göre; site URL site.js'den)         │
 └─────────────────────────────────────────────────────────────────────────┘
                                     │
                                Deploy (static host)
@@ -57,10 +60,14 @@
 
 ## Build Pipeline
 
+- **Tekil config**: `src/config/site.js` — `site` (title, description, url, baseUrl), `features` (blog, products, search, pwa, rss, darkMode, sitemap, tags, categories, features, gettingStarted), `languages`, `defaultLang`. Astro config (site URL, sitemap/PWA entegrasyonu), BaseLayout (nav, SearchFuse, DarkModeToggle, PwaUpdateBanner), feed.xml.js, search-index.js ve sayfa üretimi buradan okur. Özellik kapalıyken ilgili sayfalar 404’e yönlenir veya getStaticPaths boş döner.
+- **search-index.js**: `features.search` false ise boş index; aksi halde posts/pages/products features’a göre index’e eklenir.
+- **astro.config.mjs**: `site` → site.js’deki site.url; sitemap ve VitePWA yalnızca features.sitemap / features.pwa true ise eklenir.
+
 ```
 src/lib/search-index.js (Node)
     │
-    ├── src/content/posts/*.md + src/content/products/*.md → public/search-index.json
+    ├── src/config/site.js (features) → public/search-index.json
     │
 src/pages/**/*.astro
     │
@@ -90,28 +97,28 @@ src/pages/**/*.astro
 ## SEO Katmanı
 
 - **Astro sayfaları**: Her sayfa `BaseLayout` ile `title`, `description`, `ogImage`, canonical, hreflang (dil linkleri layout/nav'da).
-- **Sitemap**: `@astrojs/sitemap` → `sitemap-index.xml`, `sitemap-0.xml`.
-- **RSS**: `src/pages/feed.xml.js` → `feed.xml`.
+- **Sitemap**: `@astrojs/sitemap` — yalnızca **features.sitemap** true ise eklenir → `sitemap-index.xml`, `sitemap-0.xml`.
+- **RSS**: `src/pages/feed.xml.js` → **features.rss** true ise `feed.xml`, değilse 404.
 - **robots.txt**: `public/robots.txt` (izinler).
 
 OG/Twitter meta `BaseLayout.astro` içinde; blog/ürün sayfalarında `ogImage` prop ile sayfa özel görseli.
 
 ## Çok Dilli (i18n) Mimarisi
 
-- **Astro i18n**: `astro.config.mjs` → `i18n.defaultLocale: "tr"`, `locales: ["tr","en"]`, `prefixDefaultLocale: false` → TR root (`/`), EN prefix (`/en/`).
-- **Sayfa yapısı**: `src/pages/index.astro`, `about.astro`, … → TR; `src/pages/en/index.astro`, `en/about.astro`, … → EN.
+- **Tek dil kaynağı**: `src/config/site.js` içindeki `languages` dizisi (örn. `["tr", "en"]`). Astro i18n ve Content Collections şeması buradan türetilir: `astro.config.mjs` → `i18n.defaultLocale` ve `i18n.locales` site.js'den import edilir; `src/content/config.js` → posts/pages için `lang` şeması `z.enum(languages)` ile aynı diziyi kullanır. Yeni dil eklemek için yalnızca `site.js`'de `languages`'a ekleme yapmak yeterli (config dosyalarında tekrar değişiklik gerekmez). `prefixDefaultLocale: true` ile tüm diller (varsayılan dahil) ön ek alır.
+- **Sayfa yapısı**: Tüm sayfalar `src/pages/[lang]/` altındadır. Örn: `/tr/about/`, `/en/about/`. Kök dizin (`/`) varsayılan dile yönlendirir.
 - **Çeviriler**: `src/i18n/tr.js`, `src/i18n/en.js`, `src/i18n/index.js` → `t(lang)` ile UI metinleri.
-- **Blog**: `src/content/posts/*.md` içinde `lang: tr | en`; slug routing ile `/blog/[slug]` ve `/en/blog/[slug]`.
+- **Blog**: `src/content/posts/*.md` içinde `lang: tr | en` (şema site.js'deki `languages` ile); slug routing ile `/blog/[slug]` ve `/en/blog/[slug]`.
 - **Ürünler**: `src/content/products/*.md` frontmatter’da `tr`/`en` blokları; `src/data/products.js` → `getProductBySlug(slug, lang)`.
 - **Slider**: `src/content/slides/*.md` (lang + order) → `src/data/slides.js` → `getSlides(lang)`.
 
-Yeni dil eklemek için: config'e locale ekleme, `src/pages/{lang}/` sayfaları, `src/i18n/{lang}.js`, `src/content/slides/` altında yeni dil slide’ları (örn. de-01.md) ve ürün .md frontmatter’ında ilgili dil bloğu.
+Yeni dil eklemek için: **1)** `src/config/site.js` → `languages` dizisine dil kodu ekle (örn. `"de"`). **2)** `src/pages/{lang}/` sayfaları oluştur. **3)** `src/i18n/{lang}.js` ekle. **4)** İsteğe bağlı: `localeForOg`, `languageLabels` (site.js), `src/content/slides/` altında yeni dil slide'ları, ürün .md frontmatter'ında ilgili dil bloğu.
 
 ## Dark Mode
 
 - **Çözümleme**: `localStorage.theme` → `prefers-color-scheme: dark` → varsayılan light.
 - **Uygulama**: `<head>` içinde inline script `.dark` sınıfını hemen ekler; `DarkModeToggle.svelte` (ThemeToggle) sınıfı ve localStorage'ı günceller.
-- **CSS**: `src/styles/global.css` → `@custom-variant dark` + `@theme` ile jam-surface-dark, jam-text-dark vb.
+- **CSS**: `src/styles/global.css` → `@custom-variant dark` + `@theme` ile jam-surface-dark, slate-900 vb.
 
 ## Slider Mimarisi
 
@@ -127,12 +134,14 @@ Yeni dil eklemek için: config'e locale ekleme, `src/pages/{lang}/` sayfaları, 
 
 ## Arama Mimarisi
 
-- **Build**: `src/lib/search-index.js` — post front matter + ürün verisi → `public/search-index.json` (Fuse.js için alanlar: title, url, slug, lang, type, content/keywords).
+- **Build**: `src/lib/search-index.js` — **features.search** ve diğer features’a göre post/page/product → `public/search-index.json` (Fuse.js için alanlar: title, url, slug, lang, type, content).
 - **Çalışma zamanı**: `SearchFuse.svelte` — Cmd+K ile modal açar, `/search-index.json` indirir, Fuse.js ile dil filtreli arama, klavye ile seçim.
 
 ## Bileşen Mimarisi
 
-- **Layout**: `BaseLayout.astro` — props: title, description, lang, canonicalURL, noindex, ogImage. İçerik: navbar (linkler, dil değiştirici, SearchFuse, DarkModeToggle), `<slot />`, footer. `<ClientRouter />` View Transitions için.
+- **Layout**: `BaseLayout.astro` — props: title, description, lang, canonicalURL, noindex, ogImage. İçerik: navbar (linkler **features**’a göre: blog, products, features, getting-started), dil değiştirici, **features.search** → SearchFuse, **features.darkMode** → DarkModeToggle, `<slot />`, **features.pwa** → PwaUpdateBanner, footer. `<ClientRouter />` View Transitions için.
+- **Bileşenler**: `src/components/blocks/` altında Hero, Feature, CTA, Stat, Testimonial ve FAQ bileşenleri bulunur. `BlockRenderer.svelte` frontmatter'daki `blocks` dizisinden hangisinin render edileceğini seçer.
+- **Media**: Projenin görsel tanıtımı için gerekli dosyalar `src/assets/img/` klasöründe tutulur.
 - **Svelte**: Navbar/footer Astro içinde; Slider, ProductCarousel, SearchFuse, DarkModeToggle, FavoritesBadge, CompareBar vb. Svelte. Gerekli yerlerde `client:visible` veya `client:load`.
 - **İletişim**: Props (Astro → Svelte), custom events (Svelte → parent), URL/query state paylaşımı.
 
@@ -155,7 +164,7 @@ src/i18n/*.js
 
 - **Motion**: Svelte bileşenlerinde `inView`, `scroll`, `animate`.
 - **View Transitions**: `<ClientRouter />` (astro:transitions).
-- **PWA**: vite-plugin-pwa (Workbox), `public/manifest.json`.
+- **PWA**: vite-plugin-pwa (Workbox), `public/manifest.json` — yalnızca **features.pwa** true ise VitePWA eklenir.
 
 ## Dosya Sahipliği
 
@@ -164,7 +173,6 @@ src/i18n/*.js
 | `src/` | Geliştirici | — | Kaynak |
 | `src/content/products/`, `src/content/slides/` | İçerik / geliştirici | — | Astro build’te okunur (data/*.js) |
 | `src/content/posts/`, `src/content/pages/` | İçerik | — | Content Collections |
-| `src/pages/` | Geliştirici | Astro | HTML çıktısı |
+| `src/pages/` | Geliştirici | Astro | HTML çıktısı ([lang] yapısı) |
 | `public/search-index.json` | — | search-index.js | Build adımı |
 | `dist/` | — | astro build | Deploy edilen çıktı |
-| `scripts/postbuild-404.mjs` | Geliştirici | — | Build sonrası 404 kopyalama |

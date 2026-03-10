@@ -64,7 +64,7 @@
 
 {#if items.length > 1}
   <section class="mt-12">
-    <h3 class="text-lg font-bold font-heading text-jam-text dark:text-jam-text-dark mb-4">
+    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-slate-100 mb-4">
       {title}
     </h3>
     <div class="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory">
@@ -78,19 +78,21 @@
               <img src={item.image} alt={item.title}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
             {:else}
-              <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-jam-primary to-jam-accent">
+              <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
                 <IconCubeRegular class="w-10 h-10 text-white/60" />
               </div>
             {/if}
           </div>
-          <h4 class="text-sm font-medium text-jam-text dark:text-jam-text-dark line-clamp-1 group-hover:text-jam-primary transition-colors">
+          <h4 class="text-sm font-medium text-slate-900 dark:text-slate-100 line-clamp-1 group-hover:text-primary transition-colors">
             {item.title}
           </h4>
           {#if item.price}
-            <p class="text-sm text-jam-primary font-semibold">{item.price}</p>
+            <p class="text-sm text-primary font-semibold">{item.price}</p>
           {/if}
         </a>
       {/each}
     </div>
   </section>
 {/if}
+
+

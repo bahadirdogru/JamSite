@@ -1,22 +1,17 @@
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
+@import "@fontsource/lexend/400.css";
+@import "@fontsource/lexend/500.css";
+@import "@fontsource/lexend/600.css";
+@import "@fontsource/lexend/700.css";
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 @source "./**/*.astro";
 @source "./**/*.svelte";
 
 @theme {
-  --color-jam-primary: #3b82f6;
-  --color-jam-secondary: #10b981;
-  --color-jam-accent: #f59e0b;
-  --color-jam-surface: #f8fafc;
-  --color-jam-surface-dark: #0f172a;
-  --color-jam-text: #0f172a;
-  --color-jam-text-dark: #f1f5f9;
-  --color-jam-border: #e2e8f0;
-  --color-jam-border-dark: #334155;
-  --font-heading: "Inter", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --color-primary: #ff6000;
+  --color-secondary: var(--color-emerald-500);
+  --color-accent: var(--color-amber-500);
+  
+  --font-heading: "Lexend", sans-serif;
+  --font-body: "Lexend", sans-serif;
 }

@@ -61,8 +61,8 @@
   >
     <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-6 animate-[scaleIn_0.2s_ease-out]">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold font-heading text-jam-text dark:text-jam-text-dark flex items-center gap-2">
-          <IconKeyboardRegular class="w-5 h-5 text-jam-primary" />
+        <h2 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <IconKeyboardRegular class="w-5 h-5 text-primary" />
           {title}
         </h2>
         <button
@@ -115,3 +115,5 @@
     }
   }
 </style>
+
+

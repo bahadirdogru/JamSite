@@ -1,0 +1,264 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ShareButton from "../../../components/ShareButton.svelte";
+import ProductCarousel from "../../../components/ProductCarousel.svelte";
+import { getProductPaths, getProductBySlug } from "../../../data/products";
+import { t } from "../../../i18n";
+import { site, getLangPrefix, features, defaultLang } from "../../../config/site.js";
+
+export async function getStaticPaths() {
+  if (!features.products) return [];
+  const paths = getProductPaths();
+  return paths.map(({ slug, lang }) => ({
+    params: { slug, lang },
+    props: { slug, lang },
+  }));
+}
+
+const { slug, lang } = Astro.props;
+const result = getProductBySlug(slug, lang);
+if (!result) return Astro.redirect("/404");
+const { product, info } = result;
+const i18n = t(lang);
+const base = site.baseUrl || "";
+const langPrefix = getLangPrefix(lang);
+const canonicalUrl = `${site.url || ""}${base}${langPrefix}/products/${slug}/`;
+const homeName = lang === "tr" ? "Ana Sayfa" : "Home";
+const productsName = lang === "tr" ? "Ürünler" : "Products";
+const breadcrumbs = [
+  { name: homeName, url: `${site.url || ""}${base}${langPrefix}/` },
+  { name: productsName, url: `${site.url || ""}${base}${langPrefix}/products/` },
+  { name: info.title, url: canonicalUrl },
+];
+const priceNum = parseFloat(String(product.price).replace(/[^\d.-]/g, "")) || 0;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      name: info.title,
+      description: info.description,
+      image: product.image || undefined,
+      url: canonicalUrl,
+      offers: {
+        "@type": "Offer",
+        price: priceNum,
+        priceCurrency: product.currency || "TRY",
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: b.url,
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${info.title} | ${site.title}`}
+  description={info.description}
+  lang={lang}
+  ogImage={product.image}
+  jsonLd={jsonLd}
+>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Breadcrumbs -->
+    <nav class="mb-6 text-[13px] text-slate-500" aria-label="Breadcrumb">
+      <ol class="flex flex-wrap items-center gap-2">
+        <li><a href={`${base}${langPrefix}/`} class="hover:text-primary transition-colors">{homeName}</a></li>
+        <li class="text-slate-300">/</li>
+        <li><a href={`${base}${langPrefix}/products/`} class="hover:text-primary transition-colors">{productsName}</a></li>
+        <li class="text-slate-300">/</li>
+        <li class="text-slate-900 font-medium truncate max-w-[200px]">{info.title}</li>
+      </ol>
+    </nav>
+
+    <!-- Product Top Section -->
+    <div class="grid lg:grid-cols-12 gap-12 mb-16">
+      <!-- Left: Image Gallery -->
+      <div class="lg:col-span-7">
+        <div class="sticky top-24">
+          <div class="aspect-[4/5] bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 mb-4 group/main-img relative">
+            <img
+              id="main-product-image"
+              src={product.image}
+              alt={info.title}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover/main-img:scale-105"
+            />
+            {product.is_discounted && (
+               <span class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider shadow-sm z-10">
+                 %{Math.round((1 - product.price / (product.price_old || product.price * 1.2)) * 100)} İNDİRİM
+               </span>
+            )}
+          </div>
+          
+          {product.images && product.images.length > 0 && (
+            <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              <button 
+                class="shrink-0 w-24 h-32 rounded-lg overflow-hidden border-2 border-primary ring-2 ring-primary/10"
+                onclick={`document.getElementById('main-product-image').src='${product.image}'`}
+              >
+                <img src={product.image} alt={info.title} class="w-full h-full object-cover" />
+              </button>
+              {product.images.map((img) => (
+                <button 
+                  class="shrink-0 w-24 h-32 rounded-lg overflow-hidden border border-slate-200 hover:border-primary transition-colors"
+                  onclick={`document.getElementById('main-product-image').src='${img}'`}
+                >
+                  <img src={img} alt={info.title} class="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="lg:col-span-5">
+        <div class="flex flex-col h-full">
+          <div class="mb-2">
+            <span class="text-xs font-bold text-primary uppercase tracking-widest">{info.categories?.[0] || 'JAM SITE'}</span>
+          </div>
+          <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">{info.title}</h1>
+          
+          <div class="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex flex-col">
+              {product.price_old ? (
+                <span class="text-sm text-slate-400 line-through">{product.price_old} {product.currency}</span>
+              ) : product.is_discounted && (
+                <span class="text-sm text-slate-400 line-through">{Math.round(product.price * 1.2)} {product.currency}</span>
+              )}
+              <span class="text-3xl font-black text-primary">{product.price} {product.currency}</span>
+            </div>
+            {product.is_discounted && (
+              <div class="bg-red-50 text-red-600 px-3 py-1 rounded-lg font-bold text-sm">
+                Büyük Fırsat
+              </div>
+            )}
+          </div>
+
+          <div class="space-y-6 mb-8">
+            <div class="flex items-center gap-4 text-sm">
+              <span class="text-slate-500 font-medium">Ürün Kodu:</span>
+              <span class="text-slate-900 dark:text-slate-200 font-bold">{product.sku}</span>
+            </div>
+
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
+              {info.description}
+            </p>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-auto space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden h-12">
+                <button class="px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-r border-slate-200 dark:border-slate-700">-</button>
+                <input type="number" value="1" class="w-12 text-center font-bold bg-transparent outline-none" readonly />
+                <button class="px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors border-l border-slate-200 dark:border-slate-700">+</button>
+              </div>
+              <button class="flex-1 bg-primary hover:bg-primary-dark text-white font-bold h-12 rounded-lg shadow-lg shadow-primary/20 transition-all active:scale-[0.98] uppercase tracking-wide">
+                SEPETE EKLE
+              </button>
+            </div>
+            
+            <div class="flex items-center justify-between py-4 border-t border-slate-100 dark:border-slate-800">
+              <div class="flex items-center gap-6">
+                 <button class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-primary transition-colors">
+                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                   Favorilere Ekle
+                 </button>
+                 <ShareButton
+                    client:visible
+                    title={info.title}
+                    text={info.description}
+                    url={canonicalUrl}
+                    labelShare={i18n.share_label?.replace(":", "") ?? "Paylaş"}
+                    labelCopy={i18n.copy_link}
+                    labelCopied={i18n.link_copied}
+                  />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details Tabs -->
+    <div class="mb-16">
+      <div class="flex border-b border-slate-200 dark:border-slate-700 mb-8">
+        <button class="px-8 py-4 text-sm font-bold uppercase tracking-widest text-primary border-b-2 border-primary">
+          Ürün Özellikleri
+        </button>
+        <button class="px-8 py-4 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">
+          Yorumlar
+        </button>
+        <button class="px-8 py-4 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">
+          Ödeme Seçenekleri
+        </button>
+      </div>
+      <div class="prose dark:prose-invert max-w-none">
+        <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
+          {info.description}
+        </p>
+        <div class="grid md:grid-cols-2 gap-8 mt-12">
+           <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-800">
+              <h4 class="font-bold mb-4">Teknik Özellikler</h4>
+              <ul class="space-y-3 text-sm">
+                <li class="flex justify-between border-b pb-2">
+                  <span class="text-slate-500">Kategori</span>
+                  <span class="font-medium">{info.categories?.[0] || 'Genel'}</span>
+                </li>
+                <li class="flex justify-between border-b pb-2">
+                  <span class="text-slate-500">Model</span>
+                  <span class="font-medium">{product.sku}</span>
+                </li>
+                <li class="flex justify-between">
+                  <span class="text-slate-500">Durum</span>
+                  <span class="text-green-600 font-bold">Stokta Var</span>
+                </li>
+              </ul>
+           </div>
+           <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-800">
+              <h4 class="font-bold mb-4">Teslimat ve İade</h4>
+              <p class="text-sm text-slate-600 dark:text-slate-400">
+                Tahmini kargoya verilme süresi 24 saattir. 14 gün içerisinde koşulsuz iade hakkınız bulunmaktadır.
+              </p>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Similar Products -->
+    {features.products && (
+      <section class="border-t border-slate-100 dark:border-slate-800 pt-16">
+        <ProductCarousel 
+          products={getProductPaths()
+            .filter(p => p.sku !== product.sku)
+            .slice(0, 8)
+            .map(p => {
+               const res = getProductBySlug(p.slug, lang);
+               if (!res) return null;
+               const prod = res.product;
+               const pInfo = res.info;
+               return {
+                 name: pInfo.title,
+                 img: prod.image,
+                 url: `${base}${langPrefix}/products/${p.slug}/`,
+                 price_sale: prod.price,
+                 price_old: prod.price_old,
+                 is_new: prod.is_new,
+                 is_discounted: prod.is_discounted
+               };
+            }).filter(Boolean)} 
+          label="BENZER ÜRÜNLER" 
+          client:visible 
+        />
+      </section>
+    )}
+  </div>
+</BaseLayout>

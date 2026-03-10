@@ -36,7 +36,7 @@
 <a
   {href}
   class="relative flex items-center justify-center w-10 h-10 rounded-full
-         text-slate-600 dark:text-slate-400 hover:text-jam-primary
+         text-slate-600 dark:text-slate-400 hover:text-primary
          hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
   aria-label="Favorites ({count})"
 >
@@ -48,3 +48,5 @@
     </span>
   {/if}
 </a>
+
+

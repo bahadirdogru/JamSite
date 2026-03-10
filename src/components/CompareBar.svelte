@@ -52,12 +52,12 @@
 </script>
 
 {#if items.length > 0}
-  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 border-t border-jam-border dark:border-jam-border-dark shadow-2xl transition-transform {isExpanded ? '' : 'translate-y-0'}">
+  <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 shadow-2xl transition-transform {isExpanded ? '' : 'translate-y-0'}">
     <!-- Mini bar -->
     {#if !isExpanded}
       <div class="flex items-center justify-between px-4 py-3 max-w-5xl mx-auto">
         <div class="flex items-center gap-3">
-          <span class="text-sm font-medium text-jam-text dark:text-jam-text-dark">
+          <span class="text-sm font-medium text-slate-900 dark:text-slate-100">
             {items.length} items to compare
           </span>
           <div class="flex -space-x-2">
@@ -66,7 +66,7 @@
                 {#if item.image}
                   <img src={item.image} alt={item.title} class="w-full h-full object-cover" />
                 {:else}
-                  <div class="w-full h-full bg-gradient-to-br from-jam-primary to-jam-accent"></div>
+                  <div class="w-full h-full bg-gradient-to-br from-primary to-accent"></div>
                 {/if}
               </div>
             {/each}
@@ -81,7 +81,7 @@
           </button>
           <button
             onclick={compare}
-            class="px-4 py-2 bg-jam-secondary text-white text-sm font-medium rounded-lg hover:bg-jam-secondary/90 transition-colors"
+            class="px-4 py-2 bg-secondary text-white text-sm font-medium rounded-lg hover:bg-secondary/90 transition-colors"
           >
             {compare_text}
           </button>
@@ -92,8 +92,8 @@
     <!-- Expanded comparison view -->
     {#if isExpanded}
       <div class="max-h-[70vh] overflow-auto">
-        <div class="flex items-center justify-between px-4 py-3 border-b border-jam-border dark:border-jam-border-dark sticky top-0 bg-white dark:bg-slate-900 z-10">
-          <h3 class="font-bold text-jam-text dark:text-jam-text-dark">{compare_text}</h3>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 z-10">
+          <h3 class="font-bold text-slate-900 dark:text-slate-100">{compare_text}</h3>
           <button
             onclick={() => isExpanded = false}
             class="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-700 dark:hover:text-white rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -118,17 +118,17 @@
               {#if item.image}
                 <img src={item.image} alt={item.title} class="w-full aspect-square object-cover rounded-lg mb-3" />
               {:else}
-                <div class="w-full aspect-square bg-gradient-to-br from-jam-primary to-jam-accent rounded-lg mb-3 flex items-center justify-center">
+                <div class="w-full aspect-square bg-gradient-to-br from-primary to-accent rounded-lg mb-3 flex items-center justify-center">
                   <IconCubeRegular class="w-12 h-12 text-white/60" />
                 </div>
               {/if}
 
-              <h4 class="font-semibold text-jam-text dark:text-jam-text-dark text-sm line-clamp-2 mb-2">{item.title}</h4>
-              <p class="text-jam-primary font-bold">{item.price}</p>
+              <h4 class="font-semibold text-slate-900 dark:text-slate-100 text-sm line-clamp-2 mb-2">{item.title}</h4>
+              <p class="text-primary font-bold">{item.price}</p>
 
               <a
                 href={item.url}
-                class="block mt-3 text-center py-2 px-4 bg-jam-primary text-white text-sm font-medium rounded-lg hover:bg-jam-primary/90 transition-colors"
+                class="block mt-3 text-center py-2 px-4 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors"
               >
                 View
               </a>
@@ -139,3 +139,5 @@
     {/if}
   </div>
 {/if}
+
+

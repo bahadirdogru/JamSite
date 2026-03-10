@@ -57,7 +57,7 @@
 </script>
 
 {#if headings.length > 0}
-  <nav class="jam-toc bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-jam-border dark:border-jam-border-dark">
+  <nav class="jam-toc bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
     <button
       onclick={() => isExpanded = !isExpanded}
       class="w-full flex items-center justify-between text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
@@ -78,8 +78,8 @@
               class="w-full text-left py-1.5 px-2 rounded transition-colors
                      {heading.level === 3 ? 'pl-6' : ''}
                      {activeId === heading.id
-                       ? 'bg-jam-primary/10 text-jam-primary font-medium'
-                       : 'text-slate-600 dark:text-slate-400 hover:text-jam-primary hover:bg-slate-100 dark:hover:bg-slate-700'}"
+                       ? 'bg-primary/10 text-primary font-medium'
+                       : 'text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-700'}"
             >
               {heading.text}
             </button>
@@ -89,3 +89,5 @@
     {/if}
   </nav>
 {/if}
+
+

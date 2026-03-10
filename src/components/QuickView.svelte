@@ -60,7 +60,7 @@
           {#if product.image}
             <img src={product.image} alt={product.title} class="w-full h-full object-cover" />
           {:else}
-            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br {product.gradient || 'from-jam-primary to-jam-accent'}">
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br {product.gradient || 'from-primary to-accent'}">
               <IconCubeRegular class="w-20 h-20 text-white/60" />
             </div>
           {/if}
@@ -68,12 +68,12 @@
 
         <!-- Details -->
         <div class="p-6 flex flex-col">
-          <h2 class="text-xl font-bold font-heading text-jam-text dark:text-jam-text-dark mb-2">
+          <h2 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 mb-2">
             {product.title}
           </h2>
 
           {#if product.price}
-            <p class="text-2xl font-bold text-jam-primary mb-4">{product.price}</p>
+            <p class="text-2xl font-bold text-primary mb-4">{product.price}</p>
           {/if}
 
           {#if product.description}
@@ -85,14 +85,14 @@
           {#if product.tags && product.tags.length > 0}
             <div class="flex flex-wrap gap-2 mb-6">
               {#each product.tags as tag}
-                <span class="px-2 py-1 text-xs bg-jam-accent/10 text-jam-accent rounded-full">{tag}</span>
+                <span class="px-2 py-1 text-xs bg-accent/10 text-accent rounded-full">{tag}</span>
               {/each}
             </div>
           {/if}
 
           <a
             href={product.url}
-            class="w-full py-3 px-6 bg-jam-primary hover:bg-jam-primary/90 text-white
+            class="w-full py-3 px-6 bg-primary hover:bg-primary/90 text-white
                    font-semibold rounded-xl text-center transition-colors"
           >
             {view_details}
@@ -115,3 +115,5 @@
     }
   }
 </style>
+
+

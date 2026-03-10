@@ -5,13 +5,13 @@ import DarkModeToggle from "../components/DarkModeToggle.svelte";
 import SearchFuse from "../components/SearchFuse.svelte";
 import PwaUpdateBanner from "../components/PwaUpdateBanner.svelte";
 import { t } from "../i18n";
-import { defaultLang, getLangPrefix, site } from "../config/site";
+import { defaultLang, getLangPrefix, getOgLocale, site, features, languages, languageLabels } from "../config/site";
 
 const { title = site.title, description = site.description, lang = defaultLang, canonicalURL, noindex = false, ogImage, jsonLd } = Astro.props;
 const i18n = t(lang);
 const langPrefix = getLangPrefix(lang);
 const base = site.baseUrl || "";
-const canonicalBase = site.url || "https://jamsite.example.com";
+const canonicalBase = site.url || site.baseUrl || "https://jamsite.example.com";
 const imageUrl = ogImage ? (ogImage.startsWith("http") ? ogImage : `${canonicalBase}${base}${ogImage}`) : "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80";
 ---
 
@@ -32,7 +32,7 @@ const imageUrl = ogImage ? (ogImage.startsWith("http") ? ogImage : `${canonicalB
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content={lang === "tr" ? "tr_TR" : "en_US"} />
+    <meta property="og:locale" content={getOgLocale(lang)} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -43,45 +43,48 @@ const imageUrl = ogImage ? (ogImage.startsWith("http") ? ogImage : `${canonicalB
     <link rel="manifest" href={`${base}/manifest.json`} />
     <meta name="theme-color" content="#3b82f6" />
     <link rel="apple-touch-icon" href={`${base}/assets/img/icon-192.png`} />
-    <link rel="prefetch" href={`${base}${langPrefix}/blog/`} />
-    <link rel="prefetch" href={`${base}${langPrefix}/products/`} />
+    {features.blog && <link rel="prefetch" href={`${base}${langPrefix}/blog/`} />}
+    {features.products && <link rel="prefetch" href={`${base}${langPrefix}/products/`} />}
     <link rel="prefetch" href={`${base}${langPrefix}/about/`} />
     {jsonLd && (
       <script type="application/ld+json" set:html={typeof jsonLd === "string" ? jsonLd : JSON.stringify(jsonLd)} />
     )}
     <ClientRouter />
   </head>
-  <body class="min-h-screen flex flex-col bg-jam-surface dark:bg-jam-surface-dark text-jam-text dark:text-jam-text-dark font-body">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-jam-primary focus:text-white focus:rounded-lg">
+  <body class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-body">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg">
       İçeriğe atla / Skip to content
     </a>
-    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-jam-border dark:border-jam-border-dark">
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
       <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href={`${base}${langPrefix}/`} class="text-xl font-bold font-heading text-jam-primary">
+        <a href={`${base}${langPrefix}/`} class="text-xl font-bold font-heading text-primary">
           JamSite
         </a>
         <div class="hidden md:flex items-center gap-6">
-          <a href={`${base}${langPrefix}/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_home}</a>
-          <a href={`${base}${langPrefix}/about/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_about}</a>
-          <a href={`${base}${langPrefix}/blog/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_blog}</a>
-          <a href={`${base}${langPrefix}/products/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_products}</a>
-          <a href={`${base}${langPrefix}/features/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_features}</a>
-          <a href={`${base}${langPrefix}/getting-started/`} class="text-sm font-medium hover:text-jam-primary transition-colors">{i18n.nav_getting_started}</a>
+          <a href={`${base}${langPrefix}/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_home}</a>
+          <a href={`${base}${langPrefix}/about/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_about}</a>
+          {features.blog && <a href={`${base}${langPrefix}/blog/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_blog}</a>}
+          {features.products && <a href={`${base}${langPrefix}/products/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_products}</a>}
+          {features.features && <a href={`${base}${langPrefix}/features/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_features}</a>}
+          {features.uiBlocks && <a href={`${base}${langPrefix}/ui-bloklari/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_ui_blocks}</a>}
+          {features.gettingStarted && <a href={`${base}${langPrefix}/getting-started/`} class="text-sm font-medium hover:text-primary transition-colors">{i18n.nav_getting_started}</a>}
         </div>
         <div class="flex items-center gap-1">
-          <SearchFuse lang={lang} baseurl={base} placeholder={i18n.search_placeholder} noResultsText={i18n.search_no_results} client:visible />
-          <a href={lang === "tr" ? `${base}/en/` : `${base}/`} class="px-2 py-1 text-xs font-medium rounded transition-colors text-slate-500 hover:text-jam-primary dark:text-slate-400 dark:hover:text-jam-primary" aria-label={i18n.lang_label}>
-            {lang === "tr" ? "EN" : "TR"}
-          </a>
-          <DarkModeToggle client:visible />
+          {features.search && <SearchFuse lang={lang} baseurl={base} placeholder={i18n.search_placeholder} noResultsText={i18n.search_no_results} client:visible />}
+          {languages.filter((l) => l !== lang).map((otherLang) => (
+            <a href={`${base}${getLangPrefix(otherLang)}/`} class="px-2 py-1 text-xs font-medium rounded transition-colors text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" aria-label={i18n.lang_label}>
+              {languageLabels[otherLang] ?? otherLang.toUpperCase()}
+            </a>
+          ))}
+          {features.darkMode && <DarkModeToggle client:visible />}
         </div>
       </nav>
     </header>
     <main id="main-content" class="flex-1">
       <slot />
     </main>
-    <PwaUpdateBanner client:idle message={i18n.pwa_update_message} buttonLabel={i18n.pwa_update_button} />
-    <footer class="border-t border-jam-border dark:border-jam-border-dark mt-16">
+    {features.pwa && <PwaUpdateBanner client:idle message={i18n.pwa_update_message} buttonLabel={i18n.pwa_update_button} />}
+    <footer class="border-t border-slate-200 dark:border-slate-700 mt-16">
       <div class="max-w-6xl mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
           <p>&copy; {new Date().getFullYear()} {site.title}. {i18n.footer_copyright}</p>
@@ -91,3 +94,5 @@ const imageUrl = ogImage ? (ogImage.startsWith("http") ? ogImage : `${canonicalB
     </footer>
   </body>
 </html>
+
+

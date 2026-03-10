@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntry } from "astro:content";
+import { features, getStaticPathsForLang } from "../../config/site.js";
+
+export function getStaticPaths() {
+  if (!features.gettingStarted) return [];
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const entryId = `getting-started-${lang}`;
+const entry = await getEntry("pages", entryId);
+if (!entry) {
+  return new Response(null, { status: 404 });
+}
+const { Content } = await entry.render();
+---
+
+<BaseLayout
+  title={`${entry.data.title} | JamSite`}
+  description={entry.data.description}
+  lang={lang}
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <header class="mb-12">
+      <h1 class="text-4xl font-bold font-heading mb-4">{entry.data.title}</h1>
+    </header>
+    <div class="prose prose-slate dark:prose-invert prose-headings:font-heading">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>

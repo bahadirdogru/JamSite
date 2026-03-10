@@ -70,7 +70,7 @@
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {#each favorites as item (item.id)}
-        <div class="relative group bg-white dark:bg-slate-800 rounded-xl border border-jam-border dark:border-jam-border-dark overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <div class="relative group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
           <a href={item.url} class="block">
             {#if item.image}
               <img src={item.image} alt={item.title} class="w-full h-40 object-cover" />
@@ -80,9 +80,9 @@
               </div>
             {/if}
             <div class="p-4">
-              <h3 class="font-semibold text-jam-text dark:text-jam-text-dark line-clamp-1">{item.title}</h3>
+              <h3 class="font-semibold text-slate-900 dark:text-slate-100 line-clamp-1">{item.title}</h3>
               {#if item.price}
-                <p class="text-jam-primary font-bold mt-1">{item.price}</p>
+                <p class="text-primary font-bold mt-1">{item.price}</p>
               {/if}
             </div>
           </a>
@@ -101,3 +101,5 @@
     </div>
   {/if}
 </div>
+
+

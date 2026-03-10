@@ -72,10 +72,12 @@
   onclick={toggle}
   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
          {isAdded
-           ? 'bg-jam-secondary text-white'
-           : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-jam-secondary/10 hover:text-jam-secondary'}"
+           ? 'bg-secondary text-white'
+           : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-secondary/10 hover:text-secondary'}"
   aria-pressed={isAdded}
 >
   <IconScalesRegular class="w-4 h-4" />
   {isAdded ? added_text : add_text}
 </button>
+
+

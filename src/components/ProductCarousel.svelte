@@ -1,6 +1,8 @@
 <script>
-  import IconCaretLeftRegular from "phosphor-icons-svelte/IconCaretLeftRegular.svelte";
-  import IconCaretRightRegular from "phosphor-icons-svelte/IconCaretRightRegular.svelte";
+  import IconCaretLeftLight from "phosphor-icons-svelte/IconCaretLeftLight.svelte";
+  import IconCaretRightLight from "phosphor-icons-svelte/IconCaretRightLight.svelte";
+  import IconShoppingCartSimpleBold from "phosphor-icons-svelte/IconShoppingCartSimpleBold.svelte";
+  import IconMagnifyingGlassBold from "phosphor-icons-svelte/IconMagnifyingGlassBold.svelte";
   import IconCubeRegular from "phosphor-icons-svelte/IconCubeRegular.svelte";
 
   let { products = [], autoplay = 0, label = "" } = $props();
@@ -12,14 +14,14 @@
   let startScroll = 0;
   let interval;
 
-  let perView = $state(3);
+  let perView = $state(4);
 
   function updatePerView() {
     if (typeof window === "undefined") return;
     const w = window.innerWidth;
-    if (w < 640) perView = 1;
-    else if (w < 1024) perView = 2;
-    else perView = 3;
+    if (w < 640) perView = 2;
+    else if (w < 1024) perView = 3;
+    else perView = 4;
   }
 
   let totalPages = $derived(Math.max(1, Math.ceil(products.length / perView)));
@@ -39,14 +41,15 @@
 
   function scrollToPage() {
     if (!trackEl) return;
-    const cardWidth = trackEl.scrollWidth / products.length;
-    trackEl.scrollTo({ left: currentPage * perView * cardWidth, behavior: "smooth" });
+    const scrollWidth = trackEl.scrollWidth - trackEl.clientWidth;
+    const targetScroll = (currentPage / (totalPages - 1 || 1)) * scrollWidth;
+    trackEl.scrollTo({ left: targetScroll, behavior: "smooth" });
   }
 
   function handleScroll() {
     if (!trackEl || isDragging) return;
-    const cardWidth = trackEl.scrollWidth / products.length;
-    const page = Math.round(trackEl.scrollLeft / (perView * cardWidth));
+    const scrollPercent = trackEl.scrollLeft / (trackEl.scrollWidth - trackEl.clientWidth || 1);
+    const page = Math.round(scrollPercent * (totalPages - 1));
     currentPage = Math.max(0, Math.min(page, totalPages - 1));
   }
 
@@ -89,27 +92,27 @@
 </script>
 
 {#if products.length > 0}
-<div class="relative group/carousel">
-  {#if label}
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-xl font-bold text-jam-text dark:text-jam-text-dark">{label}</h3>
-      {#if totalPages > 1}
-        <div class="flex items-center gap-1.5">
-          {#each Array(totalPages) as _, i}
-            <button onclick={() => goTo(i)}
-              aria-label="Page {i + 1}"
-              class="w-2 h-2 rounded-full transition-all duration-300 cursor-pointer
-                     {i === currentPage ? 'bg-jam-primary w-6' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400'}">
-            </button>
-          {/each}
-        </div>
-      {/if}
-    </div>
-  {/if}
+<div class="relative group/carousel py-8">
+  <div class="flex items-center justify-between mb-8">
+    {#if label}
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-100 uppercase tracking-tight">{label}</h3>
+    {/if}
+    
+    {#if totalPages > 1}
+      <div class="flex items-center gap-2">
+        <button onclick={prev} class="p-2 border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+          <IconCaretLeftLight class="w-5 h-5" />
+        </button>
+        <button onclick={next} class="p-2 border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+          <IconCaretRightLight class="w-5 h-5" />
+        </button>
+      </div>
+    {/if}
+  </div>
 
   <!-- Carousel Track -->
   <div bind:this={trackEl}
-    class="flex gap-4 overflow-x-auto scroll-smooth pb-2"
+    class="flex gap-6 overflow-x-auto scroll-smooth pb-4 px-1"
     style="scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x mandatory;"
     onscroll={handleScroll}
     onpointerdown={handlePointerDown}
@@ -119,75 +122,59 @@
     role="list">
 
     {#each products as product, i}
-      <a href={product.link}
-        class="shrink-0 scroll-snap-align-start rounded-xl overflow-hidden
-               bg-white dark:bg-slate-800 border border-jam-border dark:border-jam-border-dark
-               shadow-sm hover:shadow-lg transition-shadow duration-300 block no-underline
-               w-[calc(100%-1rem)] sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
-        style="scroll-snap-align: start;">
-
-        <!-- Image -->
-        <div class="aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
-          {#if product.image}
-            <img src={product.image} alt={product.title}
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-          {:else}
-            <div class="w-full h-full flex flex-col items-center justify-center
-                        bg-gradient-to-br {product.gradient || 'from-jam-primary/80 to-jam-secondary/80'}">
-              <IconCubeRegular class="w-16 h-16 text-white/60 mb-2" />
-              <span class="text-white/80 text-sm font-medium">{product.title}</span>
-            </div>
-          {/if}
-          {#if product.badge}
-            <span class="absolute top-3 left-3 bg-jam-accent text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
-              {product.badge}
-            </span>
-          {/if}
-        </div>
-
-        <!-- Info -->
-        <div class="p-4">
-          <h4 class="font-semibold text-base text-jam-text dark:text-jam-text-dark mb-1 truncate">
-            {product.title}
-          </h4>
-          {#if product.description}
-            <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-2">{product.description}</p>
-          {/if}
-          <div class="flex items-center justify-between">
-            <span class="text-jam-primary font-bold text-lg">{product.price}</span>
-            {#if product.tags && product.tags.length > 0}
-              <div class="flex gap-1">
-                {#each product.tags.slice(0, 2) as tag}
-                  <span class="px-2 py-0.5 text-[10px] bg-jam-accent/10 text-jam-accent rounded-full">{tag}</span>
-                {/each}
+      <div class="shrink-0 scroll-snap-align-start w-[calc(50%-0.75rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] group/item">
+        <div class="relative overflow-hidden bg-white dark:bg-slate-900 mb-4 rounded-lg shadow-sm group-hover/item:shadow-md transition-shadow duration-300">
+          <!-- Image -->
+          <a href={product.url} class="block aspect-[3/4] overflow-hidden">
+            {#if product.img}
+              <img src={product.img} alt={product.name}
+                class="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" />
+            {:else}
+              <div class="w-full h-full flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-800">
+                <IconCubeRegular class="w-12 h-12 text-slate-300" />
               </div>
+            {/if}
+          </a>
+
+          <!-- Hover Actions -->
+          <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 translate-y-12 group-hover/item:translate-y-0 transition-transform duration-300 px-4">
+            <button class="bg-white text-slate-900 p-3 rounded-full shadow-lg hover:bg-primary hover:text-white transition-colors">
+              <IconShoppingCartSimpleBold class="w-5 h-5" />
+            </button>
+            <button class="bg-white text-slate-900 p-3 rounded-full shadow-lg hover:bg-slate-900 hover:text-white transition-colors">
+              <IconMagnifyingGlassBold class="w-5 h-5" />
+            </button>
+          </div>
+
+          <!-- Badges -->
+          <div class="absolute top-3 left-3 flex flex-col gap-2">
+            {#if product.is_new}
+              <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-sm">NEW</span>
+            {/if}
+            {#if product.is_discounted}
+              <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider shadow-sm">%{Math.round((1 - product.price_sale/product.price_old)*100)} OFF</span>
             {/if}
           </div>
         </div>
-      </a>
+
+        <!-- Info -->
+        <div class="text-center">
+          <a href={product.url} class="block mb-2 no-underline">
+            <h4 class="text-sm font-medium text-slate-800 dark:text-slate-200 group-hover/item:text-primary transition-colors line-clamp-2 min-h-[40px]">
+              {product.name}
+            </h4>
+          </a>
+          <div class="flex flex-col items-center">
+            {#if product.price_old}
+              <span class="text-xs text-slate-400 line-through mb-0.5">{product.price_old} TRY</span>
+            {/if}
+            <span class="text-base font-bold text-slate-900 dark:text-white">{product.price_sale} TRY</span>
+          </div>
+        </div>
+      </div>
     {/each}
   </div>
-
-  <!-- Navigation Arrows -->
-  {#if products.length > perView}
-    <button onclick={prev} aria-label="Previous"
-      class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3
-             w-10 h-10 rounded-full bg-white dark:bg-slate-800
-             shadow-lg border border-jam-border dark:border-jam-border-dark
-             flex items-center justify-center
-             opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300
-             hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer z-10">
-      <IconCaretLeftRegular class="w-5 h-5 text-jam-text dark:text-jam-text-dark" />
-    </button>
-    <button onclick={next} aria-label="Next"
-      class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3
-             w-10 h-10 rounded-full bg-white dark:bg-slate-800
-             shadow-lg border border-jam-border dark:border-jam-border-dark
-             flex items-center justify-center
-             opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300
-             hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer z-10">
-      <IconCaretRightRegular class="w-5 h-5 text-jam-text dark:text-jam-text-dark" />
-    </button>
-  {/if}
 </div>
 {/if}
+
+

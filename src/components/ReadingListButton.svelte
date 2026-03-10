@@ -77,8 +77,8 @@
   onclick={toggle}
   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
          {isSaved
-           ? 'bg-jam-primary text-white'
-           : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-jam-primary/10 hover:text-jam-primary'}"
+           ? 'bg-primary text-white'
+           : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary'}"
   aria-pressed={isSaved}
 >
   {#if isSaved}
@@ -88,3 +88,5 @@
   {/if}
   {isSaved ? added_text : add_text}
 </button>
+
+

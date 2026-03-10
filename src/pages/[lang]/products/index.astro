@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ProductsFilterSort from "../../../components/ProductsFilterSort.svelte";
+import { getProducts } from "../../../data/products";
+import { t } from "../../../i18n";
+import { site, getLangPrefix, features, getStaticPathsForLang } from "../../../config/site.js";
+
+export function getStaticPaths() {
+  if (!features.products) return [];
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const products = getProducts()
+  .filter((p) => (lang === "tr" ? p.tr : p.en))
+  .map((p) => ({ product: p, info: lang === "tr" ? p.tr : p.en }));
+const i18n = t(lang);
+const base = site.baseUrl || "";
+const langPrefix = getLangPrefix(lang);
+const productsJson = JSON.stringify(products);
+const sortLabels = lang === "tr"
+  ? { sortLabel: i18n.sort_label ?? "Sırala", nameAsc: "Ad A-Z", nameDesc: "Ad Z-A", priceAsc: "Fiyat (düşük-yüksek)", priceDesc: "Fiyat (yüksek-düşük)", loadMore: "Daha fazla" }
+  : { sortLabel: i18n.sort_by ?? "Sort", nameAsc: "Name A-Z", nameDesc: "Name Z-A", priceAsc: "Price (low to high)", priceDesc: "Price (high to low)", loadMore: "Load more" };
+---
+
+<BaseLayout title={`${i18n.products_title} | ${site.title}`} description={site.description} lang={lang}>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold font-heading text-jam-primary mb-8">{i18n.products_title}</h1>
+    <ProductsFilterSort
+      client:visible
+      productsJson={productsJson}
+      base={base}
+      langPrefix={langPrefix}
+      sortLabel={sortLabels.sortLabel}
+      sortNameAsc={sortLabels.nameAsc}
+      sortNameDesc={sortLabels.nameDesc}
+      sortPriceAsc={sortLabels.priceAsc}
+      sortPriceDesc={sortLabels.priceDesc}
+      categoriesLabel={i18n.categories_filter}
+      tagsLabel={i18n.tags_filter}
+      clearLabel={i18n.clear}
+      loadMoreLabel={sortLabels.loadMore}
+    />
+  </div>
+</BaseLayout>

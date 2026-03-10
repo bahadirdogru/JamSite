@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntry } from "astro:content";
+import { getStaticPathsForLang, getLangPrefix, features } from "../../config/site.js";
+import BlockRenderer from "../../components/blocks/BlockRenderer.svelte";
+
+export function getStaticPaths() {
+  if (!features.features) return [];
+  return getStaticPathsForLang();
+}
+
+const { lang } = Astro.props;
+const entry = await getEntry("pages", `features-${lang}`);
+if (!entry) {
+  return new Response(null, { status: 404 });
+}
+const langPrefix = getLangPrefix(lang);
+const blocks = entry.data.blocks ?? [];
+---
+
+<BaseLayout
+  title={`${entry.data.title} | JamSite`}
+  description={entry.data.description}
+  lang={lang}
+>
+  <BlockRenderer blocks={blocks} langPrefix={langPrefix} client:visible />
+</BaseLayout>

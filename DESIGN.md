@@ -17,21 +17,15 @@ Yapılandırma `src/styles/global.css` içinde. `tailwind.config.js` yok.
 @source "./**/*.svelte";
 
 @theme {
-  --color-jam-primary: #3b82f6;
-  --color-jam-secondary: #10b981;
-  --color-jam-accent: #f59e0b;
-  --color-jam-surface: #f8fafc;
-  --color-jam-surface-dark: #0f172a;
-  --color-jam-text: #0f172a;
-  --color-jam-text-dark: #f1f5f9;
-  --color-jam-border: #e2e8f0;
-  --color-jam-border-dark: #334155;
+  --color-primary: var(--color-blue-600);
+  --color-secondary: var(--color-emerald-500);
+  --color-accent: var(--color-amber-500);
   --font-heading: "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
 }
 ```
 
-`@custom-variant dark` ile `.dark` sınıfına göre koyu tema; `@theme` ile jam-* renk ve font token’ları tanımlanır. Bu token’lar `bg-jam-surface`, `dark:bg-jam-surface-dark`, `text-jam-text`, `font-heading` gibi utility’lere dönüşür.
+`@custom-variant dark` ile `.dark` sınıfına göre koyu tema; `@theme` ile primary, secondary ve accent renkleri ile font token’ları tanımlanır. Bu token’lar `bg-primary`, `text-primary`, `font-heading` gibi utility’lere dönüşür. Yüzey, metin ve çerçeve renkleri için doğrudan Tailwind'in `slate` paleti (`slate-50`, `slate-900` vb.) kullanılır.
 
 ## Renk paleti
 
@@ -39,20 +33,20 @@ Yapılandırma `src/styles/global.css` içinde. `tailwind.config.js` yok.
 
 | Token | Değer | Kullanım |
 |-------|-------|----------|
-| jam-primary | #3b82f6 | Butonlar, linkler, vurgular |
-| jam-secondary | #10b981 | İkincil aksiyonlar, başarı |
-| jam-accent | #f59e0b | Uyarı, rozetler |
-| jam-surface | #f8fafc | Sayfa ve kart arka planı |
-| jam-text | #0f172a | Metin |
-| jam-border | #e2e8f0 | Çerçeve, ayırıcı |
+| primary | blue-600 | Butonlar, linkler, vurgular |
+| secondary | emerald-500 | İkincil aksiyonlar, başarı |
+| accent | amber-500 | Uyarı, rozetler |
+| slate-50 | #f8fafc | Sayfa ve kart arka planı |
+| slate-900 | #0f172a | Metin |
+| slate-200 | #e2e8f0 | Çerçeve, ayırıcı |
 
 ### Koyu mod
 
 | Token | Değer | Kullanım |
 |-------|-------|----------|
-| jam-surface-dark | #0f172a | Arka plan |
-| jam-text-dark | #f1f5f9 | Metin |
-| jam-border-dark | #334155 | Çerçeve |
+| slate-900 | #0f172a | Arka plan |
+| slate-100 | #f1f5f9 | Metin |
+| slate-700 | #334155 | Çerçeve |
 
 Primary, secondary ve accent her iki modda da aynı kalabilir; yüzey ve metin için ayrı koyu token’lar kullanılır.
 
@@ -83,17 +77,17 @@ Tailwind varsayılan spacing kullanılır. Örnekler:
 
 ```html
 <!-- Birincil -->
-<button class="px-4 py-2 bg-jam-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
+<button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
   Aksiyon
 </button>
 
 <!-- İkincil -->
-<button class="px-4 py-2 border border-jam-primary text-jam-primary rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
+<button class="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
   İkincil
 </button>
 
 <!-- Ghost -->
-<button class="px-4 py-2 text-jam-primary hover:bg-blue-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+<button class="px-4 py-2 text-primary hover:bg-blue-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
   Ghost
 </button>
 ```
@@ -101,7 +95,7 @@ Tailwind varsayılan spacing kullanılır. Örnekler:
 ### Kart
 
 ```html
-<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-jam-border dark:border-jam-border-dark p-6">
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-200-dark p-6">
   <h3 class="text-xl font-semibold mb-2">Başlık</h3>
   <p class="text-slate-600 dark:text-slate-300 leading-relaxed">İçerik.</p>
 </div>
@@ -122,15 +116,15 @@ Slider stilleri `Slider.svelte` içinde. Arka plan overlay için `bg-black/40`, 
 ### Ürün kartı
 
 ```html
-<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-jam-border dark:border-jam-border-dark overflow-hidden group">
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-200-dark overflow-hidden group">
   <div class="aspect-square overflow-hidden">
     <img src="..." alt="..." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
   </div>
   <div class="p-4">
     <h3 class="font-semibold mb-1">Ürün adı</h3>
-    <p class="text-jam-primary font-bold">299.99 TRY</p>
+    <p class="text-primary font-bold">299.99 TRY</p>
     <div class="flex flex-wrap gap-1 mt-2">
-      <span class="px-2 py-0.5 text-xs bg-jam-accent/10 text-jam-accent rounded-full">etiket</span>
+      <span class="px-2 py-0.5 text-xs bg-accent/10 text-accent rounded-full">etiket</span>
     </div>
   </div>
 </div>
@@ -140,14 +134,35 @@ Slider stilleri `Slider.svelte` içinde. Arka plan overlay için `bg-black/40`, 
 
 ```html
 <!-- Yazı etiketi -->
-<span class="px-2 py-1 text-xs bg-jam-primary/10 text-jam-primary rounded-full">svelte</span>
+<span class="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full">svelte</span>
 
 <!-- Ürün etiketi -->
-<span class="px-2 py-1 text-xs bg-jam-accent/10 text-jam-accent rounded-full">elektronik</span>
+<span class="px-2 py-1 text-xs bg-accent/10 text-accent rounded-full">elektronik</span>
 
 <!-- Kategori -->
-<span class="px-2 py-1 text-xs bg-jam-secondary/10 text-jam-secondary rounded-full">teknoloji</span>
+<span class="px-2 py-1 text-xs bg-secondary/10 text-secondary rounded-full">teknoloji</span>
 ```
+---
+
+## Modüler UI Blokları (Tailwind Plus Stili)
+
+Bloklar `src/content/pages/*.md` frontmatter'ında tanımlanır ve `BlockRenderer.svelte` tarafından render edilir. Her blok türü farklı `layout` ve `variant` seçeneklerini destekler.
+
+### Hero Bölümü
+- **Layout**: `centered` (varsayılan), `split` (görselli).
+- **Badge**: Yeni gelişmeler için üstte küçük rozet.
+- **Typography**: Öne çıkan büyük başlık, alt başlık ve iki adet CTA butonu.
+
+### Özellikler (Feature)
+- **Layout**: `grid` (simge + başlık + açıklama), `screenshot` (yanda metin, ortada büyük görsel).
+
+### CTA Bölümü
+- **Layout**: `simple` (temiz, geniş), `panel` (renkli arka plan, görsel ve gradiyent).
+
+### FAQ (SSS)
+- **Layout**: `list` (basit liste), `accordion` (tıklayıp açılır başlıklar).
+
+---
 
 ## İkonlar (Phosphor Icons)
 
@@ -168,8 +183,9 @@ Boyut: `w-4 h-4` (küçük), `w-5 h-5` (varsayılan), `w-6 h-6` (büyük). Renk 
 
 - Arka plan: `bg-black/50`, `fixed inset-0 z-50`
 - Modal: `max-w-xl bg-white dark:bg-slate-800 rounded-2xl shadow-2xl`
-- Sonuç satırı vurgusu: `bg-jam-primary/10`
+- Sonuç satırı vurgusu: `bg-primary/10`
 - Açılış: Motion ile kısa opacity/scale
+- **features.search** false ise nav’da gösterilmez (`src/config/site.js`).
 
 ## Responsive
 
@@ -214,15 +230,15 @@ if (!prefersReduced) {
 
 - `.dark` sınıfı `<html>` üzerinde; tüm `dark:` utility’leri buna göre çalışır.
 - Başlangıç: `<head>` içindeki inline script (FOUC önleme).
-- Toggle: `DarkModeToggle.svelte` — sınıf ve `localStorage.theme` günceller.
+- Toggle: `DarkModeToggle.svelte` — sınıf ve `localStorage.theme` günceller. (**features.darkMode** false ise nav'da gizlenir; `src/config/site.js`.)
 - Tercih sırası: `localStorage` > `prefers-color-scheme` > aydınlık.
 
 Kullanım: Hem aydınlık hem koyu sınıf verin:
 
 ```html
-<div class="bg-jam-surface dark:bg-jam-surface-dark text-jam-text dark:text-jam-text-dark">
+<div class="bg-slate-50 dark:bg-slate-50-dark text-slate-900 dark:text-slate-900-dark">
   <p class="text-slate-600 dark:text-slate-300">Metin</p>
-  <div class="border-jam-border dark:border-jam-border-dark">Çerçeve</div>
+  <div class="border-slate-200 dark:border-slate-200-dark">Çerçeve</div>
 </div>
 ```
 

@@ -145,7 +145,7 @@
 {#if categories.length > 0}
 <div>
   {#if label}
-    <h3 class="text-lg font-semibold mb-3 text-jam-text dark:text-jam-text-dark">{label}</h3>
+    <h3 class="text-lg font-semibold mb-3 text-slate-900 dark:text-slate-100">{label}</h3>
   {/if}
 
   <!-- Category Bubbles -->
@@ -153,10 +153,10 @@
     {#each categories as cat, i}
       <button onclick={() => openStory(i)}
         class="flex flex-col items-center gap-1.5 shrink-0 cursor-pointer group">
-        <div class="w-[72px] h-[72px] rounded-full p-[3px] bg-gradient-to-br from-jam-accent via-rose-500 to-jam-primary">
-          <div class="w-full h-full rounded-full overflow-hidden border-[3px] border-white dark:border-jam-surface-dark">
+        <div class="w-[72px] h-[72px] rounded-full p-[3px] bg-gradient-to-br from-accent via-rose-500 to-primary">
+          <div class="w-full h-full rounded-full overflow-hidden border-[3px] border-white dark:border-slate-900">
             <div class="w-full h-full flex items-center justify-center text-white text-lg font-bold
-                        bg-gradient-to-br {cat.gradient || 'from-jam-primary to-jam-secondary'}">
+                        bg-gradient-to-br {cat.gradient || 'from-primary to-secondary'}">
               {#if cat.icon}
                 <span class="text-2xl">{cat.icon}</span>
               {:else}
@@ -198,7 +198,7 @@
       <div class="flex items-center gap-3">
         <div class="w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0
                     flex items-center justify-center text-white text-sm font-bold
-                    bg-gradient-to-br {categories[activeCat]?.gradient || 'from-jam-primary to-jam-secondary'}">
+                    bg-gradient-to-br {categories[activeCat]?.gradient || 'from-primary to-secondary'}">
           {#if categories[activeCat]?.icon}
             <span class="text-base">{categories[activeCat].icon}</span>
           {:else}
@@ -227,7 +227,7 @@
           class="max-w-full max-h-full object-contain" />
       {:else}
         <div class="w-full h-full flex items-center justify-center pb-48
-                    bg-gradient-to-br {product.gradient || categories[activeCat]?.gradient || 'from-jam-primary to-jam-secondary'}">
+                    bg-gradient-to-br {product.gradient || categories[activeCat]?.gradient || 'from-primary to-secondary'}">
           <div class="w-32 h-32 rounded-3xl bg-white/15 backdrop-blur flex items-center justify-center">
             <IconCubeRegular class="w-16 h-16 text-white/60" />
           </div>
@@ -287,3 +287,5 @@
   </div>
 {/if}
 {/if}
+
+

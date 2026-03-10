@@ -105,7 +105,7 @@
       <button
         onclick={loadMore}
         disabled={isLoading}
-        class="px-6 py-3 bg-jam-primary hover:bg-jam-primary/90 text-white font-medium
+        class="px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium
                rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed
                flex items-center gap-2"
       >
@@ -121,3 +121,5 @@
     <p class="text-center text-slate-500 dark:text-slate-400 mt-8">{no_more_text}</p>
   {/if}
 </div>
+
+

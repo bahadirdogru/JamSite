@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+import { site, getLangPrefix } from "../config/site.js";
+import { t } from "../i18n";
+
+const { lang } = Astro.props;
+const i18n = t(lang);
+const langPrefix = getLangPrefix(lang);
+const base = site.baseUrl || "";
+
+const posts = await getCollection("posts");
+const langPosts = posts.filter(p => p.data.lang === lang);
+
+// Extract unique categories and counts
+const categoryCounts = langPosts.reduce((acc, post) => {
+  const categories = post.data.categories || [];
+  categories.forEach(cat => {
+    acc[cat] = (acc[cat] || 0) + 1;
+  });
+  return acc;
+}, {});
+
+const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+---
+
+<aside class="space-y-8">
+  <!-- Search -->
+  <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+    <h3 class="text-lg font-bold mb-4">{lang === 'tr' ? 'Blog Ara' : 'Search Blog'}</h3>
+    <div class="relative">
+      <input 
+        type="text" 
+        placeholder={i18n.search_placeholder}
+        class="w-full pl-4 pr-10 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+      />
+      <div class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+    <h3 class="text-lg font-bold mb-4">{i18n.categories_title}</h3>
+    <ul class="space-y-2">
+      {categories.map(([name, count]) => (
+        <li>
+          <a 
+            href={`${base}${langPrefix}/blog/category/${name.toLowerCase()}/`}
+            class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors group"
+          >
+            <span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-primary capitalize">{name}</span>
+            <span class="text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded-full">{count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</aside>

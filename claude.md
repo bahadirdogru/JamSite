@@ -21,7 +21,7 @@
 
 ## Vision
 
-Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri ile sağlanır. Tailwind CSS 4 ile stillenir. Çok dilli (TR root, EN /en/ prefix), blog (Content Collections), ürün kataloğu (src/content/products), sayfa içerikleri (src/content/pages), slider (src/content/slides), site içi arama (Fuse.js + build-time index), dark mode ve PWA desteklenir. Deploy tamamen statik çıktı (dist/) ile yapılır.
+Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri ile sağlanır. Tailwind CSS 4 ile stillenir. Çok dilli (TR /tr/, EN /en/ prefix), blog (Content Collections), ürün kataloğu (src/content/products), sayfa içerikleri (src/content/pages), modüler UI blokları (Hero, Feature, CTA, FAQ), slider (src/content/slides), site içi arama (Fuse.js + build-time index), dark mode ve PWA desteklenir.
 
 ## Tech Stack
 
@@ -60,14 +60,17 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 ├── scripts/
 │   └── postbuild-404.mjs  # Build sonrası 404 kopyalama
 ├── src/
+│   ├── assets/
+│   │   └── img/          # README ve showcase görselleri
 │   ├── components/       # Svelte bileşenleri
+│   │   ├── blocks/       # Modular UI blokları (Hero, Feature, CTA, FAQ vb.)
 │   │   ├── DarkModeToggle.svelte
 │   │   ├── SearchFuse.svelte
 │   │   ├── Slider.svelte
 │   │   ├── ProductCarousel.svelte
 │   │   └── ...
 │   ├── config/
-│   │   └── site.js       # site, languages, defaultLang, getLangPrefix, getCanonicalUrl
+│   │   └── site.js       # Tekil config: site, features, languages, yardımcılar
 │   ├── content/
 │   │   ├── config.js     # posts + pages collection schema
 │   │   ├── posts/        # .md blog yazıları
@@ -86,10 +89,8 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 │   ├── lib/
 │   │   └── search-index.js  # Build’te public/search-index.json üretir
 │   ├── pages/
-│   │   ├── index.astro, about.astro, blog/, products/, tags.astro, categories.astro, ...
-│   │   ├── en/           # İngilizce sayfalar
-│   │   ├── 404.astro
-│   │   └── feed.xml.js   # RSS
+│   │   ├── [lang]/       # Dinamik dil rotaları (index, about, blog, products, 404, offline, RSS)
+│   │   └── index.astro   # Kök yönlendirme (/ -> /tr/)
 │   └── styles/
 │       └── global.css    # Tailwind, @custom-variant dark, @theme
 ├── package.json
@@ -100,14 +101,18 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 
 ### astro.config.mjs
 
-- `site`: production URL (sitemap/canonical için).
-- `i18n`: defaultLocale `tr`, locales `["tr","en"]`, prefixDefaultLocale: false (TR root).
-- `integrations`: svelte(), sitemap().
-- `vite.plugins`: tailwindcss(), VitePWA (Workbox, manifest: false — public/manifest.json kullanılır).
+- `site`: **src/config/site.js**'deki `site.url` kullanılır (yoksa fallback).
+- `i18n`: **site.js'den türetilir** — `languages` ve `defaultLang` import edilir; defaultLocale `tr`, locales `["tr","en"]` (yeni dil eklemek için sadece `src/config/site.js` güncellenir), prefixDefaultLocale: true (Tüm diller ön ek alır).
+- `integrations`: svelte(), sitemap() **features.sitemap** true ise eklenir.
+- `vite.plugins`: tailwindcss(), **features.pwa** true ise VitePWA (Workbox, manifest: false — public/manifest.json kullanılır).
 
-### src/config/site.js
+### src/config/site.js (tekil config — Jekyll _config benzeri)
 
-- `site` (title, description, url, baseUrl), `languages`, `defaultLang`, `isDefaultLang(lang)`, `getLangPrefix(lang)`, `getCanonicalUrl(path, lang)`.
+- **Tek yapılandırma kaynağı**: Site kimliği, özellik aç/kapa ve i18n tek bu dosyadan yönetilir.
+- **site**: title, description, url, baseUrl (canonical, sitemap, RSS için).
+- **features**: blog, products, search, pwa, rss, darkMode, sitemap, tags, categories, features, gettingStarted — her biri true/false ile ilgili sayfaları, nav linklerini, feed’i, arama index’ini ve PWA’yı açar/kapatır.
+- **i18n**: languages, defaultLang, localeForOg, languageLabels. Yeni dil için sadece `languages`’a ekle; astro.config ve content config buradan okur.
+- **Yardımcılar**: isDefaultLang(lang), getLangPrefix(lang), getOgLocale(lang), getCanonicalUrl(path, lang), getSiteBase().
 
 ### src/styles/global.css
 
@@ -123,9 +128,12 @@ Statik site Astro 5 ile üretilir; etkileşimli arayüz Svelte 5 bileşenleri il
 
 ## Kurallar ve Kısıtlamalar
 
-- **Dil**: TR root (`/`), EN `/en/`. Yeni sayfa için TR için `src/pages/...`, EN için `src/pages/en/...`.
+- **Tekil config**: Site özellikleri ve kimliği **sadece** `src/config/site.js` üzerinden değiştirilir (Jekyll _config.yml benzeri). `site`, `features` ve `languages` burada tanımlanır; Astro config, layout, feed, arama ve sayfa üretimi buradan okur.
+- **Dil**: TR `/tr/`, EN `/en/`. **Dil listesi tek kaynak**: `src/config/site.js` → `languages` dizisi; Astro i18n ve Content Collections şeması buradan türetilir. Yeni dil eklemek için önce `site.js` içinde `languages`'a ekle (örn. `"de"`), ardından `src/i18n/{lang}.js`, `src/pages/[lang]/` (dinamik yapıda olduğu için sadece içerik/data gerekebilir) ve gerekirse `localeForOg` / `languageLabels` ekle.
 - **Çeviriler**: Sadece `src/i18n/*.js`. Yeni anahtar eklenince tr.js ve en.js güncellenir.
 - **Ürün verisi**: Sadece `src/content/products/{sku}.md`. Frontmatter’da ortak alanlar + `tr`/`en` blokları (title, description, slug). Sayfa üretimi `getProductPaths()` + [slug].astro ile.
+- **Modüler Bloklar**: `src/components/blocks/`. `src/content/config.js` şemasına göre ekleme yapılır. `BlockRenderer.svelte` üzerinden yönetilir.
+- **Media**: Tanıtım resimleri `src/assets/img/`.
 - **Blog**: Sadece `src/content/posts/*.md`. Schema: title, description, date, image, tags, categories, ref, lang.
 - **SEO**: BaseLayout’ta title, description, ogImage, canonical; blog/ürün sayfalarında ogImage prop kullan.
 - **Tailwind**: Sadece utility sınıfları; yapılamayanlar için global.css’te kural ve DESIGN.md’de dokümante et.
