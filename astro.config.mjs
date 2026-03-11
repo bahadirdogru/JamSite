@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import staticAdapter from "@astrojs/static";
 import svelte from "@astrojs/svelte";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
@@ -6,6 +7,8 @@ import { VitePWA } from "vite-plugin-pwa";
 import { site, features, languages, defaultLang } from "./src/config/site.js";
 
 export default defineConfig({
+  output: "static",
+  adapter: staticAdapter({ dist: "docs" }),
   site: site.url || "https://jamsite.example.com",
   image: {
     remotePatterns: [
