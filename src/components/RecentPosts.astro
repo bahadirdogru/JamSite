@@ -10,7 +10,7 @@ const base = site.baseUrl || "";
 
 const posts = await getCollection("posts");
 const recentPosts = posts
-  .filter(p => p.data.lang === lang && p.id.replace(/\.md$/, "") !== currentSlug)
+  .filter(p => p.data.lang === lang && p.id !== currentSlug)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 5);
 
@@ -22,7 +22,7 @@ const locale = lang === "tr" ? "tr-TR" : "en-US";
   <div class="space-y-6">
     {recentPosts.map((post) => (
       <a 
-        href={`${base}${langPrefix}/blog/${post.id.replace(/\.md$/, "")}/`}
+        href={`${base}${langPrefix}/blog/${post.id}/`}
         class="group flex gap-4"
       >
         {post.data.image && (

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ShareButton from "../../../components/ShareButton.svelte";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { t } from "../../../i18n";
 import { site, getLangPrefix, features, defaultLang } from "../../../config/site.js";
 
@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   const posts = await getCollection("posts");
   for (const post of posts) {
     const lang = post.data.lang;
-    const slug = post.id.replace(/\.md$/, "");
+    const slug = post.id;
     paths.push({
       params: { slug, lang },
       props: { post, lang },
@@ -21,11 +21,11 @@ export async function getStaticPaths() {
 }
 
 const { post, lang } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 const i18n = t(lang);
 const base = site.baseUrl || "";
 const langPrefix = getLangPrefix(lang);
-const slug = post.id.replace(/\.md$/, "");
+const slug = post.id;
 const canonicalUrl = `${site.url || ""}${base}${langPrefix}/blog/${slug}/`;
 const homeName = lang === "tr" ? "Ana Sayfa" : "Home";
 const breadcrumbs = [

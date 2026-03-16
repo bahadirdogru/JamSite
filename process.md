@@ -2,9 +2,9 @@
 
 **AI-optimized.** Feature tracking, todo list, completed work, backlog, and process notes. For architecture see ARCHITECTURE.md; for project summary see CLAUDE.md; for styles see DESIGN.md. Humans: use README.md for getting started.
 
-## Status: Astro geçişi + tekil config tamamlandı
+## Status: Tam temizlik ve doküman-kod uyumu tamamlandı
 
-Son güncelleme: 2026-03-04
+Son güncelleme: 2026-03-16
 
 ---
 
@@ -25,10 +25,28 @@ Son güncelleme: 2026-03-04
 - [x] TypeScript kaldırıldı — proje tamamen JavaScript (config, data, i18n, lib, content config)
 - [x] Eski SSG ve Vite library kaldırıldı — ilgili config, layout, include ve sayfa dizinleri, search.json, generate-products.js, eski vite.config.js, src/main.js, src/app.css, sw.js silindi; _data/i18n, manifest (kök), generate-sprite.js, assets/icons/sprite.svg, start.sh, install.sh kaldırıldı
 - [x] Dokümantasyon yeni yapıya göre güncellendi: ARCHITECTURE.md, CLAUDE.md, DESIGN.md, PROCESS.md, README.md
+- [x] **Tam temizlik**: Doküman-kod uyumu, gereksiz bağımlılık/dosya temizliği (2026-03-16)
+  - global.css: primary renk blue-600, font Inter olarak DESIGN.md'ye uyumlu hale getirildi (Lexend -> Inter)
+  - astro.config.mjs: @astrojs/static adapter kaldırıldı, outDir: "docs" eklendi
+  - package.json: lunr, lunr-languages, tsx, @fontsource/lexend kaldırıldı; postbuild-404 ve generate script referansları silindi
+  - Eski dizinler silindi: _data/ (boş), assets/dist/ (eski build), scripts/ (boş)
+  - Tüm dokümanlar (ARCHITECTURE, CLAUDE, DESIGN, README, README_TR) dist/ -> docs/ güncellendi
+  - CLAUDE.md: _data/ referansları kaldırıldı, svelte.config.js eklendi
+  - ARCHITECTURE.md: Bileşen listesi tamamlandı, tekrarlanan satır düzeltildi
+  - DESIGN.md: Var olmayan dark mode sınıfları (slate-50-dark vb.) doğru Tailwind 4 sınıflarına düzeltildi
+
+- [x] **Astro 6 yükseltmesi** (2026-03-16)
+  - Astro 5.18 -> 6.0.5, @astrojs/svelte 7 -> 8, Vite 7, Zod 4
+  - Content Layer API geçişi: src/content/config.js -> src/content.config.js, glob loader, type:"content" kaldırıldı
+  - entry.render() -> render(entry) (astro:content'ten import)
+  - z import: astro:content -> astro/zod
+  - post.id artık slug (md uzantısız); .replace(/\.md$/, "") ifadeleri kaldırıldı
+  - Gereksiz devDependencies kaldırıldı: vite, @sveltejs/vite-plugin-svelte (Astro yönetiyor)
+  - Dokümanlar güncellendi: Astro 5 -> 6, Node 18+ -> 22+, Content Layer API
 
 ## Şu an
 
-- Proje Astro 5 tabanlı çalışıyor; ek özellik veya iyileştirme yapılabilir.
+- Proje Astro 6 tabanlı çalışıyor; doküman-kod uyumu sağlandı; ek özellik veya iyileştirme yapılabilir.
 
 ## Planlanan / Backlog
 
@@ -40,20 +58,7 @@ Son güncelleme: 2026-03-04
 - [ ] Google Search Console + sitemap gönderimi
 - [ ] Blog sayfalarında pagination (gerekirse)
 - [ ] Yeni dil ekleme: **1)** `src/config/site.js` → `languages` dizisine dil kodu ekle. **2)** `src/pages/{lang}/` + `src/i18n/{lang}.js` + isteğe bağlı `src/content/slides/{lang}-*.md` + ürün frontmatter'da dil bloğu.
-- [ ] Skeleton / loading state (blog listesi, ürün kartları)
-- [ ] Optimistic UI (favoriler, karşılaştırma, okuma listesi)
-- [ ] Cross-tab tema senkronu (storage event)
-- [ ] Web Share API (blog/ürün paylaşımı)
-- [ ] Client-side ürün filtreleme/sıralama
-- [ ] Load more / infinite scroll (blog veya ürün)
 - [ ] Görsel optimizasyonu (Astro Image / modern format)
-- [ ] Preload/prefetch stratejisi
-- [ ] PWA: offline fallback sayfası
-- [ ] PWA: güncelleme bildirimi
-- [ ] Skip link (içeriğe atla)
-- [ ] JSON-LD (Article, Product, BreadcrumbList)
-- [ ] Breadcrumb UI
-- [ ] Error boundary (Svelte)
 - [ ] Lighthouse CI (opsiyonel)
 
 ## Session notları
@@ -95,6 +100,25 @@ Son güncelleme: 2026-03-04
 - **Showcase Sayfası**: `showcase-tr.md` ve `showcase-en.md` yeni bloklarla zenginleştirildi.
 - **README Görsel Şölen**: `README.md` dosyasına karanlık/aydınlık mod, modüler bloklar ve arama özelliklerini gösteren yüksek kaliteli resimler ve interaktif carouseller eklendi.
 - **Asset Yönetimi**: Önemli görseller `src/assets/img` altında toplandı.
+
+### 2026-03-16 — Astro 6 yükseltmesi
+
+- Astro 5.18 -> 6.0.5, @astrojs/svelte 7 -> 8.0.1, @astrojs/rss 4.0.17, @astrojs/sitemap 3.7.1.
+- Content Layer API: `src/content/config.js` -> `src/content.config.js` taşındı; `type: "content"` kaldırıldı, `loader: glob(...)` eklendi; `z` import kaynağı `astro:content` -> `astro/zod`.
+- `entry.render()` -> `render(entry)` (3 dosya: blog/[slug], about, getting-started).
+- `post.id` artık slug olduğu için `.replace(/\.md$/, "")` ifadeleri kaldırıldı (5 dosya).
+- Gereksiz devDependencies kaldırıldı: `vite` ve `@sveltejs/vite-plugin-svelte` (Astro kendi Vite'ını yönetiyor).
+- README/README_TR: Astro badge 5.0 -> 6.0, Node gereksinimi v18+ -> v22+, SSG referansı Astro 6.
+- CLAUDE.md, ARCHITECTURE.md: Astro 6 ve Content Layer API yansıtıldı.
+
+### 2026-03-16 — Tam temizlik ve doküman-kod uyumu
+
+- **Renk/font düzeltmesi**: global.css'teki primary renk (#ff6000) ve font (Lexend) DESIGN.md'ye uygun olarak blue-600 ve Inter'e geri döndürüldü.
+- **astro.config.mjs**: Gereksiz `@astrojs/static` adapter kaldırıldı; `outDir: "docs"` ile build çıktısı doğru yansıtıldı.
+- **package.json temizliği**: Kullanılmayan bağımlılıklar (lunr, lunr-languages, tsx, @fontsource/lexend) kaldırıldı; build script'ten postbuild-404 referansı silindi; generate script kaldırıldı.
+- **Dosya temizliği**: Boş `_data/`, `scripts/` dizinleri ve eski `assets/dist/` build artıkları silindi.
+- **Doküman güncellemeleri**: Tüm MD dosyalarında dist/ -> docs/ güncellendi; CLAUDE.md'den _data/ referansları kaldırıldı; ARCHITECTURE.md'de bileşen listesi tamamlandı ve tekrarlanan satır düzeltildi; DESIGN.md'de var olmayan dark mode sınıfları (slate-50-dark, slate-900-dark, slate-200-dark) doğru Tailwind 4 karşılıklarına (slate-900, slate-100, slate-700) düzeltildi.
+- **PROCESS.md backlog**: Session notlarında tamamlanmış olarak belgelenen backlog maddeleri (skeleton, optimistic UI, cross-tab tema, Web Share, filtre/sıralama, load more, preload/prefetch, PWA offline/güncelleme, skip link, JSON-LD, breadcrumb, error boundary) listeden çıkarıldı.
 
 ### 2026-03-11 — [lang] Dizin Yapısı ve i18n Fix
 - **Yönlendirme**: [[lang]] yapısı kaldırıldı, tüm diller [lang] altında toplandı.

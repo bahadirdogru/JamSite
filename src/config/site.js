@@ -74,21 +74,7 @@ export function getSiteBase() {
 }
 
 /**
- * [lang] route'u için getStaticPaths: sadece varsayılan olmayan diller (TR root'ta olduğu için EN).
- * URL: /en/about/, /en/features/ vb.
- */
-export function getStaticPathsNonDefaultLang() {
-  return languages
-    .filter((lang) => !isDefaultLang(lang))
-    .map((lang) => ({
-      params: { lang },
-      props: { lang },
-    }));
-}
-
-/**
- * Eski [[lang]] için kullanılıyordu; Artık [lang] + kök sayfalar kullanılıyor.
- * [lang] altındaki sayfalarda getStaticPathsNonDefaultLang() kullanın.
+ * [lang] route'ları için getStaticPaths: tüm diller prefix alır (prefixDefaultLocale: true).
  */
 export function getStaticPathsForLang() {
   return languages.map((lang) => ({

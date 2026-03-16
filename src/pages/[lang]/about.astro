@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getEntry } from "astro:content";
+import { getEntry, render } from "astro:content";
 import { getStaticPathsForLang, getLangPrefix } from "../../config/site.js";
 import HeroSection from "../../components/blocks/HeroSection.svelte";
 import BlockRenderer from "../../components/blocks/BlockRenderer.svelte";
@@ -15,7 +15,7 @@ const entry = await getEntry("pages", entryId);
 if (!entry) {
   return new Response(null, { status: 404 });
 }
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 const langPrefix = getLangPrefix(lang);
 const blocks = entry.data.blocks ?? [];
 ---

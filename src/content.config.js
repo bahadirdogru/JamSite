@@ -1,9 +1,10 @@
-import { defineCollection, z } from "astro:content";
-import { languages } from "../config/site.js";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { glob } from "astro/loaders";
+import { languages } from "./config/site.js";
 
 const langSchema = z.enum(languages);
 
-// --- Block schemas for pages (optional blocks array) ---
 const heroBlockSchema = z.object({
   type: z.literal("hero"),
   layout: z.enum(["centered", "split"]).default("centered"),
@@ -95,7 +96,7 @@ const blockSchema = z.discriminatedUnion("type", [
 ]);
 
 const postsCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -109,7 +110,7 @@ const postsCollection = defineCollection({
 });
 
 const pagesCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.md", base: "./src/content/pages" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

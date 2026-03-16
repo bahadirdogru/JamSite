@@ -17,7 +17,7 @@ const posts = (await getCollection("posts"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const locale = lang === "tr" ? "tr-TR" : "en-US";
 const postsForJson = posts.map((p) => ({
-  id: p.id.replace(/\.md$/, ""),
+  id: p.id,
   title: p.data.title,
   description: p.data.description,
   date: p.data.date.toISOString(),

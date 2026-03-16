@@ -1,11 +1,11 @@
 # JamSite 🚀
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Astro](https://img.shields.io/badge/Astro-5.0-ff5d01?logo=astro)](https://astro.build)
+[![Astro](https://img.shields.io/badge/Astro-6.0-ff5d01?logo=astro)](https://astro.build)
 [![Svelte](https://img.shields.io/badge/Svelte-5.0-ff3e00?logo=svelte)](https://svelte.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38bdf8?logo=tailwind-css)](https://tailwindcss.com)
 
-**Modern, hızlı ve modüler Jamstack tabanlı web sitesi şablonu.** Astro 5, Svelte 5 ve Tailwind CSS 4'ün gücüyle projenizi saniyeler içinde ayağa kaldırın.
+**Modern, hızlı ve modüler Jamstack tabanlı web sitesi şablonu.** Astro 6, Svelte 5 ve Tailwind CSS 4'ün gücüyle projenizi saniyeler içinde ayağa kaldırın.
 
 [English Documentation](./README.md) | [Türkçe Dokümantasyon](./README_TR.md)
 
@@ -36,11 +36,11 @@ Build-time indexlenen, Fuse.js tabanlı, süper hızlı Cmd+K arama deneyimi.
 
 ---
 
-Astro 5, Svelte 5 ve Tailwind CSS 4 ile kurulmuş çok dilli statik site şablonu. Blog (etiket/kategori), ürün kataloğu, site içi arama (Cmd+K), karanlık/aydınlık tema, dinamik slider ve PWA desteği içerir.
+Astro 6, Svelte 5 ve Tailwind CSS 4 ile kurulmuş çok dilli statik site şablonu. Blog (etiket/kategori), ürün kataloğu, site içi arama (Cmd+K), karanlık/aydınlık tema, dinamik slider ve PWA desteği içerir.
 
 Oluşturan: [Bahadır Doğru](https://bahadirdogru.com)
 
-İçerik ve SEO Astro ile üretilir; etkileşimli bileşenler Svelte ile yazılır ve gerekli sayfalarda hydrate edilir. Build çıktısı (`dist/`) herhangi bir statik hostinge (GitHub Pages dahil) deploy edilebilir.
+İçerik ve SEO Astro ile üretilir; etkileşimli bileşenler Svelte ile yazılır ve gerekli sayfalarda hydrate edilir. Build çıktısı (`docs/`) herhangi bir statik hostinge (GitHub Pages dahil) deploy edilebilir.
 
 ## Özellikler
 
@@ -58,7 +58,7 @@ Oluşturan: [Bahadır Doğru](https://bahadirdogru.com)
 
 ## Gereksinimler
 
-- [Node.js](https://nodejs.org/) (v18+)
+- [Node.js](https://nodejs.org/) (v22+)
 - Git
 
 ## Kurulum
@@ -86,7 +86,7 @@ npm run build
 Sırasıyla:
 
 1. `src/lib/search-index.js` — arama indeksini `public/search-index.json` olarak üretir  
-2. `astro build` — siteyi `dist/` altına derler  
+2. `astro build` — siteyi `docs/` altına derler  
 
 ## Önizleme
 
@@ -94,7 +94,7 @@ Sırasıyla:
 npm run preview
 ```
 
-`dist/` çıktısını yerel sunucuda dener.
+`docs/` çıktısını yerel sunucuda dener.
 
 ## Deploy
 
@@ -102,7 +102,7 @@ npm run preview
 npm run build
 ```
 
-Ardından `dist/` klasörünü hostinge yükleyin (GitHub Pages için `dist` içeriğini repo’ya veya gh-pages branch’ine push edebilirsiniz; Actions ile otomatik build de kullanılabilir).
+Ardından `docs/` klasörünü hostinge yükleyin (GitHub Pages için `docs` içeriğini repo’ya veya gh-pages branch’ine push edebilirsiniz; Actions ile otomatik build de kullanılabilir).
 
 ## Proje yapısı
 
@@ -135,7 +135,7 @@ Build, layout, feed ve arama indeksi bu dosyayı tek kaynak olarak kullanır.
 
 ## Teknoloji
 
-- **SSG**: Astro 5  
+- **SSG**: Astro 6  
 - **UI**: Svelte 5 (client:visible / client:load)  
 - **Stil**: Tailwind CSS 4 (CSS-first)  
 - **İkonlar**: Phosphor Icons (Svelte)  

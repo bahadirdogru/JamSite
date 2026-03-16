@@ -95,7 +95,7 @@ Tailwind varsayılan spacing kullanılır. Örnekler:
 ### Kart
 
 ```html
-<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-200-dark p-6">
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
   <h3 class="text-xl font-semibold mb-2">Başlık</h3>
   <p class="text-slate-600 dark:text-slate-300 leading-relaxed">İçerik.</p>
 </div>
@@ -116,7 +116,7 @@ Slider stilleri `Slider.svelte` içinde. Arka plan overlay için `bg-black/40`, 
 ### Ürün kartı
 
 ```html
-<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-200-dark overflow-hidden group">
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden group">
   <div class="aspect-square overflow-hidden">
     <img src="..." alt="..." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
   </div>
@@ -236,9 +236,9 @@ if (!prefersReduced) {
 Kullanım: Hem aydınlık hem koyu sınıf verin:
 
 ```html
-<div class="bg-slate-50 dark:bg-slate-50-dark text-slate-900 dark:text-slate-900-dark">
+<div class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
   <p class="text-slate-600 dark:text-slate-300">Metin</p>
-  <div class="border-slate-200 dark:border-slate-200-dark">Çerçeve</div>
+  <div class="border-slate-200 dark:border-slate-700">Çerçeve</div>
 </div>
 ```
 

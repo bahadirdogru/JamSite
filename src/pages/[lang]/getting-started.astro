@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getEntry } from "astro:content";
+import { getEntry, render } from "astro:content";
 import { features, getStaticPathsForLang } from "../../config/site.js";
 
 export function getStaticPaths() {
@@ -14,7 +14,7 @@ const entry = await getEntry("pages", entryId);
 if (!entry) {
   return new Response(null, { status: 404 });
 }
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <BaseLayout

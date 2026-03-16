@@ -1,17 +1,17 @@
-@import "@fontsource/lexend/400.css";
-@import "@fontsource/lexend/500.css";
-@import "@fontsource/lexend/600.css";
-@import "@fontsource/lexend/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 @source "./**/*.astro";
 @source "./**/*.svelte";
 
 @theme {
-  --color-primary: #ff6000;
+  --color-primary: var(--color-blue-600);
   --color-secondary: var(--color-emerald-500);
   --color-accent: var(--color-amber-500);
-  
-  --font-heading: "Lexend", sans-serif;
-  --font-body: "Lexend", sans-serif;
+
+  --font-heading: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
